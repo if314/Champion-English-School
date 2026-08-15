@@ -38,9 +38,12 @@
     }
     .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
     .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy)}
-    .crest{
-      width:44px;height:44px;border-radius:12px;background:var(--navy);
-      display:grid;place-items:center;color:var(--gold);font-size:22px;box-shadow:var(--shadow)
+    .brand-mark{
+      width:52px;height:52px;border-radius:14px;background:#fff;border:1px solid rgba(11,44,82,.08);
+      display:grid;place-items:center;overflow:hidden;box-shadow:var(--shadow)
+    }
+    .brand-mark img{
+      width:100%;height:100%;object-fit:contain;display:block;padding:6px
     }
     .brand small{display:block;font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
     .lang-switch{display:inline-flex;padding:4px;background:#fff;border:1px solid rgba(11,44,82,.12);border-radius:999px;box-shadow:0 6px 20px rgba(11,44,82,.06)}
@@ -118,7 +121,9 @@
   <header>
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="Champion English home">
-        <div class="crest">♛</div>
+        <div class="brand-mark">
+          <img src="img/championlogo.png" alt="Champion English logo" />
+        </div>
         <div class="name">Училище Чемпиън<small>Champion your English</small></div>
       </a>
       <div class="lang-switch" aria-label="Language switcher">
