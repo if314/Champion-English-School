@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Училище Чемпиън – курсове по английски за ученици в Пловдив." />
+  <title>Училище Чемпиън | Champion English</title>
+  <style>
+    :root{
+      --navy:#0b2c52;
+      --navy-2:#123b68;
+      --gold:#e8a12e;
+      --gold-soft:#f5c977;
+      --cream:#f7f3ee;
+      --ink:#17314e;
+      --muted:#6f7a86;
+      --white:#fff;
+      --shadow:0 18px 50px rgba(11,44,82,.12);
+      --radius:26px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:var(--cream);
+      line-height:1.55;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .wrap{width:min(1120px,calc(100% - 32px));margin-inline:auto}
+    header{
+      position:sticky;top:0;z-index:20;
+      background:rgba(247,243,238,.94);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(11,44,82,.08)
+    }
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy)}
+    .crest{
+      width:44px;height:44px;border-radius:12px;background:var(--navy);
+      display:grid;place-items:center;color:var(--gold);font-size:22px;box-shadow:var(--shadow)
+    }
+    .brand small{display:block;font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+    .lang-switch{display:inline-flex;padding:4px;background:#fff;border:1px solid rgba(11,44,82,.12);border-radius:999px;box-shadow:0 6px 20px rgba(11,44,82,.06)}
+    .lang-switch button{border:0;background:transparent;color:var(--navy);padding:9px 14px;border-radius:999px;font-weight:800;cursor:pointer}
+    .lang-switch button[aria-pressed="true"]{background:var(--navy);color:#fff}
+
+    .hero{padding:72px 0 48px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--navy);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:13px}
+    .eyebrow::before{content:"";width:30px;height:3px;background:var(--gold);border-radius:10px}
+    h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,7vw,84px);line-height:.98;margin:22px 0 22px;color:var(--navy);letter-spacing:-.03em}
+    .lead{font-size:clamp(18px,2vw,22px);max-width:640px;color:#40566f;margin:0 0 30px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 20px;border-radius:14px;font-weight:800;border:1px solid transparent;transition:.2s ease}
+    .btn.primary{background:var(--navy);color:#fff;box-shadow:0 10px 24px rgba(11,44,82,.18)}
+    .btn.primary:hover{transform:translateY(-2px);background:var(--navy-2)}
+    .btn.secondary{background:transparent;color:var(--navy);border-color:rgba(11,44,82,.18)}
+    .hero-card{position:relative}
+    .photo-frame{background:#fff;padding:12px;border-radius:34px;box-shadow:var(--shadow);transform:rotate(1deg)}
+    .photo-frame img{border-radius:24px;aspect-ratio:4/5;object-fit:cover;object-position:center top}
+    .offer-badge{position:absolute;right:-18px;bottom:24px;background:var(--gold-soft);color:var(--navy);padding:20px 22px;border-radius:24px;box-shadow:var(--shadow);font-weight:800;max-width:210px}
+    .offer-badge strong{font-size:32px;display:block;line-height:1}
+
+    section{padding:72px 0}
+    .section-title{font-family:Georgia,"Times New Roman",serif;color:var(--navy);font-size:clamp(34px,5vw,52px);line-height:1.05;margin:0 0 12px}
+    .section-sub{color:var(--muted);font-size:18px;max-width:680px;margin:0 0 34px}
+    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .benefit{background:#fff;border-radius:22px;padding:26px;box-shadow:0 10px 30px rgba(11,44,82,.06);border:1px solid rgba(11,44,82,.06)}
+    .icon{width:46px;height:46px;border-radius:14px;background:rgba(232,161,46,.16);display:grid;place-items:center;margin-bottom:18px;font-size:22px}
+    .benefit h3{color:var(--navy);margin:0 0 8px;font-size:20px}
+    .benefit p{margin:0;color:#5d6d7e}
+
+    .offer{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:stretch}
+    .offer-main{background:var(--navy);color:#fff;border-radius:30px;padding:38px}
+    .offer-main h2{font-family:Georgia,"Times New Roman",serif;font-size:44px;line-height:1;margin:0 0 14px}
+    .offer-main p{color:#dbe7f3;margin:0 0 22px;font-size:18px}
+    .offer-main .big{font-size:clamp(44px,8vw,78px);font-weight:900;color:var(--gold-soft);line-height:1}
+    .offer-main .date{margin-top:10px;color:#fff;font-weight:700}
+    .location{background:linear-gradient(145deg,#f4c56f,#efad43);border-radius:30px;padding:38px;color:var(--navy)}
+    .location h3{font-family:Georgia,"Times New Roman",serif;font-size:34px;margin:0 0 12px}
+    .location p{font-size:18px;margin:0 0 8px}
+
+    .contact{background:#fff;border-radius:30px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+    .contact h2{font-family:Georgia,"Times New Roman",serif;font-size:38px;margin:0 0 10px;color:var(--navy)}
+    .contact p{margin:0;color:var(--muted)}
+    .contact-grid{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px}
+    .contact-item{font-weight:700;color:var(--navy)}
+    .contact-item span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:2px}
+    footer{padding:36px 0 48px;color:#718092;font-size:14px}
+
+    [data-lang]{display:none}
+    html[lang="bg"] [data-lang="bg"], html[lang="en"] [data-lang="en"]{display:revert}
+
+    @media (max-width:860px){
+      .hero{padding-top:48px}
+      .hero-grid,.offer{grid-template-columns:1fr}
+      .hero-card{max-width:620px}
+      .benefits{grid-template-columns:1fr}
+      .contact{grid-template-columns:1fr}
+      .offer-badge{right:8px}
+    }
+    @media (max-width:560px){
+      .brand .name{display:none}
+      .hero{padding-top:36px}
+      h1{font-size:52px}
+      section{padding:52px 0}
+      .offer-main,.location,.contact{padding:26px}
+      .contact-grid{grid-template-columns:1fr}
+      .actions{flex-direction:column}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Champion English home">
+        <div class="crest">♛</div>
+        <div class="name">Училище Чемпиън<small>Champion your English</small></div>
+      </a>
+      <div class="lang-switch" aria-label="Language switcher">
+        <button id="bgBtn" type="button" aria-pressed="true">BG</button>
+        <button id="enBtn" type="button" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">
+            <span data-lang="bg">Английски за цял живот</span>
+            <span data-lang="en">English for life</span>
+          </div>
+          <h1>
+            <span data-lang="bg">Английският<br>отваря врати.</span>
+            <span data-lang="en">English<br>opens doors.</span>
+          </h1>
+          <p class="lead" data-lang="bg">Курсове по английски за ученици II–IX клас в Пловдив, с фокус върху увереност, реални резултати и език, който се използва извън класната стая.</p>
+          <p class="lead" data-lang="en">English courses for students in grades 2–9 in Plovdiv, focused on confidence, real progress, and language students can use beyond the classroom.</p>
+          <div class="actions">
+            <a class="btn primary" href="tel:+359888123456">
+              <span data-lang="bg">Запази безплатен тест</span>
+              <span data-lang="en">Book a free level test</span>
+            </a>
+            <a class="btn secondary" href="#contact">
+              <span data-lang="bg">Контакти</span>
+              <span data-lang="en">Contact us</span>
+            </a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="photo-frame"><img src="flyer.jpg" alt="Champion English school flyer" /></div>
+          <div class="offer-badge">
+            <span data-lang="bg">Ранно записване</span>
+            <span data-lang="en">Early enrollment</span>
+            <strong>-10%</strong>
+            <span data-lang="bg">до 31.08.26</span>
+            <span data-lang="en">until 31 Aug 2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2 class="section-title">
+          <span data-lang="bg">Повече от добри оценки</span>
+          <span data-lang="en">More than better grades</span>
+        </h2>
+        <p class="section-sub" data-lang="bg">Помагаме на учениците да изградят увереност и практични езикови умения, които остават с тях.</p>
+        <p class="section-sub" data-lang="en">We help students build confidence and practical language skills that stay with them.</p>
+        <div class="benefits">
+          <article class="benefit">
+            <div class="icon">✓</div>
+            <h3 data-lang="bg">По-добри резултати</h3>
+            <h3 data-lang="en">Better results</h3>
+            <p data-lang="bg">Подкрепа за по-силно представяне в училище и по-добро разбиране на материала.</p>
+            <p data-lang="en">Support for stronger school performance and a better understanding of the material.</p>
+          </article>
+          <article class="benefit">
+            <div class="icon">💬</div>
+            <h3 data-lang="bg">Повече увереност</h3>
+            <h3 data-lang="en">More confidence</h3>
+            <p data-lang="bg">Учениците използват английския по-спокойно и естествено извън класната стая.</p>
+            <p data-lang="en">Students use English more comfortably and naturally outside the classroom.</p>
+          </article>
+          <article class="benefit">
+            <div class="icon">↗</div>
+            <h3 data-lang="bg">Нови възможности</h3>
+            <h3 data-lang="en">New opportunities</h3>
+            <p data-lang="bg">Езиковите умения създават повече възможности за образование, пътуване и бъдеща кариера.</p>
+            <p data-lang="en">Language skills create more opportunities for education, travel, and future careers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap offer">
+        <div class="offer-main">
+          <h2 data-lang="bg">Запиши се по-рано</h2>
+          <h2 data-lang="en">Enroll early</h2>
+          <p data-lang="bg">Специална отстъпка за ученици II–IX клас.</p>
+          <p data-lang="en">Special offer for students in grades 2–9.</p>
+          <div class="big">-10%</div>
+          <div class="date" data-lang="bg">при записване до 31.08.2026</div>
+          <div class="date" data-lang="en">when enrolling by 31 August 2026</div>
+        </div>
+        <div class="location">
+          <h3 data-lang="bg">Удобна локация</h3>
+          <h3 data-lang="en">Convenient location</h3>
+          <p data-lang="bg">Срещу Дондуковата градина, до пл. „Съединение“.</p>
+          <p data-lang="en">Opposite Dondukov Garden, near Saedinenie Square.</p>
+          <p><strong>ул. „Шести септември“ 145, Пловдив</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap contact">
+        <div>
+          <h2 data-lang="bg">Готови ли сте да започнем?</h2>
+          <h2 data-lang="en">Ready to get started?</h2>
+          <p data-lang="bg">Свържете се с нас за график и безплатен тест за ниво.</p>
+          <p data-lang="en">Contact us for the schedule and a free level assessment.</p>
+          <div class="contact-grid">
+            <a class="contact-item" href="tel:+359888123456"><span data-lang="bg">Телефон</span><span data-lang="en">Phone</span>0888 123 456</a>
+            <a class="contact-item" href="https://www.instagram.com/champion.english.plovdiv/" target="_blank" rel="noreferrer"><span>Instagram</span>@champion.english.plovdiv</a>
+            <div class="contact-item"><span>Facebook</span>Champion School – Училище Чемпиън</div>
+            <div class="contact-item"><span data-lang="bg">Адрес</span><span data-lang="en">Address</span>ул. „Шести септември“ 145</div>
+          </div>
+        </div>
+        <a class="btn primary" href="tel:+359888123456">
+          <span data-lang="bg">Обади се</span>
+          <span data-lang="en">Call now</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Champion English · <span data-lang="bg">Училище Чемпиън</span><span data-lang="en">Champion School</span></div>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const bgBtn = document.getElementById('bgBtn');
+    const enBtn = document.getElementById('enBtn');
+
+    function setLanguage(lang){
+      root.lang = lang;
+      bgBtn.setAttribute('aria-pressed', String(lang === 'bg'));
+      enBtn.setAttribute('aria-pressed', String(lang === 'en'));
+      localStorage.setItem('champion-language', lang);
+      document.title = lang === 'bg' ? 'Училище Чемпиън | Английски за ученици' : 'Champion English | English for students';
+      document.querySelector('meta[name="description"]').setAttribute('content', lang === 'bg'
+        ? 'Училище Чемпиън – курсове по английски за ученици в Пловдив.'
+        : 'Champion English – English courses for students in Plovdiv.');
+    }
+
+    bgBtn.addEventListener('click', () => setLanguage('bg'));
+    enBtn.addEventListener('click', () => setLanguage('en'));
+
+    const saved = localStorage.getItem('champion-language');
+    if(saved === 'en' || saved === 'bg') setLanguage(saved);
+  </script>
+</body>
+</html>
