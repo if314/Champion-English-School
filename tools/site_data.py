@@ -27,6 +27,8 @@ SITE = {
     "country": "BG",
     "instagram_handle": "@champion.english.plovdiv",
     "instagram_url": "https://www.instagram.com/champion.english.plovdiv/",
+    "email": "teodora.champion.teaching@gmail.com",
+    "facebook_url": "https://www.facebook.com/profile.php?id=61592303458887",
     # Exact pin at the school entrance, supplied directly (not geocoded --
     # бул. „6-ти Септември“ spans several disconnected segments across
     # Plovdiv and free geocoders could not resolve house #145 reliably).

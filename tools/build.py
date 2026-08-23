@@ -174,11 +174,13 @@ def org_node(lang):
         },
         "areaServed": {"@type": "City", "name": t("Пловдив", "Plovdiv", lang)},
         "priceRange": "329 EUR",
-        "sameAs": [SITE["instagram_url"]],
+        "email": SITE["email"],
+        "sameAs": [SITE["instagram_url"], SITE["facebook_url"]],
         "contactPoint": [
             {
                 "@type": "ContactPoint",
                 "telephone": "+359885712048",
+                "email": SITE["email"],
                 "contactType": "customer service",
                 "areaServed": "BG",
                 "availableLanguage": ["Bulgarian", "English"],
@@ -498,15 +500,15 @@ def home_main(lang):
     </section>"""
 
     why_cards = [
-        ("🎯", t("Ниво, определено точно", "A precisely matched level", lang),
-         t("За всеки ученик правим тест за ниво, преди да предложим група — така обучението не е нито прекалено лесно, нито прекалено трудно.",
-           "Every student takes a level test before joining a group, so the course is neither too easy nor too demanding.", lang)),
-        ("👥", t("Групи по клас и ниво", "Groups by grade and level", lang),
-         t("Групираме учениците по клас и по ниво на владеене на езика, а не само по възраст, за да учат с връстници на сходно ниво.",
-           "We group students by grade and by English level, not just age, so they learn alongside peers at a similar stage.", lang)),
+        ("🎯", t("Групи по клас и точно ниво", "Grouped by grade and precise level", lang),
+         t("За всеки ученик правим тест за ниво и го включваме в група по клас и ниво на владеене на езика — за връстници на сходен етап и подходящо за него темпо.",
+           "We test every student's level and place them in a group matched by grade and English level, alongside peers at a similar stage and pace.", lang)),
         ("💬", t("Фокус върху говоримия език", "A focus on spoken English", lang),
          t("Часовете съчетават граматика и лексика с практика в говоренето, за да могат учениците да прилагат английския извън класната стая.",
            "Lessons combine grammar and vocabulary with speaking practice, so students can use English beyond the classroom.", lang)),
+        ("📍", t("Удобна локация", "Convenient location", lang),
+         t("Срещу Дондуковата градина, до площад „Съединение“.",
+           "Across from Dondukova Garden, near Saedinenie Square, in central Plovdiv.", lang)),
     ]
     why = f"""<section class="section section-alt">
       <div class="container">
@@ -917,7 +919,7 @@ def schedule_main(lang):
     summary = f"""<div class="card" style="padding:26px 28px">
       <div class="contact-list">
         <div class="contact-row"><span class="ic" aria-hidden="true">⏱</span><div><div class="lbl">{t("Продължителност", "Duration", lang)}</div><span class="val">{t("120 учебни часа, от 3 октомври", "120 teaching hours, starting 3 October", lang)}</span></div></div>
-        <div class="contact-row"><span class="ic" aria-hidden="true">💳</span><div><div class="lbl">{t("Цена", "Price", lang)}</div><span class="val">{t("329 евро за учебен срок", "EUR 329 per school term", lang)}</span></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">💳</span><div><div class="lbl">{t("Цена", "Price", lang)}</div><span class="val">{t("329 евро за учебен срок", "EUR 329 per school term", lang)}</span><div style="font-size:13px;color:var(--muted);font-weight:500;margin-top:4px">{t("Учебниците не са включени в цената на курса и се заплащат при записване.", "Textbooks are not included in the course price and are paid for separately at enrollment.", lang)}</div></div></div>
         <div class="contact-row"><span class="ic" aria-hidden="true">👪</span><div><div class="lbl">{t("Отстъпка", "Discount", lang)}</div><span class="val">{t("10% за второ дете от семейството", "10% for a second child from the same family", lang)}</span></div></div>
       </div>
     </div>"""
@@ -977,7 +979,7 @@ def enrollment_main(lang):
         (t("Изберете подходяща група", "Choose a suitable group", lang),
          t("Прегледайте групите по клас и ниво в „График и цени“ или се консултирайте с нас.", "Browse groups by grade and level on “Schedule & Prices” or ask us directly.", lang)),
         (t("Свържете се с нас", "Contact us", lang),
-         t("Обадете се, пишете ни във Viber или Instagram на 0885 712 048.", "Call us, or message us on Viber or Instagram, at 0885 712 048.", lang)),
+         t("Обадете се на 0885 712 048 (също и Viber) или ни пишете в Instagram.", "Call us at 0885 712 048 (also on Viber), or message us on Instagram.", lang)),
         (t("Получете потвърждение", "Get confirmation", lang),
          t("Ще се свържем с вас, за да потвърдим свободно място, група, ден и час.", "We will contact you to confirm availability, group, day and time.", lang)),
         (t("Започнете обучение", "Start classes", lang),
@@ -1051,8 +1053,8 @@ def contacts_main(lang):
         <p class="eyebrow">{t("Контакти", "Contact", lang)}</p>
         <h1 class="section-title">{t("Свържете се с Училище Чемпиън", "Get in touch with Champion School", lang)}</h1>
         <p class="section-lead">{t(
-          "Обадете се, пишете ни в Instagram или ни посетете на място. С удоволствие ще отговорим на въпросите ви за обучението по английски.",
-          "Call us, message us on Instagram, or visit us in person. We are happy to answer your questions about English courses.",
+          "Обадете се, пишете ни в Instagram или Facebook, изпратете имейл или ни посетете на място. С удоволствие ще отговорим на въпросите ви за обучението по английски.",
+          "Call us, message us on Instagram or Facebook, send an email, or visit us in person. We are happy to answer your questions about English courses.",
           lang)}</p>
       </div>
     </section>
@@ -1063,7 +1065,9 @@ def contacts_main(lang):
           <div class="contact-list">
             <div class="contact-row"><span class="ic" aria-hidden="true">📍</span><div><div class="lbl">{t("Адрес", "Address", lang)}</div><span class="val">{t(SITE['address_bg'], SITE['address_en'], lang)}</span></div></div>
             <div class="contact-row"><span class="ic" aria-hidden="true">📞</span><div><div class="lbl">{t("Телефон", "Phone", lang)}</div><a href="{SITE['phone_href']}">{SITE['phone_display']}</a></div></div>
+            <div class="contact-row"><span class="ic" aria-hidden="true">✉️</span><div><div class="lbl">Email</div><a href="mailto:{SITE['email']}">{SITE['email']}</a></div></div>
             <div class="contact-row"><span class="ic" aria-hidden="true">📷</span><div><div class="lbl">Instagram</div><a href="{SITE['instagram_url']}" rel="noopener" target="_blank">{SITE['instagram_handle']}</a></div></div>
+            <div class="contact-row"><span class="ic" aria-hidden="true">👍</span><div><div class="lbl">Facebook</div><a href="{SITE['facebook_url']}" rel="noopener" target="_blank">{t("Страницата ни във Facebook ↗", "Our Facebook page ↗", lang)}</a></div></div>
           </div>
           <p class="text-muted" style="margin-top:20px;font-size:14.5px">{t(
             'Искате да запишете ученик? Разгледайте страница', 'Want to enroll a student? Visit the', lang)}
