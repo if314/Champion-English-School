@@ -1105,51 +1105,14 @@ def build_enrollment():
 
 def contacts_main(lang):
     enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
-    privacy_url = url_for(lang, "/privacy-policy/", "/en/privacy-policy/")
-
-    form = f"""<form class="form js-form" novalidate>
-      <div class="form-success" role="status">
-        {t("Благодарим ви! Съобщението е получено — ще се свържем с вас скоро.", "Thank you! Your message has been received — we will get back to you soon.", lang)}
-      </div>
-      <div class="form-fields stack">
-        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="field">
-          <label for="cName">{t("Име", "Name", lang)} *</label>
-          <input type="text" id="cName" name="name" required autocomplete="name">
-          <span class="field-error">{t("Моля, въведете име.", "Please enter a name.", lang)}</span>
-        </div>
-        <div class="form-row form-row-2">
-          <div class="field">
-            <label for="cPhone">{t("Телефон", "Phone", lang)}</label>
-            <input type="tel" id="cPhone" name="phone" autocomplete="tel">
-          </div>
-          <div class="field">
-            <label for="cEmail">Email</label>
-            <input type="email" id="cEmail" name="email" autocomplete="email">
-          </div>
-        </div>
-        <p class="hint">{t("Моля, посочете поне един начин за връзка — телефон или имейл.", "Please provide at least one way to reach you — phone or email.", lang)}</p>
-        <div class="field">
-          <label for="cMessage">{t("Съобщение", "Message", lang)} *</label>
-          <textarea id="cMessage" name="message" rows="5" required></textarea>
-          <span class="field-error">{t("Моля, въведете съобщение.", "Please enter a message.", lang)}</span>
-        </div>
-        <label class="checkbox-row">
-          <input type="checkbox" name="consent" required>
-          <span class="consent">{t('Съгласен/на съм личните ми данни да бъдат използвани от Училище Чемпиън единствено за отговор на това запитване, съгласно', 'I agree that my personal data will be used by Champion School solely to respond to this inquiry, in accordance with the', lang)}
-          <a href="{privacy_url}">{t("Политиката за поверителност", "Privacy Policy", lang)}</a>. *</span>
-        </label>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">{t("Изпрати съобщение", "Send message", lang)}</button>
-      </div>
-    </form>"""
 
     return f"""<section class="section-tight">
       <div class="container">
         <p class="eyebrow">{t("Контакти", "Contact", lang)}</p>
         <h1 class="section-title">{t("Свържете се с Училище Чемпиън", "Get in touch with Champion School", lang)}</h1>
         <p class="section-lead">{t(
-          "Пишете ни, обадете се или ни последвайте в Instagram. С удоволствие ще отговорим на въпросите ви за обучението по английски.",
-          "Write to us, call, or follow us on Instagram. We are happy to answer your questions about English courses.",
+          "Обадете се, пишете ни в Instagram или ни посетете на място. С удоволствие ще отговорим на въпросите ви за обучението по английски.",
+          "Call us, message us on Instagram, or visit us in person. We are happy to answer your questions about English courses.",
           lang)}</p>
       </div>
     </section>
@@ -1162,17 +1125,16 @@ def contacts_main(lang):
             <div class="contact-row"><span class="ic" aria-hidden="true">📞</span><div><div class="lbl">{t("Телефон", "Phone", lang)}</div><a href="{SITE['phone_href']}">{SITE['phone_display']}</a></div></div>
             <div class="contact-row"><span class="ic" aria-hidden="true">📷</span><div><div class="lbl">Instagram</div><a href="{SITE['instagram_url']}" rel="noopener" target="_blank">{SITE['instagram_handle']}</a></div></div>
           </div>
-          <div class="map-frame" style="margin-top:24px">
-            <iframe src="{SITE['maps_embed_src']}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{t('Карта с местоположението на Училище Чемпиън', 'Map showing the Champion School location', lang)}"></iframe>
-          </div>
-          <p style="margin-top:10px"><a class="btn-ghost" href="{SITE['maps_link']}" rel="noopener" target="_blank">{t("Отвори в Google Maps ↗", "Open in Google Maps ↗", lang)}</a></p>
-          <p class="text-muted" style="margin-top:16px;font-size:14.5px">{t(
+          <p class="text-muted" style="margin-top:20px;font-size:14.5px">{t(
             'Искате да запишете ученик? Разгледайте страница', 'Want to enroll a student? Visit the', lang)}
             <a href="{enroll_url}" class="btn-ghost">{t("„Записване“", "Enrollment page", lang)}</a>.</p>
         </div>
-        <div class="card" style="padding:30px">
-          <h2 class="sr-only">{t("Форма за запитване", "Inquiry form", lang)}</h2>
-          {form}
+        <div>
+          <h2 class="sr-only">{t("Карта", "Map", lang)}</h2>
+          <div class="map-frame">
+            <iframe src="{SITE['maps_embed_src']}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{t('Карта с местоположението на Училище Чемпиън', 'Map showing the Champion School location', lang)}"></iframe>
+          </div>
+          <p style="margin-top:10px"><a class="btn-ghost" href="{SITE['maps_link']}" rel="noopener" target="_blank">{t("Отвори в Google Maps ↗", "Open in Google Maps ↗", lang)}</a></p>
         </div>
       </div>
     </section>"""
@@ -1204,8 +1166,8 @@ def legal_main(lang, kind):
         title = t("Политика за поверителност", "Privacy Policy", lang)
         body = f"""
         <p>{t(
-          "Училище Чемпиън събира лични данни (име на родител, име на ученик, клас, телефон, имейл и съобщение) единствено чрез формите за записване и контакт на този сайт, с цел да отговори на запитване или да организира записване за обучение по английски език.",
-          "Champion School collects personal data (parent's name, student's name, grade, phone, email and message) only through this site's enrollment and contact forms, in order to respond to an inquiry or arrange enrollment in an English course.",
+          "Училище Чемпиън събира лични данни (име на родител, име на ученик, клас, телефон, имейл и съобщение) единствено чрез формата за записване на този сайт, с цел да организира записване за обучение по английски език.",
+          "Champion School collects personal data (parent's name, student's name, grade, phone, email and message) only through this site's enrollment form, in order to arrange enrollment in an English course.",
           lang)}</p>
         <h2>{t("Администратор на лични данни", "Data controller", lang)}</h2>
         <p>{t(
@@ -1257,8 +1219,8 @@ def build_legal():
         ("privacy", "/privacy-policy/", "/en/privacy-policy/",
          t("Политика за поверителност | Училище Чемпиън", "Privacy Policy | Champion School", "bg"),
          "Политика за поверителност | Училище Чемпиън", "Privacy Policy | Champion School",
-         "Как Училище Чемпиън обработва личните данни, изпратени чрез формите за записване и контакт на сайта.",
-         "How Champion School processes personal data submitted through the site's enrollment and contact forms."),
+         "Как Училище Чемпиън обработва личните данни, изпратени чрез формата за записване на сайта.",
+         "How Champion School processes personal data submitted through the site's enrollment form."),
         ("cookie", "/cookie-policy/", "/en/cookie-policy/",
          None,
          "Политика за бисквитки | Училище Чемпиън", "Cookie Policy | Champion School",
@@ -1412,7 +1374,7 @@ Current class days, times and prices by grade and level are published on the Sch
 - [Level Test]({DOMAIN}/test/): in-person level test held at the school (not an online quiz); see the page for current test dates, times and how to book
 - [Schedule & Prices]({DOMAIN}/schedule-prices/): published days, times, duration and price by grade and level (a few levels still to be confirmed)
 - [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step, plus an inquiry form
-- [Contact]({DOMAIN}/contacts/): address, phone, Instagram, contact form
+- [Contact]({DOMAIN}/contacts/): address, phone, Instagram, map
 - [Privacy Policy]({DOMAIN}/privacy-policy/)
 - [Cookie Policy]({DOMAIN}/cookie-policy/)
 
