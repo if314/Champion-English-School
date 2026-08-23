@@ -8,6 +8,7 @@ Run: python3 tools/build.py
 """
 import json
 import os
+import re
 import textwrap
 
 from site_data import (
@@ -243,6 +244,53 @@ def faq_node(path, faq_list):
 
 
 # ---------------------------------------------------------------------------
+# Root-relative -> relative path rewriting
+#
+# Body content is written with root-relative paths ("/assets/...", "/test/")
+# because that's simplest to author. Canonical/hreflang/OG tags must stay
+# absolute production URLs regardless (they already use DOMAIN + path, so
+# they're untouched here). But real navigable href/src/srcset values need to
+# become relative, otherwise the site only works once served from the actual
+# domain root -- opening dev/ directly (or previewing it under a subpath)
+# breaks every link and asset. Fix: rewrite them relative to each page's own
+# folder depth, right before writing the file.
+# ---------------------------------------------------------------------------
+
+def relative_prefix(path):
+    depth = len([s for s in path.split("/") if s])
+    return "../" * depth
+
+
+def to_relative(url, prefix):
+    if not url.startswith("/") or url.startswith("//"):
+        return url
+    rel = prefix + url[1:]
+    return rel or "./"
+
+
+def relativize(html, path):
+    prefix = relative_prefix(path)
+
+    def fix_single(m):
+        return f'{m.group(1)}="{to_relative(m.group(2), prefix)}"'
+
+    html = re.sub(r'\b(href|src)="(/[^"]*)"', fix_single, html)
+
+    def fix_srcset(m):
+        entries = []
+        for chunk in m.group(2).split(","):
+            chunk = chunk.strip()
+            if not chunk:
+                continue
+            url, _, descriptor = chunk.partition(" ")
+            entries.append((to_relative(url, prefix) + " " + descriptor).strip())
+        return f'{m.group(1)}="{", ".join(entries)}"'
+
+    html = re.sub(r'\b(srcset|imagesrcset)="([^"]*)"', fix_srcset, html)
+    return html
+
+
+# ---------------------------------------------------------------------------
 # Page wrapper
 # ---------------------------------------------------------------------------
 
@@ -325,7 +373,7 @@ def wrap_page(lang, active_key, path, alt_path, title, description, main_html,
 </body>
 </html>
 """
-    return html
+    return relativize(html, path)
 
 
 def write_file(rel_path, content):
