@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Static site generator for the Champion / Чемпиън website.
+Static site generator for the Champion School / Училище Чемпиън website.
 Produces plain HTML/CSS/JS into ../dev — no client-side framework, no
 build-time dependency is shipped; this script only exists to keep the
 repeated header/footer/schema markup consistent across ~14 pages.
@@ -40,8 +40,8 @@ def render_header(lang, active_key, bg_url, en_url):
     home_url = "/" if lang == "bg" else "/en/"
     test_url = url_for(lang, "/test/", "/en/test/")
     enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
-    brand_name = t("Чемпиън", "Champion", lang)
-    brand_tag = t("Училище по английски", "English language school", lang)
+    brand_name = t(SITE["name_bg"], SITE["name_en"], lang)
+    brand_tag = t("Английски за ученици", "English for students", lang)
     logo_alt = t("Лого на училище Чемпиън", "Champion school logo", lang)
     nav_label = t("Основна навигация", "Main navigation", lang)
     lang_label = t("Смяна на езика", "Language switcher", lang)
@@ -102,10 +102,10 @@ def render_header(lang, active_key, bg_url, en_url):
 def render_footer(lang, bg_url, en_url):
     nav = NAV_BG if lang == "bg" else NAV_EN
     legal = FOOTER_LEGAL_BG if lang == "bg" else FOOTER_LEGAL_EN
-    brand_name = t("Чемпиън", "Champion", lang)
+    brand_name = t(SITE["name_bg"], SITE["name_en"], lang)
     desc = t(
-        "Чемпиън е училище по английски език в Пловдив за ученици от 2. до 12. клас — с ясни нива, малки групи и фокус върху реалната комуникация.",
-        "Champion is an English language school in Plovdiv for students in grades 2 to 12 — with clear levels, small groups and a focus on real communication.",
+        "Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив — с ясни нива, малки групи и фокус върху реалната комуникация.",
+        "Champion School teaches English in Plovdiv to students in grades 2 to 12 — with clear levels, small groups and a focus on real communication.",
         lang,
     )
     nav_heading = t("Навигация", "Navigation", lang)
@@ -115,10 +115,10 @@ def render_footer(lang, bg_url, en_url):
     nav_links = "\n".join(f'<li><a href="{url}">{label}</a></li>' for _, label, url in nav)
     legal_links = "\n".join(f'<li><a href="{url}">{label}</a></li>' for label, url in legal)
 
-    rights = t(f"© {YEAR} Чемпиън. Всички права запазени.", f"© {YEAR} Champion. All rights reserved.", lang)
+    rights = t(f"© {YEAR} Училище Чемпиън. Всички права запазени.", f"© {YEAR} Champion School. All rights reserved.", lang)
     legal_note = t(
         f"Училището се управлява от {SITE['legal_name']}, ЕИК {SITE['legal_eik']}, със седалище и адрес на управление: {SITE['legal_address_bg']}.",
-        f"Champion is operated by {SITE['legal_name']}, UIC (ЕИК) {SITE['legal_eik']}, registered office: {SITE['legal_address_en']}.",
+        f"Champion School is operated by {SITE['legal_name']}, UIC (ЕИК) {SITE['legal_eik']}, registered office: {SITE['legal_address_en']}.",
         lang,
     )
 
@@ -170,7 +170,7 @@ def org_node(lang):
         "@type": ["EducationalOrganization", "LocalBusiness"],
         "@id": DOMAIN + "/#organization",
         "name": t(SITE["full_name_bg"], SITE["full_name_en"], lang),
-        "alternateName": "Champion",
+        "alternateName": t(SITE["name_bg"], SITE["name_en"], lang),
         "url": DOMAIN + ("/" if lang == "bg" else "/en/"),
         "logo": DOMAIN + "/img/champion-logo.png",
         "image": DOMAIN + "/img/champion-logo.png",
@@ -200,7 +200,7 @@ def website_node(lang):
         "@type": "WebSite",
         "@id": DOMAIN + "/#website",
         "url": DOMAIN + ("/" if lang == "bg" else "/en/"),
-        "name": t("Чемпиън", "Champion", lang),
+        "name": t(SITE["name_bg"], SITE["name_en"], lang),
         "inLanguage": t("bg-BG", "en", lang),
         "publisher": {"@id": DOMAIN + "/#organization"},
     }
@@ -343,7 +343,7 @@ def wrap_page(lang, active_key, path, alt_path, title, description, main_html,
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <meta name="theme-color" content="#0b2c52">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Champion / Чемпиън">
+<meta property="og:site_name" content="Champion School / Училище Чемпиън">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{DOMAIN}{path}">
@@ -446,8 +446,8 @@ def home_main(lang):
     hero_eyebrow = t("Английски за ученици в Пловдив", "English for students in Plovdiv", lang)
     hero_h1 = t("Английският отваря врати.", "English opens doors.", lang)
     hero_lead = t(
-        "Чемпиън е училище по английски език в Пловдив за ученици от 2. до 12. клас. Учим децата и учениците да говорят уверено, да разбират бързо и да използват английския извън класната стая.",
-        "Champion is an English language school in Plovdiv for students in grades 2 to 12. We help children and teenagers speak with confidence, understand quickly, and use English beyond the classroom.",
+        "Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Учим децата и учениците да говорят уверено, да разбират бързо и да използват английския извън класната стая.",
+        "Champion School teaches English to students in grades 2 to 12 in Plovdiv. We help children and teenagers speak with confidence, understand quickly, and use English beyond the classroom.",
         lang,
     )
     cta_test = t("Направи тест за ниво", "Take the level test", lang)
@@ -489,13 +489,13 @@ def home_main(lang):
     about = f"""<section class="section" id="about">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">{t("За Чемпиън", "About Champion", lang)}</p>
+          <p class="eyebrow">{t("За Училище Чемпиън", "About Champion School", lang)}</p>
           <h2 class="section-title">{t("Училище по английски за ученици от 2. до 12. клас", "An English school for students in grades 2 to 12", lang)}</h2>
         </div>
         <div class="grid grid-2">
           <p class="section-lead">{t(
-            "Чемпиън е специализирано училище по английски език в Пловдив, създадено за ученици от начален, прогимназиален и гимназиален етап — от 2. до 12. клас. Работим в групи, ясно определени по клас и ниво, за да може всеки ученик да напредва с подходящото за него темпо.",
-            "Champion is a dedicated English language school in Plovdiv for students at primary, lower-secondary and upper-secondary level — from grade 2 through grade 12. We work in groups clearly organized by grade and level, so every student can progress at the right pace.",
+            "Училище Чемпиън предлага специализирано обучение по английски език в Пловдив за ученици от начален, прогимназиален и гимназиален етап — от 2. до 12. клас. Работим в групи, ясно определени по клас и ниво, за да може всеки ученик да напредва с подходящото за него темпо.",
+            "Champion School provides specialized English language education in Plovdiv for students at primary, lower-secondary and upper-secondary level — from grade 2 through grade 12. We work in groups clearly organized by grade and level, so every student can progress at the right pace.",
             lang)}</p>
           <p class="section-lead">{t(
             "Целта ни е проста: учениците да излизат от часовете с реална увереност да говорят, пишат и разбират английски — не просто да наизустяват граматика за оценка.",
@@ -519,8 +519,8 @@ def home_main(lang):
     why = f"""<section class="section section-alt">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">{t("Защо Чемпиън", "Why Champion", lang)}</p>
-          <h2 class="section-title">{t("Защо да изберете Чемпиън", "Why families choose Champion", lang)}</h2>
+          <p class="eyebrow">{t("Защо Училище Чемпиън", "Why Champion School", lang)}</p>
+          <h2 class="section-title">{t("Защо да изберете Училище Чемпиън", "Why families choose Champion School", lang)}</h2>
         </div>
         <div class="grid grid-3">
           {"".join(f'<div class="card"><div class="feature-icon" aria-hidden="true">{icon}</div><h3>{h}</h3><p>{p}</p></div>' for icon, h, p in why_cards)}
@@ -535,21 +535,18 @@ def home_main(lang):
         (t("5.–7. клас", "Grades 5-7", lang), t(
             "Прогимназиален етап — разширяване на речниковия запас и граматиката, с наблягане на четене, писане и говорене.",
             "Lower-secondary stage — expanding vocabulary and grammar, with emphasis on reading, writing and speaking.", lang)),
-        (t("8.–10. клас", "Grades 8-10", lang), t(
-            "Гимназиален етап — по-задълбочена граматика, академична лексика и подготовка за писмени и устни изпитвания в училище.",
-            "Upper-secondary stage — deeper grammar, academic vocabulary and preparation for school written and oral assessments.", lang)),
-        (t("11.–12. клас", "Grades 11-12", lang), t(
-            "Гимназиален етап — увереност пред матура, кандидатстване и бъдещо обучение или работа, изискващи английски.",
-            "Upper-secondary stage — confidence for school-leaving exams, applications, and future study or work that requires English.", lang)),
+        (t("8.–12. клас", "Grades 8-12", lang), t(
+            "Гимназиален етап — задълбочена граматика, академична лексика и увереност пред писмени и устни изпитвания, матура и бъдещо обучение или работа, изискващи английски.",
+            "Upper-secondary stage — deeper grammar, academic vocabulary, and confidence for school assessments, school-leaving exams, and future study or work that requires English.", lang)),
     ]
     grades_section = f"""<section class="section" id="grades">
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">{t("По класове", "By grade", lang)}</p>
           <h2 class="section-title">{t("Обучение от 2. до 12. клас", "Courses from grade 2 to grade 12", lang)}</h2>
-          <p class="section-lead">{t("Групираме учениците в четири основни степени, съобразени с училищната програма в България.", "We group students into four core stages, aligned with the Bulgarian school curriculum.", lang)}</p>
+          <p class="section-lead">{t("Групираме учениците в три основни степени, съобразени с училищната програма в България.", "We group students into three core stages, aligned with the Bulgarian school curriculum.", lang)}</p>
         </div>
-        <div class="grid grid-4">
+        <div class="grid grid-3">
           {"".join(f'<div class="grade-card"><div class="range">{r}</div><p>{p}</p></div>' for r, p in grades)}
         </div>
       </div>
@@ -573,7 +570,7 @@ def home_main(lang):
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">{t("Методика", "Method", lang)}</p>
-          <h2 class="section-title">{t("Как учим английски в Чемпиън", "How we teach English at Champion", lang)}</h2>
+          <h2 class="section-title">{t("Как учим английски в Училище Чемпиън", "How we teach English at Champion School", lang)}</h2>
         </div>
         <div class="approach-list">
           {"".join(f'<div class="approach-item"><span class="num">{i+1}</span><div><h3>{h}</h3><p>{p}</p></div></div>' for i, (h, p) in enumerate(approach_items))}
@@ -604,11 +601,11 @@ def home_main(lang):
           <p class="eyebrow">{t("График и цени", "Schedule & Prices", lang)}</p>
           <h2 class="section-title">{t("Групи по клас, ниво и удобно за вас време", "Groups by grade, level and a convenient time", lang)}</h2>
           <p class="section-lead">{t(
-            "Пълната информация за групите, дните, часовете и цените ще намерите на страница „График и цени“. Точните разписания се потвърждават индивидуално според сформираните групи.",
-            "Full details on groups, days, times and prices are available on the “Schedule & Prices” page. Exact schedules are confirmed individually once groups are formed.", lang)}</p>
+            "Пълният график по дни и часове за всяко ниво ще намерите на страница „График и цени“, заедно с продължителността и цената на курса.",
+            "The full day-by-day schedule for each level is available on the “Schedule & Prices” page, along with the course duration and price.", lang)}</p>
         </div>
-        <div class="grid grid-4">
-          {"".join(f'<div class="grade-card"><div class="range">{g}</div><p>{t("Дни, час и цена — уточняват се", "Days, time and price — to be confirmed", lang)}</p><span class="badge badge-placeholder">{t("Уточнява се", "To be confirmed", lang)}</span></div>' for g in [t("2.–4. клас","Grades 2-4",lang), t("5.–7. клас","Grades 5-7",lang), t("8.–10. клас","Grades 8-10",lang), t("11.–12. клас","Grades 11-12",lang)])}
+        <div class="grid grid-3">
+          {"".join(f'<div class="grade-card"><div class="range">{g}</div><p>{t("Виж дните и часовете за нивата", "See the days and times for each level", lang)}</p><span class="badge badge-gold">{t("329 € / срок", "€329 / term", lang)}</span></div>' for g in [t("2.–4. клас","Grades 2-4",lang), t("5.–7. клас","Grades 5-7",lang), t("8.–12. клас","Grades 8-12",lang)])}
         </div>
         <div class="actions" style="margin-top:28px">
           <a class="btn btn-navy" href="{schedule_url}">{t("Виж графика и цените", "View schedule & prices", lang)}</a>
@@ -644,7 +641,7 @@ def home_main(lang):
         </div>
         <div>
           <div class="map-frame">
-            <iframe src="{SITE['maps_embed_src']}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{t('Карта с местоположението на Чемпиън', 'Map showing the Champion location', lang)}"></iframe>
+            <iframe src="{SITE['maps_embed_src']}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{t('Карта с местоположението на Училище Чемпиън', 'Map showing the Champion School location', lang)}"></iframe>
           </div>
           <p style="margin-top:10px"><a class="btn-ghost" href="{SITE['maps_link']}" rel="noopener" target="_blank">{t("Отвори в Google Maps ↗", "Open in Google Maps ↗", lang)}</a></p>
         </div>
@@ -656,7 +653,7 @@ def home_main(lang):
         <div class="social-panel">
           <div>
             <h2>{t("Последвайте ни в Instagram", "Follow us on Instagram", lang)}</h2>
-            <p>{t("Новини, снимки от занятия и полезни материали за учениците на Чемпиън.", "News, glimpses from classes and useful materials for Champion students.", lang)}</p>
+            <p>{t("Новини, снимки от занятия и полезни материали за учениците на Училище Чемпиън.", "News, glimpses from classes and useful materials for Champion School students.", lang)}</p>
           </div>
           <a class="social-handle" href="{SITE['instagram_url']}" rel="noopener" target="_blank">{SITE['instagram_handle']}</a>
         </div>
@@ -766,8 +763,8 @@ def test_main(lang):
             <p id="resultDescription"></p>
             <p id="resultScore" class="text-muted"></p>
             <div class="result-disclaimer">{t(
-              "Този резултат е предварителна, вътрешна оценка на Чемпиън и не представлява официален CEFR сертификат или изпит.",
-              "This result is a preliminary, internal Champion assessment and does not constitute an official CEFR certificate or exam.", lang)}</div>
+              "Този резултат е предварителна, вътрешна оценка на Училище Чемпиън и не представлява официален CEFR сертификат или изпит.",
+              "This result is a preliminary, internal Champion School assessment and does not constitute an official CEFR certificate or exam.", lang)}</div>
             <div class="actions">
               <a class="btn btn-primary" href="{enroll_url}">{t("Запиши се", "Enroll now", lang)}</a>
               <a class="btn btn-secondary" href="{contacts_url}">{t("Свържи се с нас", "Contact us", lang)}</a>
@@ -785,13 +782,13 @@ def test_main(lang):
 def build_test():
     for lang, path, alt in [("bg", "/test/", "/en/test/"), ("en", "/en/test/", "/test/")]:
         title = t(
-            "Тест за ниво по английски език | Чемпиън Пловдив",
-            "English Level Test | Champion Plovdiv",
+            "Тест за ниво по английски език | Училище Чемпиън Пловдив",
+            "English Level Test | Champion School Plovdiv",
             lang,
         )
         desc = t(
-            "Направете безплатен онлайн тест за ниво по английски. Ориентировъчен резултат за учениците на Чемпиън в Пловдив, преди записване в подходяща група.",
-            "Take a free online English level test. An approximate result for Champion students in Plovdiv, before enrolling in the right group.",
+            "Направете безплатен онлайн тест за ниво по английски. Ориентировъчен резултат за учениците на Училище Чемпиън в Пловдив, преди записване в подходяща група.",
+            "Take a free online English level test. An approximate result for Champion School students in Plovdiv, before enrolling in the right group.",
             lang,
         )
         breadcrumb = [
@@ -809,75 +806,79 @@ def build_test():
 def schedule_main(lang):
     enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
     test_url = url_for(lang, "/test/", "/en/test/")
-    tbc = t("Уточнява се", "To be confirmed", lang)
 
-    groups = [
-        ("Junior A", t("2.–4. клас", "Grades 2-4", lang), "Beginner – Elementary"),
-        ("Junior B", t("5.–7. клас", "Grades 5-7", lang), "Elementary – Intermediate"),
-        ("Senior A", t("8.–10. клас", "Grades 8-10", lang), "Intermediate – Upper-Intermediate"),
-        ("Senior B", t("11.–12. клас", "Grades 11-12", lang), "Upper-Intermediate+"),
+    tue_thu = t("вторник и четвъртък", "Tuesday & Thursday", lang)
+    wed_fri = t("сряда и петък", "Wednesday & Friday", lang)
+    sat = t("събота", "Saturday", lang)
+    tbc_note = t("Предстои да се уточни", "To be confirmed", lang)
+
+    # (grade label, [(level, days, time)]) -- days=None marks a not-yet-scheduled level.
+    schedule_groups = [
+        (t("2.–4. клас", "Grades 2-4", lang), [
+            (t("Ниво 1", "Level 1", lang), tue_thu, "18:00–19:30"),
+            (t("Ниво 2", "Level 2", lang), wed_fri, "18:00–19:30"),
+            (t("Ниво 3", "Level 3", lang), wed_fri, "15:30–17:00"),
+        ]),
+        (t("5.–7. клас", "Grades 5-7", lang), [
+            (t("Ниво 1 (A1)", "Level 1 (A1)", lang), tue_thu, "14:00–15:30"),
+            (t("Ниво 1 (A1)", "Level 1 (A1)", lang), sat, "9:00–12:00"),
+            (t("Ниво 2 (A1+)", "Level 2 (A1+)", lang), wed_fri, "14:00–15:30"),
+            (t("Ниво 2 (A1+)", "Level 2 (A1+)", lang), sat, "12:30–15:30"),
+        ]),
+        (t("8.–12. клас", "Grades 8-12", lang), [
+            (t("Ниво 1 (Б1)", "Level 1 (B1)", lang), tue_thu, "14:00–15:30"),
+            (t("Ниво 2 (Б1+)", "Level 2 (B1+)", lang), wed_fri, "14:00–15:30"),
+            (t("Ниво 2 (Б1+)", "Level 2 (B1+)", lang), sat, "9:00–12:00"),
+            (t("Ниво 3 (Б2)", "Level 3 (B2)", lang), None, tbc_note),
+        ]),
     ]
 
-    rows = "\n".join(
-        f"""<tr>
-          <td><strong>{name}</strong></td>
-          <td>{grade}</td>
-          <td>{level}</td>
-          <td class="tbc">{tbc}</td>
-          <td class="tbc">{tbc}</td>
-          <td class="tbc">{tbc}</td>
-          <td class="tbc">{tbc}</td>
-        </tr>"""
-        for name, grade, level in groups
-    )
-
-    cards = "\n".join(
-        f"""<div class="schedule-card">
-          <div class="grp">{name} · {grade}</div>
-          <dl>
-            <dt>{t("Ниво", "Level", lang)}</dt><dd>{level}</dd>
-            <dt>{t("Дни", "Days", lang)}</dt><dd class="tbc">{tbc}</dd>
-            <dt>{t("Час", "Time", lang)}</dt><dd class="tbc">{tbc}</dd>
-            <dt>{t("Продължителност", "Duration", lang)}</dt><dd class="tbc">{tbc}</dd>
-            <dt>{t("Цена", "Price", lang)}</dt><dd class="tbc">{tbc}</dd>
-          </dl>
+    def render_group(grade, rows):
+        body_rows = "".join(
+            f'<tr><td>{level}</td><td colspan="2" class="tbc">{time}</td></tr>'
+            if days is None else
+            f'<tr><td>{level}</td><td>{days}</td><td>{time}</td></tr>'
+            for level, days, time in rows
+        )
+        return f"""<div class="schedule-group">
+          <h3>{grade}</h3>
+          <div class="table-wrap">
+            <table class="schedule-table schedule-table-compact">
+              <thead>
+                <tr>
+                  <th scope="col">{t("Ниво", "Level", lang)}</th>
+                  <th scope="col">{t("Дни", "Days", lang)}</th>
+                  <th scope="col">{t("Час", "Time", lang)}</th>
+                </tr>
+              </thead>
+              <tbody>{body_rows}</tbody>
+            </table>
+          </div>
         </div>"""
-        for name, grade, level in groups
-    )
+
+    groups_html = "".join(render_group(grade, rows) for grade, rows in schedule_groups)
+
+    summary = f"""<div class="card" style="padding:26px 28px">
+      <div class="contact-list">
+        <div class="contact-row"><span class="ic" aria-hidden="true">⏱</span><div><div class="lbl">{t("Продължителност", "Duration", lang)}</div><span class="val">{t("120 учебни часа, от 3 октомври", "120 teaching hours, starting 3 October", lang)}</span></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">💳</span><div><div class="lbl">{t("Цена", "Price", lang)}</div><span class="val">{t("329 евро за учебен срок", "EUR 329 per school term", lang)}</span></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">👪</span><div><div class="lbl">{t("Отстъпка", "Discount", lang)}</div><span class="val">{t("10% за второ дете от семейството", "10% for a second child from the same family", lang)}</span></div></div>
+      </div>
+    </div>"""
 
     return f"""<section class="section-tight">
       <div class="container">
         <p class="eyebrow">{t("График и цени", "Schedule & Prices", lang)}</p>
         <h1 class="section-title">{t("График и цени", "Schedule & Prices", lang)}</h1>
         <p class="section-lead">{t(
-          "По-долу е общата структура на групите по клас и ниво. Точните дни, часове и цени се потвърждават след сформиране на групите за текущата учебна година — свържете се с нас или направете тест за ниво, за да получите актуална информация за вашия ученик.",
-          "Below is the general structure of groups by grade and level. Exact days, times and prices are confirmed once groups are formed for the current school year — contact us or take the level test to get up-to-date information for your student.",
+          "По-долу е графикът на групите по клас и ниво за текущия учебен срок, заедно с продължителността и цената на курса.",
+          "Below is the schedule of groups by grade and level for the current school term, along with the course duration and price.",
           lang)}</p>
 
-        <div class="notice-box" style="margin:26px 0">
-          <p><strong>{t("Разписанието предстои да бъде обявено.", "The schedule is yet to be announced.", lang)}</strong>
-          {t("Показаните по-долу полета са примерни placeholder-и и предстои да бъдат актуализирани. За точна информация се обадете на", "The fields shown below are example placeholders and will be updated. For exact information, call", lang)}
-          <a href="{SITE['phone_href']}">{SITE['phone_display']}</a>.</p>
+        <div class="stack" style="margin-top:24px">
+          {groups_html}
+          {summary}
         </div>
-
-        <div class="table-wrap responsive-cards">
-          <table class="schedule-table">
-            <caption>{t("Групи по клас и ниво — дните, часовете и цените предстои да бъдат обявени.", "Groups by grade and level — days, times and prices to be announced.", lang)}</caption>
-            <thead>
-              <tr>
-                <th scope="col">{t("Група", "Group", lang)}</th>
-                <th scope="col">{t("Клас", "Grade", lang)}</th>
-                <th scope="col">{t("Ниво", "Level", lang)}</th>
-                <th scope="col">{t("Дни", "Days", lang)}</th>
-                <th scope="col">{t("Час", "Time", lang)}</th>
-                <th scope="col">{t("Продължителност", "Duration", lang)}</th>
-                <th scope="col">{t("Цена", "Price", lang)}</th>
-              </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </table>
-        </div>
-        <div class="schedule-cards">{cards}</div>
 
         <div class="actions" style="margin-top:30px">
           <a class="btn btn-primary btn-lg" href="{enroll_url}">{t("Записване", "Enrollment", lang)}</a>
@@ -890,13 +891,13 @@ def schedule_main(lang):
 def build_schedule():
     for lang, path, alt in [("bg", "/schedule-prices/", "/en/schedule-prices/"), ("en", "/en/schedule-prices/", "/schedule-prices/")]:
         title = t(
-            "График и цени за групи по английски | Чемпиън Пловдив",
-            "Schedule & Prices for English Groups | Champion Plovdiv",
+            "График и цени за групи по английски | Училище Чемпиън Пловдив",
+            "Schedule & Prices for English Groups | Champion School Plovdiv",
             lang,
         )
         desc = t(
-            "Разгледайте групите по клас и ниво в Чемпиън, Пловдив. Дните, часовете и цените се уточняват според сформираните групи.",
-            "Browse groups by grade and level at Champion, Plovdiv. Days, times and prices are confirmed once groups are formed.",
+            "Вижте графика по дни и часове, продължителността и цената на групите по английски в Училище Чемпиън, Пловдив.",
+            "See the weekly schedule, course duration and price for English groups at Champion School, Plovdiv.",
             lang,
         )
         breadcrumb = [
@@ -988,7 +989,7 @@ def enrollment_main(lang):
         </div>
         <label class="checkbox-row">
           <input type="checkbox" name="consent" required>
-          <span class="consent">{t('Съгласен/на съм предоставените лични данни да бъдат използвани от Чемпиън единствено за връзка във връзка със записване за обучение, съгласно', 'I agree that the personal data provided will be used by Champion solely to contact me regarding enrollment, in accordance with the', lang)}
+          <span class="consent">{t('Съгласен/на съм предоставените лични данни да бъдат използвани от Училище Чемпиън единствено за връзка във връзка със записване за обучение, съгласно', 'I agree that the personal data provided will be used by Champion School solely to contact me regarding enrollment, in accordance with the', lang)}
           <a href="{privacy_url}">{t("Политиката за поверителност", "Privacy Policy", lang)}</a>. *</span>
         </label>
         <button type="submit" class="btn btn-primary btn-lg btn-block">{t("Изпрати запитване", "Send inquiry", lang)}</button>
@@ -1004,8 +1005,8 @@ def enrollment_main(lang):
         <p class="eyebrow">{t("Записване", "Enrollment", lang)}</p>
         <h1 class="section-title">{t("Записване", "Enrollment", lang)}</h1>
         <p class="section-lead">{t(
-          "Записването в Чемпиън става в няколко прости стъпки. Изпратете запитване чрез формата по-долу или се обадете директно — ще се свържем с вас, за да потвърдим подходяща група.",
-          "Enrolling at Champion takes a few simple steps. Send an inquiry through the form below or call us directly — we will contact you to confirm a suitable group.",
+          "Записването в Училище Чемпиън става в няколко прости стъпки. Изпратете запитване чрез формата по-долу или се обадете директно — ще се свържем с вас, за да потвърдим подходяща група.",
+          "Enrolling at Champion School takes a few simple steps. Send an inquiry through the form below or call us directly — we will contact you to confirm a suitable group.",
           lang)}</p>
       </div>
     </section>
@@ -1022,13 +1023,13 @@ def enrollment_main(lang):
 def build_enrollment():
     for lang, path, alt in [("bg", "/enrollment/", "/en/enrollment/"), ("en", "/en/enrollment/", "/enrollment/")]:
         title = t(
-            "Записване в Чемпиън | Английски за ученици в Пловдив",
-            "Enrollment at Champion | English for Students in Plovdiv",
+            "Записване в Училище Чемпиън | Английски за ученици в Пловдив",
+            "Enrollment at Champion School | English for Students in Plovdiv",
             lang,
         )
         desc = t(
-            "Запишете детето си за курс по английски в Чемпиън, Пловдив. Изпратете запитване онлайн или се обадете на 0885 712 048.",
-            "Enroll your child in an English course at Champion, Plovdiv. Send an inquiry online or call 0885 712 048.",
+            "Запишете детето си за курс по английски в Училище Чемпиън, Пловдив. Изпратете запитване онлайн или се обадете на 0885 712 048.",
+            "Enroll your child in an English course at Champion School, Plovdiv. Send an inquiry online or call 0885 712 048.",
             lang,
         )
         breadcrumb = [
@@ -1072,7 +1073,7 @@ def contacts_main(lang):
         </div>
         <label class="checkbox-row">
           <input type="checkbox" name="consent" required>
-          <span class="consent">{t('Съгласен/на съм личните ми данни да бъдат използвани от Чемпиън единствено за отговор на това запитване, съгласно', 'I agree that my personal data will be used by Champion solely to respond to this inquiry, in accordance with the', lang)}
+          <span class="consent">{t('Съгласен/на съм личните ми данни да бъдат използвани от Училище Чемпиън единствено за отговор на това запитване, съгласно', 'I agree that my personal data will be used by Champion School solely to respond to this inquiry, in accordance with the', lang)}
           <a href="{privacy_url}">{t("Политиката за поверителност", "Privacy Policy", lang)}</a>. *</span>
         </label>
         <button type="submit" class="btn btn-primary btn-lg btn-block">{t("Изпрати съобщение", "Send message", lang)}</button>
@@ -1082,7 +1083,7 @@ def contacts_main(lang):
     return f"""<section class="section-tight">
       <div class="container">
         <p class="eyebrow">{t("Контакти", "Contact", lang)}</p>
-        <h1 class="section-title">{t("Свържете се с Чемпиън", "Get in touch with Champion", lang)}</h1>
+        <h1 class="section-title">{t("Свържете се с Училище Чемпиън", "Get in touch with Champion School", lang)}</h1>
         <p class="section-lead">{t(
           "Пишете ни, обадете се или ни последвайте в Instagram. С удоволствие ще отговорим на въпросите ви за обучението по английски.",
           "Write to us, call, or follow us on Instagram. We are happy to answer your questions about English courses.",
@@ -1098,7 +1099,7 @@ def contacts_main(lang):
             <div class="contact-row"><span class="ic" aria-hidden="true">📷</span><div><div class="lbl">Instagram</div><a href="{SITE['instagram_url']}" rel="noopener" target="_blank">{SITE['instagram_handle']}</a></div></div>
           </div>
           <div class="map-frame" style="margin-top:24px">
-            <iframe src="{SITE['maps_embed_src']}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{t('Карта с местоположението на Чемпиън', 'Map showing the Champion location', lang)}"></iframe>
+            <iframe src="{SITE['maps_embed_src']}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{t('Карта с местоположението на Училище Чемпиън', 'Map showing the Champion School location', lang)}"></iframe>
           </div>
           <p style="margin-top:10px"><a class="btn-ghost" href="{SITE['maps_link']}" rel="noopener" target="_blank">{t("Отвори в Google Maps ↗", "Open in Google Maps ↗", lang)}</a></p>
           <p class="text-muted" style="margin-top:16px;font-size:14.5px">{t(
@@ -1113,13 +1114,13 @@ def contacts_main(lang):
 def build_contacts():
     for lang, path, alt in [("bg", "/contacts/", "/en/contacts/"), ("en", "/en/contacts/", "/contacts/")]:
         title = t(
-            "Контакти | Чемпиън – английски език в Пловдив",
-            "Contact | Champion – English Language School in Plovdiv",
+            "Контакти | Училище Чемпиън – английски език в Пловдив",
+            "Contact | Champion School, Plovdiv",
             lang,
         )
         desc = t(
-            f"Свържете се с Чемпиън в Пловдив: {SITE['address_bg']}, тел. {SITE['phone_display']}, Instagram {SITE['instagram_handle']}.",
-            f"Contact Champion in Plovdiv: {SITE['address_en']}, phone {SITE['phone_display']}, Instagram {SITE['instagram_handle']}.",
+            f"Свържете се с Училище Чемпиън в Пловдив: {SITE['address_bg']}, тел. {SITE['phone_display']}, Instagram {SITE['instagram_handle']}.",
+            f"Contact Champion School in Plovdiv: {SITE['address_en']}, phone {SITE['phone_display']}, Instagram {SITE['instagram_handle']}.",
             lang,
         )
         breadcrumb = [
@@ -1136,8 +1137,8 @@ def legal_main(lang, kind):
         title = t("Политика за поверителност", "Privacy Policy", lang)
         body = f"""
         <p>{t(
-          "Чемпиън събира лични данни (име на родител, име на ученик, клас, телефон, имейл и съобщение) единствено чрез формите за записване и контакт на този сайт, с цел да отговори на запитване или да организира записване за обучение по английски език.",
-          "Champion collects personal data (parent's name, student's name, grade, phone, email and message) only through this site's enrollment and contact forms, in order to respond to an inquiry or arrange enrollment in an English course.",
+          "Училище Чемпиън събира лични данни (име на родител, име на ученик, клас, телефон, имейл и съобщение) единствено чрез формите за записване и контакт на този сайт, с цел да отговори на запитване или да организира записване за обучение по английски език.",
+          "Champion School collects personal data (parent's name, student's name, grade, phone, email and message) only through this site's enrollment and contact forms, in order to respond to an inquiry or arrange enrollment in an English course.",
           lang)}</p>
         <h2>{t("Администратор на лични данни", "Data controller", lang)}</h2>
         <p>{t(
@@ -1159,8 +1160,8 @@ def legal_main(lang, kind):
         title = t("Политика за бисквитки", "Cookie Policy", lang)
         body = f"""
         <p>{t(
-          "Уебсайтът на Чемпиън понастоящем не използва аналитични, рекламни или маркетингови бисквитки. Използват се единствено технически необходими механизми на браузъра (например запомняне на избрания език), без които определени функции на сайта не биха работили.",
-          "The Champion website does not currently use analytics, advertising or marketing cookies. Only strictly necessary browser mechanisms are used (for example, remembering a language choice), without which certain site features would not work.",
+          "Уебсайтът на Училище Чемпиън понастоящем не използва аналитични, рекламни или маркетингови бисквитки. Използват се единствено технически необходими механизми на браузъра (например запомняне на избрания език), без които определени функции на сайта не биха работили.",
+          "The Champion School website does not currently use analytics, advertising or marketing cookies. Only strictly necessary browser mechanisms are used (for example, remembering a language choice), without which certain site features would not work.",
           lang)}</p>
         <p>{t("Ако в бъдеще добавим аналитични или маркетингови бисквитки, тази страница ще бъде актуализирана и, при необходимост, ще поискаме съгласието ви.", "If we add analytics or marketing cookies in the future, this page will be updated and, where required, we will ask for your consent.", lang)}</p>
         <h2>{t("Как да управлявате бисквитките", "How to manage cookies", lang)}</h2>
@@ -1187,15 +1188,15 @@ def legal_main(lang, kind):
 def build_legal():
     pages = [
         ("privacy", "/privacy-policy/", "/en/privacy-policy/",
-         t("Политика за поверителност | Чемпиън", "Privacy Policy | Champion", "bg"),
-         "Политика за поверителност | Чемпиън", "Privacy Policy | Champion",
-         "Как Чемпиън обработва личните данни, изпратени чрез формите за записване и контакт на сайта.",
-         "How Champion processes personal data submitted through the site's enrollment and contact forms."),
+         t("Политика за поверителност | Училище Чемпиън", "Privacy Policy | Champion School", "bg"),
+         "Политика за поверителност | Училище Чемпиън", "Privacy Policy | Champion School",
+         "Как Училище Чемпиън обработва личните данни, изпратени чрез формите за записване и контакт на сайта.",
+         "How Champion School processes personal data submitted through the site's enrollment and contact forms."),
         ("cookie", "/cookie-policy/", "/en/cookie-policy/",
          None,
-         "Политика за бисквитки | Чемпиън", "Cookie Policy | Champion",
-         "Информация за бисквитките, използвани на уебсайта на Чемпиън.",
-         "Information about the cookies used on the Champion website."),
+         "Политика за бисквитки | Училище Чемпиън", "Cookie Policy | Champion School",
+         "Информация за бисквитките, използвани на уебсайта на Училище Чемпиън.",
+         "Information about the cookies used on the Champion School website."),
     ]
     for kind, path_bg, path_en, _unused, title_bg, title_en, desc_bg, desc_en in pages:
         for lang, path, alt in [("bg", path_bg, path_en), ("en", path_en, path_bg)]:
@@ -1214,13 +1215,13 @@ def build_legal():
 def build_home():
     for lang, path, alt in [("bg", "/", "/en/"), ("en", "/en/", "/")]:
         title = t(
-            "Английски език за деца и ученици в Пловдив | Чемпиън",
-            "English Courses for Children & Students in Plovdiv | Champion",
+            "Английски език за деца и ученици в Пловдив | Училище Чемпиън",
+            "English Courses for Children & Students in Plovdiv | Champion School",
             lang,
         )
         desc = t(
-            "Чемпиън е училище по английски език в Пловдив за ученици от 2. до 12. клас. Направете безплатен тест за ниво и запишете детето си в подходяща група.",
-            "Champion is an English language school in Plovdiv for students in grades 2-12. Take a free level test and enroll your child in the right group.",
+            "Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете безплатен тест за ниво и запишете детето си в подходяща група.",
+            "Champion School teaches English in Plovdiv to students in grades 2-12. Take a free level test and enroll your child in the right group.",
             lang,
         )
         nodes = [faq_node(path, FAQ_BG if lang == "bg" else FAQ_EN)]
@@ -1328,17 +1329,17 @@ def build_llms_txt():
     Markdown-link sections. Content here is limited to facts already
     published elsewhere on the site -- nothing new is asserted.
     """
-    content = f"""# Champion / Чемпиън
+    content = f"""# Champion School / Училище Чемпиън
 
 > English language school in Plovdiv, Bulgaria, teaching students in grades 2 through 12. Bulgarian-first site with a full English version under /en/.
 
-Champion ({SITE['full_name_en']}, registered as {SITE['legal_name']}, UIC {SITE['legal_eik']}) teaches English as a foreign language to school-age students, grouped by grade and by English level (Beginner through Advanced / CEFR A1-C1). Classes are held in Plovdiv, Bulgaria, at {SITE['address_street_en']}. Phone: {SITE['phone_display']} ({SITE['phone_href']}). Instagram: {SITE['instagram_handle']} ({SITE['instagram_url']}).
+Champion School ({SITE['full_name_en']}, registered as {SITE['legal_name']}, UIC {SITE['legal_eik']}) teaches English as a foreign language to school-age students, grouped by grade and by English level (Beginner through Advanced / CEFR A1-C1). Classes are held in Plovdiv, Bulgaria, at {SITE['address_street_en']}. Phone: {SITE['phone_display']} ({SITE['phone_href']}). Instagram: {SITE['instagram_handle']} ({SITE['instagram_url']}).
 
 Exact class schedules and prices are confirmed per group each school year and are not published as fixed data; see the Schedule & Prices page for the current state and contact details.
 
 ## Key pages (Bulgarian, default)
 
-- [Home]({DOMAIN}/): what Champion is, who it teaches, why families choose it, FAQ
+- [Home]({DOMAIN}/): what Champion School is, who it teaches, why families choose it, FAQ
 - [Level Test]({DOMAIN}/test/): free 10-question self-assessment placing a student into an approximate English level (not an official CEFR exam)
 - [Schedule & Prices]({DOMAIN}/schedule-prices/): group structure by grade/level; exact days, times and prices confirmed on request
 - [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step, plus an inquiry form

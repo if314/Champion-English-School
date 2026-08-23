@@ -186,7 +186,7 @@ table{border-collapse:collapse;width:100%}
 .mobile-nav .mobile-contact{margin-top:22px;padding-top:20px;border-top:1px solid var(--line-soft);color:var(--muted);font-size:14.5px;display:flex;flex-direction:column;gap:8px}
 .mobile-nav .mobile-contact a{border:0;padding:0;font-weight:700;color:var(--navy)}
 
-@media (min-width:1180px){
+@media (min-width:1420px){
   .nav-links{display:flex;align-items:center;gap:1px}
   .nav-links a{
     display:inline-block;padding:9px 12px;border-radius:var(--radius-pill);color:var(--navy);
@@ -198,7 +198,7 @@ table{border-collapse:collapse;width:100%}
   .menu-toggle{display:none}
   .mobile-nav{display:none !important}
 }
-@media (max-width:1179px){
+@media (max-width:1419px){
   .brand-text .tag{display:none}
 }
 @media (max-width:360px){
@@ -316,6 +316,9 @@ table{border-collapse:collapse;width:100%}
 /* ---------- Tables (schedule) ---------- */
 .table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line-soft);background:#fff}
 .schedule-table{min-width:720px}
+.schedule-table-compact{min-width:0}
+.schedule-group{margin-bottom:10px}
+.schedule-group h3{font-size:18px;margin:0 0 12px}
 .schedule-table caption{text-align:left;padding:18px 22px 4px;color:var(--muted);font-size:14px}
 .schedule-table th,.schedule-table td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line-soft);font-size:14.5px}
 .schedule-table thead th{background:var(--navy-tint);color:var(--navy);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em}

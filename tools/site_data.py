@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Content source for the Champion / Чемпиън website.
+Content source for the Champion School / Училище Чемпиън website.
 All factual claims here are limited to information explicitly supplied:
 school name, grade range (2nd-12th), Plovdiv address, phone, Instagram.
 Everything else (prices, schedules, legal registration numbers) is a
@@ -10,8 +10,8 @@ clearly-labelled editable placeholder.
 DOMAIN = "https://championenglishplovdiv.com"
 
 SITE = {
-    "name_bg": "Чемпиън",
-    "name_en": "Champion",
+    "name_bg": "Училище Чемпиън",
+    "name_en": "Champion School",
     "full_name_bg": "Английско езиково училище Чемпиън",
     "full_name_en": "Champion English Language School",
     "tagline_bg": "Английски за ученици от 2. до 12. клас",
@@ -44,7 +44,7 @@ SITE = {
 # ---------------------------------------------------------------------------
 NAV_BG = [
     ("home", "Начало", "/"),
-    ("about", "За Чемпиън", "/#about"),
+    ("about", "За Училище Чемпиън", "/#about"),
     ("test", "Тест за ниво", "/test/"),
     ("schedule", "График и цени", "/schedule-prices/"),
     ("enrollment", "Записване", "/enrollment/"),
@@ -52,7 +52,7 @@ NAV_BG = [
 ]
 NAV_EN = [
     ("home", "Home", "/en/"),
-    ("about", "About Champion", "/en/#about"),
+    ("about", "About Champion School", "/en/#about"),
     ("test", "Level Test", "/en/test/"),
     ("schedule", "Schedule & Prices", "/en/schedule-prices/"),
     ("enrollment", "Enrollment", "/en/enrollment/"),
@@ -153,8 +153,8 @@ LEVELS_EN = [
 # FAQ (shared meaning, localized)
 # ---------------------------------------------------------------------------
 FAQ_BG = [
-    ("За кои класове е подходящо обучението в Чемпиън?",
-     "Чемпиън предлага обучение по английски за ученици от 2. до 12. клас, разпределени в групи според клас и ниво на владеене на езика."),
+    ("За кои класове е подходящо обучението в Училище Чемпиън?",
+     "Училище Чемпиън предлага обучение по английски за ученици от 2. до 12. клас, разпределени в групи според клас и ниво на владеене на езика."),
     ("Как се определя нивото на ученика?",
      "Нивото се определя чрез безплатен онлайн тест за ниво, който можете да направите на страницата „Тест за ниво“, преди да изберете подходяща група."),
     ("Как протича тестът за ниво?",
@@ -171,8 +171,8 @@ FAQ_BG = [
      "Цените зависят от групата, нивото и продължителността на курса. Актуална информация ще намерите на страница „График и цени“ или като се свържете с нас."),
 ]
 FAQ_EN = [
-    ("Which grades is Champion suitable for?",
-     "Champion offers English courses for students in grades 2 through 12, grouped by grade and by English level."),
+    ("Which grades is Champion School suitable for?",
+     "Champion School offers English courses for students in grades 2 through 12, grouped by grade and by English level."),
     ("How is a student's level determined?",
      "The level is determined with a free online level test, available on the “Level Test” page, before choosing a suitable group."),
     ("How does the level test work?",
