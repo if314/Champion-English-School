@@ -1,203 +1,320 @@
 <!doctype html>
-<html lang="bg">
+<html lang="bg" class="no-js">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Училище Чемпиън – курсове по английски за ученици в Пловдив." />
-  <title>Училище Чемпиън | Champion English</title>
-  <style>
-    :root{
-      --navy:#0b2c52;
-      --navy-2:#123b68;
-      --gold:#e8a12e;
-      --gold-soft:#f5c977;
-      --cream:#f7f3ee;
-      --ink:#17314e;
-      --muted:#6f7a86;
-      --white:#fff;
-      --shadow:0 18px 50px rgba(11,44,82,.12);
-      --radius:26px;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color:var(--ink);
-      background:var(--cream);
-      line-height:1.55;
-    }
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
-    .wrap{width:min(1120px,calc(100% - 32px));margin-inline:auto}
-    header{
-      position:sticky;top:0;z-index:20;
-      background:rgba(247,243,238,.94);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(11,44,82,.08)
-    }
-    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy)}
-    .brand-mark{
-      width:100px;height:100px;border-radius:14px;background:#fff;border:1px solid rgba(11,44,82,.08);
-      display:grid;place-items:center;overflow:hidden;box-shadow:var(--shadow)
-    }
-    .brand-mark img{
-      width:100%;height:100%;object-fit:contain;display:block;padding:6px
-    }
-    .brand small{display:block;font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
-    .lang-switch{display:inline-flex;padding:4px;background:#fff;border:1px solid rgba(11,44,82,.12);border-radius:999px;box-shadow:0 6px 20px rgba(11,44,82,.06)}
-    .lang-switch button{border:0;background:transparent;color:var(--navy);padding:9px 14px;border-radius:999px;font-weight:800;cursor:pointer}
-    .lang-switch button[aria-pressed="true"]{background:var(--navy);color:#fff}
-
-    .hero{padding:72px 0 48px;overflow:hidden}
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
-    .eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--navy);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:13px}
-    .eyebrow::before{content:"";width:30px;height:3px;background:var(--gold);border-radius:10px}
-    h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,7vw,84px);line-height:.98;margin:22px 0 22px;color:var(--navy);letter-spacing:-.03em}
-    .lead{font-size:clamp(18px,2vw,22px);max-width:640px;color:#40566f;margin:0 0 30px}
-    .actions{display:flex;flex-wrap:wrap;gap:12px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 20px;border-radius:14px;font-weight:800;border:1px solid transparent;transition:.2s ease}
-    .btn.primary{background:var(--navy);color:#fff;box-shadow:0 10px 24px rgba(11,44,82,.18)}
-    .btn.primary:hover{transform:translateY(-2px);background:var(--navy-2)}
-    .btn.secondary{background:transparent;color:var(--navy);border-color:rgba(11,44,82,.18)}
-    .hero-card{position:relative}
-    .photo-frame{background:#fff;padding:12px;border-radius:34px;box-shadow:var(--shadow);transform:rotate(1deg)}
-    .photo-frame img{border-radius:24px;aspect-ratio:4/5;object-fit:cover;object-position:center top}
-    .offer-badge{position:absolute;right:-18px;bottom:24px;background:var(--gold-soft);color:var(--navy);padding:20px 22px;border-radius:24px;box-shadow:var(--shadow);font-weight:800;max-width:210px}
-    .offer-badge strong{font-size:32px;display:block;line-height:1}
-
-    section{padding:72px 0}
-    .section-title{font-family:Georgia,"Times New Roman",serif;color:var(--navy);font-size:clamp(34px,5vw,52px);line-height:1.05;margin:0 0 12px}
-    .section-sub{color:var(--muted);font-size:18px;max-width:680px;margin:0 0 34px}
-    .benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .benefit{background:#fff;border-radius:22px;padding:26px;box-shadow:0 10px 30px rgba(11,44,82,.06);border:1px solid rgba(11,44,82,.06)}
-    .icon{width:46px;height:46px;border-radius:14px;background:rgba(232,161,46,.16);display:grid;place-items:center;margin-bottom:18px;font-size:22px}
-    .benefit h3{color:var(--navy);margin:0 0 8px;font-size:20px}
-    .benefit p{margin:0;color:#5d6d7e}
-
-    .offer{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:stretch}
-    .offer-main{background:var(--navy);color:#fff;border-radius:30px;padding:38px}
-    .offer-main h2{font-family:Georgia,"Times New Roman",serif;font-size:44px;line-height:1;margin:0 0 14px}
-    .offer-main p{color:#dbe7f3;margin:0 0 22px;font-size:18px}
-    .offer-main .big{font-size:clamp(44px,8vw,78px);font-weight:900;color:var(--gold-soft);line-height:1}
-    .offer-main .date{margin-top:10px;color:#fff;font-weight:700}
-    .location{background:linear-gradient(145deg,#f4c56f,#efad43);border-radius:30px;padding:38px;color:var(--navy)}
-    .location h3{font-family:Georgia,"Times New Roman",serif;font-size:34px;margin:0 0 12px}
-    .location p{font-size:18px;margin:0 0 8px}
-
-    .contact{background:#fff;border-radius:30px;padding:36px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
-    .contact h2{font-family:Georgia,"Times New Roman",serif;font-size:38px;margin:0 0 10px;color:var(--navy)}
-    .contact p{margin:0;color:var(--muted)}
-    .contact-grid{margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px}
-    .contact-item{font-weight:700;color:var(--navy)}
-    .contact-item span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:2px}
-    footer{padding:36px 0 48px;color:#718092;font-size:14px}
-
-    [data-lang]{display:none}
-    html[lang="bg"] [data-lang="bg"], html[lang="en"] [data-lang="en"]{display:revert}
-
-    @media (max-width:860px){
-      .hero{padding-top:48px}
-      .hero-grid,.offer{grid-template-columns:1fr}
-      .hero-card{max-width:620px}
-      .benefits{grid-template-columns:1fr}
-      .contact{grid-template-columns:1fr}
-      .offer-badge{right:8px}
-    }
-    @media (max-width:560px){
-      .brand .name{display:none}
-      .hero{padding-top:36px}
-      h1{font-size:52px}
-      section{padding:52px 0}
-      .offer-main,.location,.contact{padding:26px}
-      .contact-grid{grid-template-columns:1fr}
-      .actions{flex-direction:column}
-      .btn{width:100%}
-    }
-  </style>
+<script>document.documentElement.classList.remove('no-js');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Английски език за деца и ученици в Пловдив | Училище Чемпиън</title>
+<meta name="description" content="Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете присъствен тест за ниво и запишете детето си в подходяща група.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://championenglishplovdiv.com/">
+<link rel="alternate" hreflang="bg-BG" href="https://championenglishplovdiv.com/">
+<link rel="alternate" hreflang="en" href="https://championenglishplovdiv.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://championenglishplovdiv.com/">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="img/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#0b2c52">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Champion School / Училище Чемпиън">
+<meta property="og:title" content="Английски език за деца и ученици в Пловдив | Училище Чемпиън">
+<meta property="og:description" content="Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете присъствен тест за ниво и запишете детето си в подходяща група.">
+<meta property="og:url" content="https://championenglishplovdiv.com/">
+<meta property="og:image" content="https://championenglishplovdiv.com/img/og-image-bg.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="bg_BG">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Английски език за деца и ученици в Пловдив | Училище Чемпиън">
+<meta name="twitter:description" content="Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете присъствен тест за ниво и запишете детето си в подходяща група.">
+<meta name="twitter:image" content="https://championenglishplovdiv.com/img/og-image-bg.jpg">
+<link rel="preload" as="image" href="img/students-hero.webp" imagesrcset="img/students-hero-800.webp 800w, img/students-hero.webp 1400w">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": ["EducationalOrganization", "LocalBusiness"], "@id": "https://championenglishplovdiv.com/#organization", "name": "Английско езиково училище Чемпиън", "alternateName": "Училище Чемпиън", "url": "https://championenglishplovdiv.com/", "logo": "https://championenglishplovdiv.com/img/champion-logo.png", "image": "https://championenglishplovdiv.com/img/champion-logo.png", "telephone": "+359885712048", "address": {"@type": "PostalAddress", "streetAddress": "бул. „6-ти Септември“ 145", "addressLocality": "Пловдив", "addressCountry": "BG"}, "geo": {"@type": "GeoCoordinates", "latitude": 42.150358, "longitude": 24.743059}, "areaServed": {"@type": "City", "name": "Пловдив"}, "priceRange": "329 EUR", "sameAs": ["https://www.instagram.com/champion.english.plovdiv/"], "contactPoint": [{"@type": "ContactPoint", "telephone": "+359885712048", "contactType": "customer service", "areaServed": "BG", "availableLanguage": ["Bulgarian", "English"]}]}, {"@type": "WebSite", "@id": "https://championenglishplovdiv.com/#website", "url": "https://championenglishplovdiv.com/", "name": "Училище Чемпиън", "inLanguage": "bg-BG", "publisher": {"@id": "https://championenglishplovdiv.com/#organization"}}, {"@type": "WebPage", "@id": "https://championenglishplovdiv.com/#webpage", "url": "https://championenglishplovdiv.com/", "name": "Английски език за деца и ученици в Пловдив | Училище Чемпиън", "description": "Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете присъствен тест за ниво и запишете детето си в подходяща група.", "inLanguage": "bg-BG", "isPartOf": {"@id": "https://championenglishplovdiv.com/#website"}, "about": {"@id": "https://championenglishplovdiv.com/#organization"}}, {"@type": "FAQPage", "@id": "https://championenglishplovdiv.com/#faq", "mainEntity": [{"@type": "Question", "name": "За кои класове е подходящо обучението в Училище Чемпиън?", "acceptedAnswer": {"@type": "Answer", "text": "Училище Чемпиън предлага обучение по английски за ученици от 2. до 12. клас, разпределени в групи според клас и ниво на владеене на езика."}}, {"@type": "Question", "name": "Как се определя нивото на ученика?", "acceptedAnswer": {"@type": "Answer", "text": "Нивото се определя чрез кратък присъствен тест в самото училище — датите и часовете са посочени на страницата „Тест за ниво“, преди да изберете подходяща група."}}, {"@type": "Question", "name": "Как протича тестът за ниво?", "acceptedAnswer": {"@type": "Answer", "text": "Тестът се провежда на място в училището с личното участие на ученика и отнема около 30 минути. Резултатът ни помага да препоръчаме подходяща група."}}, {"@type": "Question", "name": "Как да избера подходяща група?", "acceptedAnswer": {"@type": "Answer", "text": "След теста за ниво препоръчваме група според клас и резултат. При записване можем да обсъдим и коригираме избора при нужда."}}, {"@type": "Question", "name": "Къде се провеждат занятията?", "acceptedAnswer": {"@type": "Answer", "text": "Занятията се провеждат в Пловдив, на бул. „6-ти Септември“ 145."}}, {"@type": "Question", "name": "Как мога да запиша ученик?", "acceptedAnswer": {"@type": "Answer", "text": "Записването става чрез формата на страница „Записване“ или по телефона на 0885 712 048. Ще се свържем с вас, за да потвърдим група и час."}}, {"@type": "Question", "name": "Какъв е графикът на групите?", "acceptedAnswer": {"@type": "Answer", "text": "Дните и часовете по клас и ниво са публикувани на страница „График и цени“. Повечето групи вече имат определен ден и час; отделни нива предстои да се уточнят."}}, {"@type": "Question", "name": "Какви са цените за обучение?", "acceptedAnswer": {"@type": "Answer", "text": "Цената е 329 евро за учебен срок от 120 учебни часа, с 10% отстъпка за второ дете от семейството. Подробности ще намерите на страница „График и цени“."}}]}]}</script>
 </head>
-<body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#top" aria-label="Champion English home">
-        <div class="brand-mark">
-          <img src="img/championlogo.png" alt="Champion English logo" />
-        </div>
-        <div class="name">Училище Чемпиън<small>Champion your English</small></div>
+<body class="">
+  <a class="skip-link" href="#main">Към съдържанието</a>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="./" aria-label="Училище Чемпиън — начало">
+        <span class="brand-mark"><picture><source type="image/webp" srcset="img/champion-logo.webp"><img src="img/champion-logo.png" width="640" height="350" alt="Лого на училище Чемпиън" decoding="async"></picture></span>
+        <span class="brand-text"><span class="name">Училище Чемпиън</span><span class="tag">Английски за ученици</span></span>
       </a>
-      <div class="lang-switch" aria-label="Language switcher">
-        <button id="bgBtn" type="button" aria-pressed="true">BG</button>
-        <button id="enBtn" type="button" aria-pressed="false">EN</button>
+      <nav class="nav-links" aria-label="Основна навигация">
+        <a href="./" aria-current="page">Начало</a>
+<a href="#about">За Училище Чемпиън</a>
+<a href="test/">Тест за ниво</a>
+<a href="schedule-prices/">График и цени</a>
+<a href="enrollment/" class="is-cta">Записване</a>
+<a href="contacts/">Контакти</a>
+      </nav>
+      <div class="nav-right">
+        <div class="lang-switch" aria-label="Смяна на езика">
+          <a href="./" aria-current="true" hreflang="bg" lang="bg">BG</a>
+          <a href="en/" aria-current="false" hreflang="en" lang="en">EN</a>
+        </div>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Отвори менюто">
+          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg><svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+        </button>
       </div>
     </div>
   </header>
-
-  <main id="top">
+  <div class="mobile-nav" id="mobileNav">
+    <div class="container">
+      <a href="./" aria-current="page">Начало</a>
+<a href="#about">За Училище Чемпиън</a>
+<a href="test/">Тест за ниво</a>
+<a href="schedule-prices/">График и цени</a>
+<a href="enrollment/" class="is-cta">Записване</a>
+<a href="contacts/">Контакти</a>
+    </div>
+  </div>
+  
+  <main id="main">
     <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <div class="eyebrow">
-            <span data-lang="bg">Английски за цял живот</span>
-            <span data-lang="en">English for life</span>
-          </div>
-          <h1>
-            <span data-lang="bg">Английският<br>отваря врати.</span>
-            <span data-lang="en">English<br>opens doors.</span>
-          </h1>
-          <p class="lead" data-lang="bg">Курсове по английски за ученици II–IX клас в Пловдив, с фокус върху увереност, реални резултати и език, който се използва извън класната стая.</p>
-          <p class="lead" data-lang="en">English courses for students in grades 2–9 in Plovdiv, focused on confidence, real progress, and language students can use beyond the classroom.</p>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Английски за ученици в Пловдив</p>
+          <h1>Английският отваря врати.</h1>
+          <p class="hero-lead">Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Учим децата и учениците да говорят уверено, да разбират бързо и да използват английския извън класната стая.</p>
           <div class="actions">
-            <a class="btn primary" href="tel:+359888123456">
-              <span data-lang="bg">Запази безплатен тест</span>
-              <span data-lang="en">Book a free level test</span>
-            </a>
-            <a class="btn secondary" href="#contact">
-              <span data-lang="bg">Контакти</span>
-              <span data-lang="en">Contact us</span>
-            </a>
+            <a class="btn btn-primary btn-lg" href="test/">Тест за ниво</a>
+            <a class="btn btn-secondary btn-lg" href="enrollment/">Запиши се</a>
+          </div>
+          <div class="hero-meta">
+            <span class="hero-meta-item"><span class="dot" aria-hidden="true"></span>2.–12. клас</span>
+            <span class="hero-meta-item"><span class="dot" aria-hidden="true"></span>бул. „6-ти Септември“ 145, Пловдив</span>
+            <span class="hero-meta-item"><span class="dot" aria-hidden="true"></span><a href="tel:+359885712048">0885 712 048</a></span>
           </div>
         </div>
-        <div class="hero-card">
-          <div class="photo-frame"><img src="img/students.png" alt="Champion English school flyer" /></div>
-          <div class="offer-badge">
-            <span data-lang="bg">Ранно записване</span>
-            <span data-lang="en">Early enrollment</span>
-            <strong>-10%</strong>
-            <span data-lang="bg">до 31.08.26</span>
-            <span data-lang="en">until 31 Aug 2026</span>
+        <div class="hero-media">
+          <div class="photo-frame">
+            <div class="img-box">
+              <picture>
+                <source type="image/webp" srcset="img/students-hero-800.webp 800w, img/students-hero.webp 1400w" sizes="(min-width: 900px) 480px, 92vw">
+                <img src="img/students-hero.jpg" srcset="img/students-hero-800.jpg 800w, img/students-hero.jpg 1400w" sizes="(min-width: 900px) 480px, 92vw" width="1400" height="933" alt="Ученици, обучаващи се по английски език" loading="eager" fetchpriority="high">
+              </picture>
+            </div>
+          </div>
+          <div class="hero-badge">
+            <strong>2.–12. клас</strong>
+            <span>Групи по клас и ниво в Пловдив</span>
+          </div>
+        </div>
+      </div>
+    </section><section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">За Училище Чемпиън</p>
+          <h2 class="section-title">Училище по английски за ученици от 2. до 12. клас</h2>
+        </div>
+        <div class="grid grid-2">
+          <p class="section-lead">Училище Чемпиън предлага специализирано обучение по английски език в Пловдив за ученици от начален, прогимназиален и гимназиален етап — от 2. до 12. клас. Работим в групи, ясно определени по клас и ниво, за да може всеки ученик да напредва с подходящото за него темпо.</p>
+          <p class="section-lead">Целта ни е проста: учениците да излизат от часовете с реална увереност да говорят, пишат и разбират английски — не просто да наизустяват граматика за оценка.</p>
+        </div>
+      </div>
+    </section><section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Защо Училище Чемпиън</p>
+          <h2 class="section-title">Защо да изберете Училище Чемпиън</h2>
+        </div>
+        <div class="grid grid-3">
+          <div class="card"><div class="feature-icon" aria-hidden="true">🎯</div><h3>Ниво, определено точно</h3><p>За всеки ученик правим тест за ниво, преди да предложим група — така обучението не е нито прекалено лесно, нито прекалено трудно.</p></div><div class="card"><div class="feature-icon" aria-hidden="true">👥</div><h3>Групи по клас и ниво</h3><p>Групираме учениците по клас и по ниво на владеене на езика, а не само по възраст, за да учат с връстници на сходно ниво.</p></div><div class="card"><div class="feature-icon" aria-hidden="true">💬</div><h3>Фокус върху говоримия език</h3><p>Часовете съчетават граматика и лексика с практика в говоренето, за да могат учениците да прилагат английския извън класната стая.</p></div>
+        </div>
+      </div>
+    </section><section class="section" id="grades">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">По класове</p>
+          <h2 class="section-title">Обучение от 2. до 12. клас</h2>
+          <p class="section-lead">Групираме учениците в три основни степени, съобразени с училищната програма в България.</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="grade-card"><div class="range">2.–4. клас</div><p>Начален етап — първи стъпки в английския чрез игра, песни и лесни разговорни ситуации, изграждащи основа и увереност.</p></div><div class="grade-card"><div class="range">5.–7. клас</div><p>Прогимназиален етап — разширяване на речниковия запас и граматиката, с наблягане на четене, писане и говорене.</p></div><div class="grade-card"><div class="range">8.–12. клас</div><p>Гимназиален етап — задълбочена граматика, академична лексика и увереност пред писмени и устни изпитвания, матура и бъдещо обучение или работа, изискващи английски.</p></div>
+        </div>
+      </div>
+    </section><section class="section section-alt" id="approach">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Методика</p>
+          <h2 class="section-title">Как учим английски в Училище Чемпиън</h2>
+        </div>
+        <div class="approach-list">
+          <div class="approach-item"><span class="num">1</span><div><h3>Тест за ниво преди старт</h3><p>Всеки нов ученик преминава тест за ниво, за да попадне в подходяща по знания група.</p></div></div><div class="approach-item"><span class="num">2</span><div><h3>Малки групи</h3><p>Работим с ограничен брой ученици в група, за да имат всички възможност да говорят и да получават обратна връзка.</p></div></div><div class="approach-item"><span class="num">3</span><div><h3>Баланс между граматика и говорене</h3><p>Съчетаваме структурирано изучаване на граматика и лексика с практика в реални разговорни ситуации.</p></div></div><div class="approach-item"><span class="num">4</span><div><h3>Проследяване на напредъка</h3><p>Учениците и родителите получават редовна обратна връзка за развитието на езиковите умения.</p></div></div>
+        </div>
+      </div>
+    </section><section class="section" id="level-test">
+      <div class="container panel-split">
+        <div class="panel panel-navy">
+          <h2>Не сте сигурни кое ниво е подходящо?</h2>
+          <p>Тестът за ниво се провежда присъствено в училището, с участието на ученика — за да установим точното му ниво на владеене на английски и да препоръчаме подходяща група преди записване.</p>
+          <div class="actions"><a class="btn btn-primary" href="test/">Тест за ниво</a></div>
+        </div>
+        <div class="panel panel-gold">
+          <h3>Предстоящи дати за тест</h3>
+          <div class="stack">
+            <div><strong>24 и 25 септември, 1 и 2 октомври</strong><br><span style="font-size:13.5px">от 17:00ч и от 18:30ч</span></div>
+            <div><strong>Времетраене</strong><br><span style="font-size:13.5px">около 30 мин.</span></div>
+          </div>
+        </div>
+      </div>
+    </section><section class="section section-alt" id="schedule">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">График и цени</p>
+          <h2 class="section-title">Групи по клас, ниво и удобно за вас време</h2>
+          <p class="section-lead">Пълният график по дни и часове за всяко ниво ще намерите на страница „График и цени“, заедно с продължителността и цената на курса.</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="grade-card"><div class="range">2.–4. клас</div><p>Виж дните и часовете за нивата</p><span class="badge badge-gold">329 € / срок</span></div><div class="grade-card"><div class="range">5.–7. клас</div><p>Виж дните и часовете за нивата</p><span class="badge badge-gold">329 € / срок</span></div><div class="grade-card"><div class="range">8.–12. клас</div><p>Виж дните и часовете за нивата</p><span class="badge badge-gold">329 € / срок</span></div>
+        </div>
+        <div class="actions" style="margin-top:28px">
+          <a class="btn btn-navy" href="schedule-prices/">Виж графика и цените</a>
+        </div>
+      </div>
+    </section><section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>Готови сте да запишете детето си?</h2>
+            <p>Изпратете запитване онлайн или се обадете — ще потвърдим подходяща група заедно.</p>
+          </div>
+          <div class="actions">
+            <a class="btn btn-primary btn-lg" href="enrollment/">Запиши се</a>
+            <a class="btn btn-secondary btn-lg" href="test/" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">Тест за ниво</a>
+          </div>
+        </div>
+      </div>
+    </section><section class="section section-alt" id="location">
+      <div class="container grid grid-2">
+        <div>
+          <p class="eyebrow">Локация</p>
+          <h2 class="section-title">Намираме се в Пловдив</h2>
+          <div class="contact-list" style="margin-top:22px">
+            <div class="contact-row"><span class="ic" aria-hidden="true">📍</span><div><div class="lbl">Адрес</div><span class="val">бул. „6-ти Септември“ 145, Пловдив</span></div></div>
+            <div class="contact-row"><span class="ic" aria-hidden="true">📞</span><div><div class="lbl">Телефон</div><a href="tel:+359885712048">0885 712 048</a></div></div>
+          </div>
+          <div class="actions" style="margin-top:22px"><a class="btn btn-navy" href="contacts/">Виж контакти</a></div>
+        </div>
+        <div>
+          <div class="map-frame">
+            <iframe src="https://www.google.com/maps?q=42.150358,24.743059&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Карта с местоположението на Училище Чемпиън"></iframe>
+          </div>
+          <p style="margin-top:10px"><a class="btn-ghost" href="https://www.google.com/maps/search/?api=1&query=42.150358,24.743059" rel="noopener" target="_blank">Отвори в Google Maps ↗</a></p>
+        </div>
+      </div>
+    </section><section class="section">
+      <div class="container">
+        <div class="social-panel">
+          <div>
+            <h2>Последвайте ни в Instagram</h2>
+            <p>Новини, снимки от занятия и полезни материали за учениците на Училище Чемпиън.</p>
+          </div>
+          <a class="social-handle" href="https://www.instagram.com/champion.english.plovdiv/" rel="noopener" target="_blank">@champion.english.plovdiv</a>
+        </div>
+      </div>
+    </section><section class="section section-alt" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">FAQ</p>
+          <h2 class="section-title">Често задавани въпроси</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+          <summary>За кои класове е подходящо обучението в Училище Чемпиън?</summary>
+          <div class="faq-answer"><p>Училище Чемпиън предлага обучение по английски за ученици от 2. до 12. клас, разпределени в групи според клас и ниво на владеене на езика.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Как се определя нивото на ученика?</summary>
+          <div class="faq-answer"><p>Нивото се определя чрез кратък присъствен тест в самото училище — датите и часовете са посочени на страницата „Тест за ниво“, преди да изберете подходяща група.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Как протича тестът за ниво?</summary>
+          <div class="faq-answer"><p>Тестът се провежда на място в училището с личното участие на ученика и отнема около 30 минути. Резултатът ни помага да препоръчаме подходяща група.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Как да избера подходяща група?</summary>
+          <div class="faq-answer"><p>След теста за ниво препоръчваме група според клас и резултат. При записване можем да обсъдим и коригираме избора при нужда.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Къде се провеждат занятията?</summary>
+          <div class="faq-answer"><p>Занятията се провеждат в Пловдив, на бул. „6-ти Септември“ 145.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Как мога да запиша ученик?</summary>
+          <div class="faq-answer"><p>Записването става чрез формата на страница „Записване“ или по телефона на 0885 712 048. Ще се свържем с вас, за да потвърдим група и час.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Какъв е графикът на групите?</summary>
+          <div class="faq-answer"><p>Дните и часовете по клас и ниво са публикувани на страница „График и цени“. Повечето групи вече имат определен ден и час; отделни нива предстои да се уточнят.</p></div>
+        </details>
+<details class="faq-item">
+          <summary>Какви са цените за обучение?</summary>
+          <div class="faq-answer"><p>Цената е 329 евро за учебен срок от 120 учебни часа, с 10% отстъпка за второ дете от семейството. Подробности ще намерите на страница „График и цени“.</p></div>
+        </details>
+        </div>
+      </div>
+    </section><section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>Направете следващата стъпка</h2>
+            <p>Тест за ниво, записване или директен разговор с нас — изберете това, което е удобно за вас.</p>
+          </div>
+          <div class="actions">
+            <a class="btn btn-primary btn-lg" href="test/">Тест за ниво</a>
+            <a class="btn btn-secondary btn-lg" href="enrollment/" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">Запиши се</a>
+            <a class="btn btn-secondary btn-lg" href="contacts/" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">Свържи се с нас</a>
           </div>
         </div>
       </div>
     </section>
-
   </main>
-
-  <footer>
-    <div class="wrap">© 2026 Champion English · <span data-lang="bg">Училище Чемпиън</span><span data-lang="en">Champion School</span></div>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <span class="brand-mark"><picture><source type="image/webp" srcset="img/champion-logo.webp"><img src="img/champion-logo.png" width="640" height="350" alt="" loading="lazy" decoding="async"></picture></span>
+            <span class="name">Училище Чемпиън</span>
+          </div>
+          <p>Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив — с ясни нива, малки групи и фокус върху реалната комуникация.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Навигация</h3>
+          <ul><li><a href="./">Начало</a></li>
+<li><a href="#about">За Училище Чемпиън</a></li>
+<li><a href="test/">Тест за ниво</a></li>
+<li><a href="schedule-prices/">График и цени</a></li>
+<li><a href="enrollment/">Записване</a></li>
+<li><a href="contacts/">Контакти</a></li></ul>
+        </div>
+        <div class="footer-col">
+          <h3>Контакти</h3>
+          <ul>
+            <li><a href="tel:+359885712048">0885 712 048</a></li>
+            <li>бул. „6-ти Септември“ 145, Пловдив</li>
+            <li><a href="https://www.instagram.com/champion.english.plovdiv/" rel="noopener" target="_blank">@champion.english.plovdiv</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Правна информация</h3>
+          <ul><li><a href="privacy-policy/">Политика за поверителност</a></li>
+<li><a href="cookie-policy/">Политика за бисквитки</a></li></ul>
+          <div class="footer-lang">
+            <a href="./" aria-current="true">BG</a>
+            <a href="en/" aria-current="false">EN</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Училище Чемпиън. Всички права запазени.</span>
+      </div>
+      <p class="footer-note">Училището се управлява от Училище Чемпиън ЕООД, ЕИК 208821346, със седалище и адрес на управление: гр. Пловдив, ул. „Иглика“ 4.</p>
+    </div>
   </footer>
-
-  <script>
-    const root = document.documentElement;
-    const bgBtn = document.getElementById('bgBtn');
-    const enBtn = document.getElementById('enBtn');
-
-    function setLanguage(lang){
-      root.lang = lang;
-      bgBtn.setAttribute('aria-pressed', String(lang === 'bg'));
-      enBtn.setAttribute('aria-pressed', String(lang === 'en'));
-      localStorage.setItem('champion-language', lang);
-      document.title = lang === 'bg' ? 'Училище Чемпиън | Английски за ученици' : 'Champion English | English for students';
-      document.querySelector('meta[name="description"]').setAttribute('content', lang === 'bg'
-        ? 'Училище Чемпиън – курсове по английски за ученици в Пловдив.'
-        : 'Champion English – English courses for students in Plovdiv.');
-    }
-
-    bgBtn.addEventListener('click', () => setLanguage('bg'));
-    enBtn.addEventListener('click', () => setLanguage('en'));
-
-    const saved = localStorage.getItem('champion-language');
-    if(saved === 'en' || saved === 'bg') setLanguage(saved);
-  </script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
