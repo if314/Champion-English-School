@@ -611,7 +611,7 @@ def home_main(lang):
         <div class="cta-band">
           <div>
             <h2>{t("Готови сте да запишете детето си?", "Ready to enroll your child?", lang)}</h2>
-            <p>{t("Изпратете запитване онлайн или се обадете — ще потвърдим подходяща група заедно.", "Send an inquiry online or call us — we will confirm a suitable group together.", lang)}</p>
+            <p>{t("Обадете се или ни пишете в Instagram — ще потвърдим подходяща група заедно.", "Call us or message us on Instagram — we will confirm a suitable group together.", lang)}</p>
           </div>
           <div class="actions">
             <a class="btn btn-primary btn-lg" href="{enroll_url}">{cta_enroll}</a>
@@ -969,15 +969,15 @@ def build_schedule():
 
 def enrollment_main(lang):
     test_url = url_for(lang, "/test/", "/en/test/")
-    privacy_url = url_for(lang, "/privacy-policy/", "/en/privacy-policy/")
+    contacts_url = url_for(lang, "/contacts/", "/en/contacts/")
 
     steps = [
         (t("Направете тест за ниво", "Take the level test", lang),
          t("Ако все още не сте сигурни за нивото на ученика, елате на присъствения ни тест за ниво в училището.", "If you are not yet sure of the student's level, come to our in-person level test at the school.", lang)),
         (t("Изберете подходяща група", "Choose a suitable group", lang),
          t("Прегледайте групите по клас и ниво в „График и цени“ или се консултирайте с нас.", "Browse groups by grade and level on “Schedule & Prices” or ask us directly.", lang)),
-        (t("Изпратете запитване", "Send an inquiry", lang),
-         t("Попълнете формата по-долу или ни се обадете на 0885 712 048.", "Fill in the form below or call us at 0885 712 048.", lang)),
+        (t("Свържете се с нас", "Contact us", lang),
+         t("Обадете се, пишете ни във Viber или Instagram на 0885 712 048.", "Call us, or message us on Viber or Instagram, at 0885 712 048.", lang)),
         (t("Получете потвърждение", "Get confirmation", lang),
          t("Ще се свържем с вас, за да потвърдим свободно място, група, ден и час.", "We will contact you to confirm availability, group, day and time.", lang)),
         (t("Започнете обучение", "Start classes", lang),
@@ -988,84 +988,25 @@ def enrollment_main(lang):
         for i, (h, p) in enumerate(steps)
     )
 
-    grade_options = "".join(f'<option value="{g}">{g}</option>' for g in [
-        "2 клас", "3 клас", "4 клас", "5 клас", "6 клас", "7 клас",
-        "8 клас", "9 клас", "10 клас", "11 клас", "12 клас",
-    ]) if lang == "bg" else "".join(f'<option value="Grade {g}">Grade {g}</option>' for g in range(2, 13))
-
-    form = f"""<form class="form js-form" novalidate>
-      <div class="form-success" role="status">
-        {t("Благодарим ви! Получихме вашето запитване и ще се свържем с вас възможно най-скоро на посочения телефон или имейл.", "Thank you! We have received your inquiry and will contact you as soon as possible by phone or email.", lang)}
+    contact_card = f"""<div class="card" style="padding:32px">
+      <h2 class="sr-only">{t("Свържете се с нас за записване", "Contact us to enroll", lang)}</h2>
+      <div class="contact-list">
+        <div class="contact-row"><span class="ic" aria-hidden="true">📞</span><div><div class="lbl">{t("Тел. и Viber", "Phone & Viber", lang)}</div><a href="{SITE['phone_href']}">{SITE['phone_display']}</a></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">📷</span><div><div class="lbl">Instagram</div><a href="{SITE['instagram_url']}" rel="noopener" target="_blank">{SITE['instagram_handle']}</a></div></div>
       </div>
-      <div class="form-fields stack">
-        <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <div class="form-row form-row-2">
-          <div class="field">
-            <label for="parentName">{t("Име на родител", "Parent's name", lang)} *</label>
-            <input type="text" id="parentName" name="parentName" required autocomplete="name">
-            <span class="field-error">{t("Моля, въведете име.", "Please enter a name.", lang)}</span>
-          </div>
-          <div class="field">
-            <label for="studentName">{t("Име на ученика", "Student's name", lang)} *</label>
-            <input type="text" id="studentName" name="studentName" required autocomplete="off">
-            <span class="field-error">{t("Моля, въведете име на ученика.", "Please enter the student's name.", lang)}</span>
-          </div>
-        </div>
-        <div class="form-row form-row-2">
-          <div class="field">
-            <label for="grade">{t("Клас", "Grade", lang)} *</label>
-            <select id="grade" name="grade" required>
-              <option value="" selected disabled>{t("Изберете клас", "Select a grade", lang)}</option>
-              {grade_options}
-            </select>
-            <span class="field-error">{t("Моля, изберете клас.", "Please select a grade.", lang)}</span>
-          </div>
-          <div class="field">
-            <label for="phone">{t("Телефон", "Phone", lang)} *</label>
-            <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="08XX XXX XXX">
-            <span class="field-error">{t("Моля, въведете валиден телефон.", "Please enter a valid phone number.", lang)}</span>
-          </div>
-        </div>
-        <div class="form-row form-row-2">
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" autocomplete="email">
-            <span class="field-error">{t("Моля, въведете валиден имейл.", "Please enter a valid email.", lang)}</span>
-          </div>
-          <div class="field">
-            <label for="preferredTime">{t("Предпочитан ден/час", "Preferred day/time", lang)}</label>
-            <input type="text" id="preferredTime" name="preferredTime" placeholder="{t('напр. следобед, след 17ч.', 'e.g. afternoons, after 5pm', lang)}">
-          </div>
-        </div>
-        <fieldset>
-          <legend>{t("Предпочитан начин за контакт", "Preferred contact method", lang)}</legend>
-          <label class="radio-row"><input type="radio" name="contactMethod" value="phone" checked> {t("Телефон", "Phone", lang)}</label>
-          <label class="radio-row"><input type="radio" name="contactMethod" value="email"> Email</label>
-        </fieldset>
-        <div class="field">
-          <label for="message">{t("Допълнителна информация", "Additional information", lang)}</label>
-          <textarea id="message" name="message" rows="4"></textarea>
-        </div>
-        <label class="checkbox-row">
-          <input type="checkbox" name="consent" required>
-          <span class="consent">{t('Съгласен/на съм предоставените лични данни да бъдат използвани от Училище Чемпиън единствено за връзка във връзка със записване за обучение, съгласно', 'I agree that the personal data provided will be used by Champion School solely to contact me regarding enrollment, in accordance with the', lang)}
-          <a href="{privacy_url}">{t("Политиката за поверителност", "Privacy Policy", lang)}</a>. *</span>
-        </label>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">{t("Изпрати запитване", "Send inquiry", lang)}</button>
+      <div class="actions" style="margin-top:22px">
+        <a class="btn btn-primary btn-lg" href="{SITE['phone_href']}">{t("Обадете се", "Call us", lang)}</a>
+        <a class="btn btn-secondary btn-lg" href="{contacts_url}">{t("Виж контакти", "View contact details", lang)}</a>
       </div>
-    </form>
-    <!-- Integration note: on submit, POST the validated form data to the
-         school's chosen backend or transactional email service (e.g. a
-         serverless function or a form-to-email provider). No endpoint is
-         wired up yet because no address was supplied for this build. -->"""
+    </div>"""
 
     return f"""<section class="section-tight">
       <div class="container-narrow">
         <p class="eyebrow">{t("Записване", "Enrollment", lang)}</p>
         <h1 class="section-title">{t("Записване", "Enrollment", lang)}</h1>
         <p class="section-lead">{t(
-          "Записването в Училище Чемпиън става в няколко прости стъпки. Изпратете запитване чрез формата по-долу или се обадете директно — ще се свържем с вас, за да потвърдим подходяща група.",
-          "Enrolling at Champion School takes a few simple steps. Send an inquiry through the form below or call us directly — we will contact you to confirm a suitable group.",
+          "Записването в Училище Чемпиън става в няколко прости стъпки. Обадете се или ни пишете в Instagram — ще се свържем с вас, за да потвърдим подходяща група.",
+          "Enrolling at Champion School takes a few simple steps. Call us or message us on Instagram — we will contact you to confirm a suitable group.",
           lang)}</p>
       </div>
     </section>
@@ -1077,8 +1018,7 @@ def enrollment_main(lang):
     </section>
     <section class="section">
       <div class="container-narrow">
-        <h2 class="sr-only">{t("Изпратете запитване", "Send an inquiry", lang)}</h2>
-        <div class="card" style="padding:32px">{form}</div>
+        {contact_card}
       </div>
     </section>"""
 
@@ -1091,8 +1031,8 @@ def build_enrollment():
             lang,
         )
         desc = t(
-            "Запишете детето си за курс по английски в Училище Чемпиън, Пловдив. Изпратете запитване онлайн или се обадете на 0885 712 048.",
-            "Enroll your child in an English course at Champion School, Plovdiv. Send an inquiry online or call 0885 712 048.",
+            "Запишете детето си за курс по английски в Училище Чемпиън, Пловдив. Обадете се на 0885 712 048 или ни пишете в Instagram.",
+            "Enroll your child in an English course at Champion School, Plovdiv. Call 0885 712 048 or message us on Instagram.",
             lang,
         )
         breadcrumb = [
@@ -1166,21 +1106,23 @@ def legal_main(lang, kind):
         title = t("Политика за поверителност", "Privacy Policy", lang)
         body = f"""
         <p>{t(
-          "Училище Чемпиън събира лични данни (име на родител, име на ученик, клас, телефон, имейл и съобщение) единствено чрез формата за записване на този сайт, с цел да организира записване за обучение по английски език.",
-          "Champion School collects personal data (parent's name, student's name, grade, phone, email and message) only through this site's enrollment form, in order to arrange enrollment in an English course.",
+          "Уебсайтът на Училище Чемпиън не съдържа форми за въвеждане на лични данни и не събира, не съхранява и не обработва лични данни чрез сайта.",
+          "The Champion School website does not contain any forms for entering personal data, and does not collect, store, or process personal data through the site.",
           lang)}</p>
-        <h2>{t("Администратор на лични данни", "Data controller", lang)}</h2>
+        <p>{t(
+          "Ако се свържете с нас по телефон, Viber или Instagram, комуникацията се осъществява извън този уебсайт, чрез съответната услуга, и не е предмет на тази политика.",
+          "If you contact us by phone, Viber, or Instagram, that communication takes place outside this website, through the respective service, and is not covered by this policy.",
+          lang)}</p>
+        <h2>{t("Администратор на сайта", "Site operator", lang)}</h2>
         <p>{t(
           f"{SITE['legal_name']}, ЕИК {SITE['legal_eik']}, със седалище и адрес на управление: {SITE['legal_address_bg']}.",
           f"{SITE['legal_name']}, UIC (ЕИК) {SITE['legal_eik']}, registered office: {SITE['legal_address_en']}.",
           lang)}</p>
-        <h2>{t("Какви данни обработваме", "What data we process", lang)}</h2>
-        <p>{t("Име на родител/настойник, име на ученик, клас, телефон, имейл адрес и съдържанието на изпратеното съобщение.", "Parent/guardian name, student name, grade, phone number, email address, and the content of the message sent.", lang)}</p>
-        <h2>{t("Цел на обработването", "Purpose of processing", lang)}</h2>
-        <p>{t("Данните се използват единствено за връзка с вас във връзка с записване за обучение или отговор на запитване. Не се използват за маркетингови цели без изрично съгласие.", "The data is used solely to contact you regarding enrollment or to respond to an inquiry. It is not used for marketing purposes without explicit consent.", lang)}</p>
-        <h2>{t("Вашите права", "Your rights", lang)}</h2>
-        <p>{t("Съгласно приложимото законодателство за защита на личните данни имате право на достъп, коригиране, изтриване и възражение срещу обработването на личните ви данни. За да упражните тези права, свържете се с нас на", "Under applicable data protection law, you have the right to access, correct, delete, and object to the processing of your personal data. To exercise these rights, contact us at", lang)}
-        <a href="{SITE['phone_href']}">{SITE['phone_display']}</a>.</p>
+        <h2>{t("Бъдещи промени", "Future changes", lang)}</h2>
+        <p>{t(
+          "Ако в бъдеще добавим начин за събиране на лични данни чрез сайта (например форма за записване), тази политика ще бъде актуализирана съответно, включително информация за администратора, целите на обработване и правата ви като субект на данни.",
+          "If we add a way to collect personal data through the site in the future (for example, an enrollment form), this policy will be updated accordingly, including information about the data controller, the purposes of processing, and your rights as a data subject.",
+          lang)}</p>
         <h2>{t("Бисквитки", "Cookies", lang)}</h2>
         <p>{t("Информация за използваните бисквитки ще намерите в", "Information about the cookies used can be found in our", lang)}
         <a href="{url_for(lang, '/cookie-policy/', '/en/cookie-policy/')}">{t("Политиката за бисквитки", "Cookie Policy", lang)}</a>.</p>
@@ -1219,8 +1161,8 @@ def build_legal():
         ("privacy", "/privacy-policy/", "/en/privacy-policy/",
          t("Политика за поверителност | Училище Чемпиън", "Privacy Policy | Champion School", "bg"),
          "Политика за поверителност | Училище Чемпиън", "Privacy Policy | Champion School",
-         "Как Училище Чемпиън обработва личните данни, изпратени чрез формата за записване на сайта.",
-         "How Champion School processes personal data submitted through the site's enrollment form."),
+         "Уебсайтът на Училище Чемпиън не съдържа форми и не събира лични данни през сайта.",
+         "The Champion School website contains no forms and collects no personal data through the site."),
         ("cookie", "/cookie-policy/", "/en/cookie-policy/",
          None,
          "Политика за бисквитки | Училище Чемпиън", "Cookie Policy | Champion School",
@@ -1373,7 +1315,7 @@ Current class days, times and prices by grade and level are published on the Sch
 - [Home]({DOMAIN}/): what Champion School is, who it teaches, why families choose it, FAQ
 - [Level Test]({DOMAIN}/test/): in-person level test held at the school (not an online quiz); see the page for current test dates, times and how to book
 - [Schedule & Prices]({DOMAIN}/schedule-prices/): published days, times, duration and price by grade and level (a few levels still to be confirmed)
-- [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step, plus an inquiry form
+- [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step; contact by phone or Instagram
 - [Contact]({DOMAIN}/contacts/): address, phone, Instagram, map
 - [Privacy Policy]({DOMAIN}/privacy-policy/)
 - [Cookie Policy]({DOMAIN}/cookie-policy/)

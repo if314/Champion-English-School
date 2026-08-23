@@ -1,8 +1,8 @@
 /*
  * Champion / Чемпиън — shared site behaviour.
  * Progressive enhancement: all content below is already present in the
- * rendered HTML; this script only adds interactivity (mobile menu, form
- * validation feedback). Nothing here is required to read the page content.
+ * rendered HTML; this script only adds interactivity (mobile menu).
+ * Nothing here is required to read the page content.
  */
 (function () {
   "use strict";
@@ -39,61 +39,5 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeMenu();
     });
-  }
-
-  /* Generic form validation + demo submit handling.
-   * Real deployment: replace the `fakeSubmit` call with a fetch() to the
-   * chosen backend / email service (e.g. Formspree, a serverless function,
-   * or the school's own API), keeping the same validation logic. */
-  var forms = document.querySelectorAll(".js-form");
-
-  forms.forEach(function (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var valid = true;
-
-      form.querySelectorAll("[required]").forEach(function (input) {
-        var field = input.closest(".field");
-        var value = (input.value || "").trim();
-        var ok = value.length > 0;
-
-        if (ok && input.type === "email") {
-          ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-        }
-        if (ok && input.type === "tel") {
-          ok = /^[0-9+()\s-]{6,}$/.test(value);
-        }
-        if (input.type === "checkbox") {
-          ok = input.checked;
-        }
-
-        if (field) field.classList.toggle("has-error", !ok);
-        if (!ok) valid = false;
-      });
-
-      /* Honeypot spam trap: bots tend to fill every field. */
-      var honeypot = form.querySelector('input[name="website"]');
-      if (honeypot && honeypot.value) {
-        valid = false;
-      }
-
-      if (!valid) {
-        var firstError = form.querySelector(".has-error input, .has-error select, .has-error textarea");
-        if (firstError) firstError.focus();
-        return;
-      }
-
-      fakeSubmit(form);
-    });
-  });
-
-  function fakeSubmit(form) {
-    form.setAttribute("data-submitted", "true");
-    var success = form.querySelector(".form-success");
-    if (success) {
-      success.classList.add("is-visible");
-      success.setAttribute("tabindex", "-1");
-      success.focus();
-    }
   }
 })();
