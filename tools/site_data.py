@@ -29,6 +29,14 @@ SITE = {
     "instagram_url": "https://www.instagram.com/champion.english.plovdiv/",
     "maps_embed_src": "https://www.google.com/maps?q=%D0%B1%D1%83%D0%BB.%20%226-%D1%82%D0%B8%20%D0%A1%D0%B5%D0%BF%D1%82%D0%B5%D0%BC%D0%B2%D1%80%D0%B8%22%20145%2C%20%D0%9F%D0%BB%D0%BE%D0%B2%D0%B4%D0%B8%D0%B2&output=embed",
     "maps_link": "https://www.google.com/maps/search/?api=1&query=%D0%B1%D1%83%D0%BB.+%226-%D1%82%D0%B8+%D0%A1%D0%B5%D0%BF%D1%82%D0%B5%D0%BC%D0%B2%D1%80%D0%B8%22+145%2C+%D0%9F%D0%BB%D0%BE%D0%B2%D0%B4%D0%B8%D0%B2",
+    # Registered company details (legal entity operating the school) --
+    # used in the footer legal note and the privacy policy's "data
+    # controller" section. Distinct from the teaching address above,
+    # which is where classes are actually held.
+    "legal_name": "Училище Чемпиън ЕООД",
+    "legal_eik": "208821346",
+    "legal_address_bg": "гр. Пловдив, ул. „Иглика“ 4",
+    "legal_address_en": "4 Iglika St, Plovdiv, Bulgaria",
 }
 
 # ---------------------------------------------------------------------------

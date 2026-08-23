@@ -9,7 +9,6 @@ Run: python3 tools/build.py
 import json
 import os
 import re
-import textwrap
 
 from site_data import (
     DOMAIN, SITE, NAV_BG, NAV_EN, FOOTER_LEGAL_BG, FOOTER_LEGAL_EN,
@@ -63,7 +62,7 @@ def render_header(lang, active_key, bg_url, en_url):
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="{home_url}" aria-label="{brand_name} — {t("начало", "home", lang)}">
-        <span class="brand-mark"><img src="/img/champion-logo.png" width="640" height="350" alt="{logo_alt}"></span>
+        <span class="brand-mark"><picture><source type="image/webp" srcset="/img/champion-logo.webp"><img src="/img/champion-logo.png" width="640" height="350" alt="{logo_alt}" decoding="async"></picture></span>
         <span class="brand-text"><span class="name">{brand_name}</span><span class="tag">{brand_tag}</span></span>
       </a>
       <nav class="nav-links" aria-label="{nav_label}">
@@ -118,18 +117,17 @@ def render_footer(lang, bg_url, en_url):
 
     rights = t(f"© {YEAR} Чемпиън. Всички права запазени.", f"© {YEAR} Champion. All rights reserved.", lang)
     legal_note = t(
-        "Училището се управлява от [пълно наименование на дружеството], ЕИК [номер], със седалище и адрес на управление: [адрес на управление]. Данните предстои да бъдат допълнени.",
-        "Champion is operated by [company legal name], company ID [registration number], registered office: [registered address]. Details to be completed.",
+        f"Училището се управлява от {SITE['legal_name']}, ЕИК {SITE['legal_eik']}, със седалище и адрес на управление: {SITE['legal_address_bg']}.",
+        f"Champion is operated by {SITE['legal_name']}, UIC (ЕИК) {SITE['legal_eik']}, registered office: {SITE['legal_address_en']}.",
         lang,
     )
-    editable = t("Редактируемо", "Editable", lang)
 
     return f"""<footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
         <div>
           <div class="footer-brand">
-            <span class="brand-mark"><img src="/img/champion-logo.png" width="640" height="350" alt=""></span>
+            <span class="brand-mark"><picture><source type="image/webp" srcset="/img/champion-logo.webp"><img src="/img/champion-logo.png" width="640" height="350" alt="" loading="lazy" decoding="async"></picture></span>
             <span class="name">{brand_name}</span>
           </div>
           <p>{desc}</p>
@@ -158,7 +156,7 @@ def render_footer(lang, bg_url, en_url):
       <div class="footer-bottom">
         <span>{rights}</span>
       </div>
-      <p class="footer-note"><span class="badge badge-placeholder">{editable}</span> {legal_note}</p>
+      <p class="footer-note">{legal_note}</p>
     </div>
   </footer>"""
 
@@ -384,6 +382,46 @@ def write_file(rel_path, content):
     print("wrote", rel_path)
 
 
+# ---------------------------------------------------------------------------
+# CSS / JS minification
+#
+# No bundler is available in this environment (no node/npm, no pip access),
+# so these are small hand-rolled minifiers rather than a real parser. They
+# are deliberately conservative and were checked against the specific files
+# in tools/assets/ (no url(), no // comments, no regex literals containing
+# "//", calc()'s +/- operators never touched) -- if that source ever grows
+# more complex, re-verify these assumptions before trusting the output.
+# ---------------------------------------------------------------------------
+
+def minify_css(css):
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    css = re.sub(r"\s+", " ", css)
+    css = re.sub(r"\s*([{}:;,])\s*", r"\1", css)
+    css = re.sub(r";}", "}", css)
+    return css.strip()
+
+
+def minify_js(js):
+    """Strip /* */ comments, indentation and blank lines. Keeps one
+    statement per line (no token-level squeeze) to stay ASI-safe without
+    a real tokenizer."""
+    js = re.sub(r"/\*.*?\*/", "", js, flags=re.S)
+    lines = [line.strip() for line in js.split("\n")]
+    lines = [line for line in lines if line]
+    return "\n".join(lines)
+
+
+def build_assets():
+    src = os.path.join(ROOT, "tools", "assets")
+
+    css = open(os.path.join(src, "styles.css"), encoding="utf-8").read()
+    write_file("/assets/css/styles.css", minify_css(css))
+
+    for name in ("main.js", "level-test.js"):
+        js = open(os.path.join(src, name), encoding="utf-8").read()
+        write_file(f"/assets/js/{name}", minify_js(js))
+
+
 def faq_html(faq_list):
     return "\n".join(
         f'''<details class="faq-item">
@@ -433,10 +471,12 @@ def home_main(lang):
         </div>
         <div class="hero-media">
           <div class="photo-frame">
-            <picture>
-              <source type="image/webp" srcset="/img/students-hero-800.webp 800w, /img/students-hero.webp 1400w" sizes="(min-width: 900px) 480px, 92vw">
-              <img src="/img/students-hero.jpg" srcset="/img/students-hero-800.jpg 800w, /img/students-hero.jpg 1400w" sizes="(min-width: 900px) 480px, 92vw" width="1400" height="933" alt="{t('Ученици, обучаващи се по английски език', 'Students learning English', lang)}" loading="eager" fetchpriority="high">
-            </picture>
+            <div class="img-box">
+              <picture>
+                <source type="image/webp" srcset="/img/students-hero-800.webp 800w, /img/students-hero.webp 1400w" sizes="(min-width: 900px) 480px, 92vw">
+                <img src="/img/students-hero.jpg" srcset="/img/students-hero-800.jpg 800w, /img/students-hero.jpg 1400w" sizes="(min-width: 900px) 480px, 92vw" width="1400" height="933" alt="{t('Ученици, обучаващи се по английски език', 'Students learning English', lang)}" loading="eager" fetchpriority="high">
+              </picture>
+            </div>
           </div>
           <div class="hero-badge">
             <strong>{t("2.–12. клас", "Grades 2-12", lang)}</strong>
@@ -1091,7 +1131,6 @@ def build_contacts():
 
 
 def legal_main(lang, kind):
-    editable = t("Редактируемо", "Editable", lang)
     privacy_url = url_for(lang, "/privacy-policy/", "/en/privacy-policy/")
     if kind == "privacy":
         title = t("Политика за поверителност", "Privacy Policy", lang)
@@ -1101,16 +1140,14 @@ def legal_main(lang, kind):
           "Champion collects personal data (parent's name, student's name, grade, phone, email and message) only through this site's enrollment and contact forms, in order to respond to an inquiry or arrange enrollment in an English course.",
           lang)}</p>
         <h2>{t("Администратор на лични данни", "Data controller", lang)}</h2>
-        <p><span class="badge badge-placeholder">{editable}</span> {t(
-          "[Пълно наименование на дружеството], ЕИК [ЕИК номер], със седалище и адрес на управление: [адрес на управление на дружеството].",
-          "[Company legal name], company ID [registration number], registered office: [registered address].",
+        <p>{t(
+          f"{SITE['legal_name']}, ЕИК {SITE['legal_eik']}, със седалище и адрес на управление: {SITE['legal_address_bg']}.",
+          f"{SITE['legal_name']}, UIC (ЕИК) {SITE['legal_eik']}, registered office: {SITE['legal_address_en']}.",
           lang)}</p>
         <h2>{t("Какви данни обработваме", "What data we process", lang)}</h2>
         <p>{t("Име на родител/настойник, име на ученик, клас, телефон, имейл адрес и съдържанието на изпратеното съобщение.", "Parent/guardian name, student name, grade, phone number, email address, and the content of the message sent.", lang)}</p>
         <h2>{t("Цел на обработването", "Purpose of processing", lang)}</h2>
         <p>{t("Данните се използват единствено за връзка с вас във връзка с записване за обучение или отговор на запитване. Не се използват за маркетингови цели без изрично съгласие.", "The data is used solely to contact you regarding enrollment or to respond to an inquiry. It is not used for marketing purposes without explicit consent.", lang)}</p>
-        <h2>{t("Съхранение", "Retention", lang)}</h2>
-        <p><span class="badge badge-placeholder">{editable}</span> {t("Срокът на съхранение на данните предстои да бъде определен и допълнен тук.", "The data retention period is to be determined and added here.", lang)}</p>
         <h2>{t("Вашите права", "Your rights", lang)}</h2>
         <p>{t("Съгласно приложимото законодателство за защита на личните данни имате право на достъп, коригиране, изтриване и възражение срещу обработването на личните ви данни. За да упражните тези права, свържете се с нас на", "Under applicable data protection law, you have the right to access, correct, delete, and object to the processing of your personal data. To exercise these rights, contact us at", lang)}
         <a href="{SITE['phone_href']}">{SITE['phone_display']}</a>.</p>
@@ -1130,7 +1167,7 @@ def legal_main(lang, kind):
         <p>{t("Повечето браузъри позволяват управление и изтриване на бисквитки чрез настройките си. Ограничаването на бисквитките може да засегне функционалността на някои сайтове.", "Most browsers allow you to manage and delete cookies through their settings. Restricting cookies may affect the functionality of some websites.", lang)}</p>
         <p>{t("За въпроси относно тази политика, свържете се с нас на", "For questions about this policy, contact us at", lang)}
         <a href="{SITE['phone_href']}">{SITE['phone_display']}</a>.</p>
-        <p><span class="badge badge-placeholder">{editable}</span> {t("Пълното правно наименование на дружеството-администратор предстои да бъде добавено тук, вижте", "The full legal name of the controlling company is to be added here, see the", lang)}
+        <p>{t(f"Бисквитките на този сайт се управляват от {SITE['legal_name']}, ЕИК {SITE['legal_eik']}. Пълни данни за администратора на лични данни ще намерите в", f"Cookies on this site are managed by {SITE['legal_name']}, UIC (ЕИК) {SITE['legal_eik']}. Full data-controller details are available in the", lang)}
         <a href="{privacy_url}">{t("Политиката за поверителност", "Privacy Policy", lang)}</a>.</p>
         """
 
@@ -1206,6 +1243,55 @@ PAGE_PAIRS = [
 ]
 
 
+def build_htaccess():
+    """
+    Apache config for compression + a few safe, related defaults. Only
+    relevant on an Apache/LiteSpeed host that reads .htaccess -- GitHub
+    Pages (this repo's CNAME target) ignores it entirely and gzip/brotli-
+    compresses everything automatically via its own CDN regardless. Keep
+    this file for portability if the site is ever self-hosted on Apache.
+    """
+    content = """# Compression -----------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/rss+xml application/ld+json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  <IfModule mod_setenvif.c>
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\\.0[678] no-gzip
+    BrowserMatch \\bMSIE !no-gzip !gzip-only-text/html
+  </IfModule>
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
+  AddOutputFilterByType BROTLI_COMPRESS application/xml application/xhtml+xml application/ld+json
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+</IfModule>
+
+# Already-compressed formats: don't try to recompress them.
+<IfModule mod_deflate.c>
+  SetEnvIfNoCase Request_URI \\.(?:jpe?g|png|webp|gif|ico|woff2?)$ no-gzip
+</IfModule>
+
+# Caching ------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType text/html               "access plus 0 seconds"
+</IfModule>
+"""
+    write_file("/.htaccess", content)
+
+
 def build_robots():
     content = f"""User-agent: *
 Allow: /
@@ -1234,7 +1320,51 @@ def build_sitemap():
     write_file("/sitemap.xml", content)
 
 
+def build_llms_txt():
+    """
+    llms.txt -- a plain-text/Markdown briefing for AI assistants and LLM
+    crawlers (distinct from robots.txt, which only grants crawl permission).
+    Emerging convention: H1 title, a one-line blockquote summary, then
+    Markdown-link sections. Content here is limited to facts already
+    published elsewhere on the site -- nothing new is asserted.
+    """
+    content = f"""# Champion / Чемпиън
+
+> English language school in Plovdiv, Bulgaria, teaching students in grades 2 through 12. Bulgarian-first site with a full English version under /en/.
+
+Champion ({SITE['full_name_en']}, registered as {SITE['legal_name']}, UIC {SITE['legal_eik']}) teaches English as a foreign language to school-age students, grouped by grade and by English level (Beginner through Advanced / CEFR A1-C1). Classes are held in Plovdiv, Bulgaria, at {SITE['address_street_en']}. Phone: {SITE['phone_display']} ({SITE['phone_href']}). Instagram: {SITE['instagram_handle']} ({SITE['instagram_url']}).
+
+Exact class schedules and prices are confirmed per group each school year and are not published as fixed data; see the Schedule & Prices page for the current state and contact details.
+
+## Key pages (Bulgarian, default)
+
+- [Home]({DOMAIN}/): what Champion is, who it teaches, why families choose it, FAQ
+- [Level Test]({DOMAIN}/test/): free 10-question self-assessment placing a student into an approximate English level (not an official CEFR exam)
+- [Schedule & Prices]({DOMAIN}/schedule-prices/): group structure by grade/level; exact days, times and prices confirmed on request
+- [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step, plus an inquiry form
+- [Contact]({DOMAIN}/contacts/): address, phone, Instagram, contact form
+- [Privacy Policy]({DOMAIN}/privacy-policy/)
+- [Cookie Policy]({DOMAIN}/cookie-policy/)
+
+## Key pages (English)
+
+- [Home]({DOMAIN}/en/)
+- [Level Test]({DOMAIN}/en/test/)
+- [Schedule & Prices]({DOMAIN}/en/schedule-prices/)
+- [Enrollment]({DOMAIN}/en/enrollment/)
+- [Contact]({DOMAIN}/en/contacts/)
+
+## Notes for automated systems
+
+- The site is static HTML; all page content (including FAQ answers and the level-test questions) is present in the initial HTML response, not injected client-side.
+- Structured data (Schema.org JSON-LD: EducationalOrganization, LocalBusiness, WebSite, WebPage, BreadcrumbList, FAQPage) is embedded on every page and is the preferred source for structured facts.
+- Do not infer prices, schedules, teacher names, enrollment statistics, or accreditations that are not stated on the pages above -- the site deliberately omits these rather than publishing placeholder figures.
+"""
+    write_file("/llms.txt", content)
+
+
 def main():
+    build_assets()
     build_home()
     build_test()
     build_schedule()
@@ -1243,6 +1373,8 @@ def main():
     build_legal()
     build_robots()
     build_sitemap()
+    build_llms_txt()
+    build_htaccess()
     print("\nDone.")
 
 

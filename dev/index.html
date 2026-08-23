@@ -38,7 +38,7 @@
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="./" aria-label="Чемпиън — начало">
-        <span class="brand-mark"><img src="img/champion-logo.png" width="640" height="350" alt="Лого на училище Чемпиън"></span>
+        <span class="brand-mark"><picture><source type="image/webp" srcset="img/champion-logo.webp"><img src="img/champion-logo.png" width="640" height="350" alt="Лого на училище Чемпиън" decoding="async"></picture></span>
         <span class="brand-text"><span class="name">Чемпиън</span><span class="tag">Училище по английски</span></span>
       </a>
       <nav class="nav-links" aria-label="Основна навигация">
@@ -102,10 +102,12 @@
         </div>
         <div class="hero-media">
           <div class="photo-frame">
-            <picture>
-              <source type="image/webp" srcset="img/students-hero-800.webp 800w, img/students-hero.webp 1400w" sizes="(min-width: 900px) 480px, 92vw">
-              <img src="img/students-hero.jpg" srcset="img/students-hero-800.jpg 800w, img/students-hero.jpg 1400w" sizes="(min-width: 900px) 480px, 92vw" width="1400" height="933" alt="Ученици, обучаващи се по английски език" loading="eager" fetchpriority="high">
-            </picture>
+            <div class="img-box">
+              <picture>
+                <source type="image/webp" srcset="img/students-hero-800.webp 800w, img/students-hero.webp 1400w" sizes="(min-width: 900px) 480px, 92vw">
+                <img src="img/students-hero.jpg" srcset="img/students-hero-800.jpg 800w, img/students-hero.jpg 1400w" sizes="(min-width: 900px) 480px, 92vw" width="1400" height="933" alt="Ученици, обучаващи се по английски език" loading="eager" fetchpriority="high">
+              </picture>
+            </div>
           </div>
           <div class="hero-badge">
             <strong>2.–12. клас</strong>
@@ -286,7 +288,7 @@
       <div class="footer-grid">
         <div>
           <div class="footer-brand">
-            <span class="brand-mark"><img src="img/champion-logo.png" width="640" height="350" alt=""></span>
+            <span class="brand-mark"><picture><source type="image/webp" srcset="img/champion-logo.webp"><img src="img/champion-logo.png" width="640" height="350" alt="" loading="lazy" decoding="async"></picture></span>
             <span class="name">Чемпиън</span>
           </div>
           <p>Чемпиън е училище по английски език в Пловдив за ученици от 2. до 12. клас — с ясни нива, малки групи и фокус върху реалната комуникация.</p>
@@ -321,7 +323,7 @@
       <div class="footer-bottom">
         <span>© 2026 Чемпиън. Всички права запазени.</span>
       </div>
-      <p class="footer-note"><span class="badge badge-placeholder">Редактируемо</span> Училището се управлява от [пълно наименование на дружеството], ЕИК [номер], със седалище и адрес на управление: [адрес на управление]. Данните предстои да бъдат допълнени.</p>
+      <p class="footer-note">Училището се управлява от Училище Чемпиън ЕООД, ЕИК 208821346, със седалище и адрес на управление: гр. Пловдив, ул. „Иглика“ 4.</p>
     </div>
   </footer>
   <script src="assets/js/main.js" defer></script>
