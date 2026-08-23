@@ -94,7 +94,7 @@ FAQ_BG = [
     ("Какъв е графикът на групите?",
      "Дните и часовете по клас и ниво са публикувани на страница „График и цени“. Повечето групи вече имат определен ден и час; отделни нива предстои да се уточнят."),
     ("Какви са цените за обучение?",
-     "Цената е 329 евро за учебен срок от 120 учебни часа, с 10% отстъпка за второ дете от семейството. Подробности ще намерите на страница „График и цени“."),
+     "Цената е 329 € за учебен срок от 120 учебни часа, с 10% отстъпка за второ дете от семейството. Подробности ще намерите на страница „График и цени“."),
 ]
 FAQ_EN = [
     ("Which grades is Champion School suitable for?",
@@ -112,5 +112,5 @@ FAQ_EN = [
     ("What is the groups' schedule?",
      "Days and times by grade and level are published on the “Schedule & Prices” page. Most groups already have a set day and time; a few levels are still to be confirmed."),
     ("What are the prices?",
-     "The price is EUR 329 per school term of 120 teaching hours, with a 10% discount for a second child from the same family. See the “Schedule & Prices” page for details."),
+     "The price is €329 per school term of 120 teaching hours, with a 10% discount for a second child from the same family. See the “Schedule & Prices” page for details."),
 ]
