@@ -103,7 +103,7 @@ table{border-collapse:collapse;width:100%}
 .eyebrow::before{content:"";width:26px;height:3px;background:var(--gold);border-radius:10px;flex:none}
 .section-head{max-width:720px;margin-bottom:36px}
 .section-title{font-size:clamp(28px,4vw,42px);margin:14px 0 12px;letter-spacing:-.01em}
-.section-lead{color:var(--muted);font-size:17px;max-width:640px}
+.section-lead{color:var(--muted);font-size:17px}
 .center{text-align:center;margin-inline:auto}
 
 /* ---------- Buttons ---------- */
@@ -153,7 +153,6 @@ table{border-collapse:collapse;width:100%}
 .brand-text .tag{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
 
 .nav-links{display:none}
-.nav-cta{display:none}
 .nav-right{display:flex;align-items:center;gap:8px;flex:none}
 
 .lang-switch{display:inline-flex;padding:3px;background:#fff;border:1px solid var(--line);border-radius:var(--radius-pill);box-shadow:var(--shadow-sm)}
@@ -182,23 +181,24 @@ table{border-collapse:collapse;width:100%}
   display:block;padding:15px 6px;font-weight:700;color:var(--navy);text-decoration:none;
   border-bottom:1px solid var(--line-soft);font-size:17px;
 }
-.mobile-nav .mobile-cta{margin-top:18px;display:flex;flex-direction:column;gap:12px}
-.mobile-nav .mobile-contact{margin-top:22px;padding-top:20px;border-top:1px solid var(--line-soft);color:var(--muted);font-size:14.5px;display:flex;flex-direction:column;gap:8px}
-.mobile-nav .mobile-contact a{border:0;padding:0;font-weight:700;color:var(--navy)}
+.mobile-nav a.is-cta{
+  background:var(--gold);color:var(--navy);border-bottom:0;border-radius:var(--radius-sm);
+  text-align:center;margin-top:14px;padding:14px 6px;
+}
 
-@media (min-width:1420px){
+@media (min-width:1100px){
   .nav-links{display:flex;align-items:center;gap:1px}
   .nav-links a{
     display:inline-block;padding:9px 12px;border-radius:var(--radius-pill);color:var(--navy);
     font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;
   }
   .nav-links a:hover, .nav-links a[aria-current="page"]{background:var(--navy-tint)}
-  .nav-cta{display:flex;align-items:center;gap:8px}
-  .nav-cta .btn{min-height:42px;padding:0 15px;font-size:14px;white-space:nowrap}
+  .nav-links a.is-cta{background:var(--gold);color:var(--navy)}
+  .nav-links a.is-cta:hover{background:var(--gold-2)}
   .menu-toggle{display:none}
   .mobile-nav{display:none !important}
 }
-@media (max-width:1419px){
+@media (max-width:1099px){
   .brand-text .tag{display:none}
 }
 @media (max-width:360px){
@@ -336,13 +336,6 @@ table{border-collapse:collapse;width:100%}
   .schedule-card dd{margin:0;font-weight:600;font-size:14.5px}
 }
 
-.notice-box{
-  display:flex;gap:14px;background:var(--gold-tint);border:1px solid #eccf8f;border-radius:var(--radius);
-  padding:20px 22px;color:#6b4a05;
-}
-.notice-box p{margin:0;font-size:14.5px;color:#6b4a05}
-.notice-box strong{color:#513701}
-
 /* ---------- Forms ---------- */
 .form{display:grid;gap:18px}
 .form-row{display:grid;gap:18px}
@@ -376,45 +369,6 @@ fieldset legend{font-weight:700;font-size:14px;color:var(--navy);padding:0 6px}
 .form-success.is-visible{display:block}
 .form[data-submitted="true"] .form-fields{display:none}
 .honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-
-/* ---------- Level test ---------- */
-.test-shell{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--line-soft);box-shadow:var(--shadow);padding:30px 24px;max-width:760px;margin-inline:auto}
-.test-progress{display:flex;align-items:center;gap:14px;margin-bottom:26px}
-.progress-track{flex:1;height:8px;background:var(--navy-tint);border-radius:var(--radius-pill);overflow:hidden}
-.progress-fill{height:100%;background:var(--gold);width:0%;transition:width .25s ease}
-.progress-label{font-size:13px;font-weight:800;color:var(--navy);white-space:nowrap}
-.test-question{display:none}
-.test-question.is-active{display:block}
-.test-question .q-eyebrow{font-size:12.5px;font-weight:800;color:var(--gold-ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
-.test-question h2{font-size:22px;margin:0 0 20px}
-.test-options{display:grid;gap:10px}
-.test-option{display:block}
-.test-option input{position:absolute;opacity:0}
-.test-option .opt-face{
-  display:flex;align-items:center;gap:12px;padding:15px 16px;border:1.5px solid var(--line);
-  border-radius:var(--radius-sm);cursor:pointer;font-weight:600;
-}
-.test-option .letter{
-  width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;
-  font-size:13px;font-weight:800;color:var(--muted);flex:none;
-}
-.test-option input:checked + .opt-face{border-color:var(--navy);background:var(--navy-tint)}
-.test-option input:checked + .opt-face .letter{background:var(--navy);border-color:var(--navy);color:#fff}
-.test-option input:focus-visible + .opt-face{outline:3px solid var(--gold);outline-offset:2px}
-.test-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px}
-.test-nowscript{display:none}
-.no-js .test-interactive-only{display:none}
-.no-js .test-nowscript{display:block}
-
-.result-panel{display:none}
-.result-panel.is-active{display:block}
-.result-level{
-  display:inline-flex;flex-direction:column;gap:2px;background:var(--navy);color:#fff;
-  border-radius:var(--radius);padding:20px 26px;margin-bottom:18px;
-}
-.result-level .lvl-name{font-family:var(--font-head);font-size:28px;color:var(--gold-soft)}
-.result-level .lvl-cefr{font-size:13px;color:#c9d8e7;font-weight:700;letter-spacing:.04em}
-.result-disclaimer{font-size:13px;color:var(--muted-2);background:var(--sky-tint);border-radius:var(--radius-sm);padding:14px 16px;margin:16px 0}
 
 /* ---------- Instagram / social ---------- */
 .social-panel{
@@ -465,7 +419,7 @@ fieldset legend{font-weight:700;font-size:14px;color:var(--navy);padding:0 6px}
 .footer-lang{display:inline-flex;gap:8px}
 .footer-lang a{color:#cfdcea;font-weight:700;text-decoration:none}
 .footer-lang a[aria-current="true"]{color:#fff;text-decoration:underline}
-.footer-note{font-size:12.5px;color:#7f95ab;margin-top:16px;max-width:640px}
+.footer-note{font-size:12.5px;color:#7f95ab;margin-top:16px}
 
 /* ---------- Utility ---------- */
 .mt-0{margin-top:0}

@@ -4,12 +4,12 @@
 
 Champion School (Champion English Language School, registered as Училище Чемпиън ЕООД, UIC 208821346) teaches English as a foreign language to school-age students, grouped by grade and by English level (Beginner through Advanced / CEFR A1-C1). Classes are held in Plovdiv, Bulgaria, at 145 Shesti Septemvri Blvd. Phone: 0885 712 048 (tel:+359885712048). Instagram: @champion.english.plovdiv (https://www.instagram.com/champion.english.plovdiv/).
 
-Exact class schedules and prices are confirmed per group each school year and are not published as fixed data; see the Schedule & Prices page for the current state and contact details.
+Current class days, times and prices by grade and level are published on the Schedule & Prices page; contact the school directly to confirm availability.
 
 ## Key pages (Bulgarian, default)
 
 - [Home](https://championenglishplovdiv.com/): what Champion School is, who it teaches, why families choose it, FAQ
-- [Level Test](https://championenglishplovdiv.com/test/): free 10-question self-assessment placing a student into an approximate English level (not an official CEFR exam)
+- [Level Test](https://championenglishplovdiv.com/test/): in-person level test held at the school (not an online quiz); see the page for current test dates, times and how to book
 - [Schedule & Prices](https://championenglishplovdiv.com/schedule-prices/): group structure by grade/level; exact days, times and prices confirmed on request
 - [Enrollment](https://championenglishplovdiv.com/enrollment/): how to enroll a student, step by step, plus an inquiry form
 - [Contact](https://championenglishplovdiv.com/contacts/): address, phone, Instagram, contact form
@@ -26,6 +26,6 @@ Exact class schedules and prices are confirmed per group each school year and ar
 
 ## Notes for automated systems
 
-- The site is static HTML; all page content (including FAQ answers and the level-test questions) is present in the initial HTML response, not injected client-side.
+- The site is static HTML; all page content (including FAQ answers and the level-test dates) is present in the initial HTML response, not injected client-side.
 - Structured data (Schema.org JSON-LD: EducationalOrganization, LocalBusiness, WebSite, WebPage, BreadcrumbList, FAQPage) is embedded on every page and is the preferred source for structured facts.
 - Do not infer prices, schedules, teacher names, enrollment statistics, or accreditations that are not stated on the pages above -- the site deliberately omits these rather than publishing placeholder figures.

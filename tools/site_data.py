@@ -69,83 +69,35 @@ FOOTER_LEGAL_EN = [
 ]
 
 # ---------------------------------------------------------------------------
-# Level test questions (language-neutral: it is an English test).
-# Only the chrome around it (title, buttons, messages) is translated.
+# Reference levels shown on the level-test page (not tied to a scored quiz --
+# the test itself is held in person at the school).
 # ---------------------------------------------------------------------------
-TEST_QUESTIONS = [
-    {
-        "tag": "A1", "q": "I ___ a student.",
-        "options": [("A", "is", False), ("B", "am", True), ("C", "are", False), ("D", "be", False)],
-    },
-    {
-        "tag": "A1", "q": "This is ___ apple.",
-        "options": [("A", "a", False), ("B", "an", True), ("C", "the", False), ("D", "—", False)],
-    },
-    {
-        "tag": "A2", "q": "She ___ to school every day.",
-        "options": [("A", "go", False), ("B", "going", False), ("C", "goes", True), ("D", "gone", False)],
-    },
-    {
-        "tag": "A2", "q": "There ___ many books on the shelf.",
-        "options": [("A", "is", False), ("B", "are", True), ("C", "be", False), ("D", "was", False)],
-    },
-    {
-        "tag": "B1", "q": "If it rains tomorrow, we ___ the picnic.",
-        "options": [("A", "cancel", False), ("B", "will cancel", True), ("C", "canceled", False), ("D", "cancelling", False)],
-    },
-    {
-        "tag": "B1", "q": "I have lived here ___ 2015.",
-        "options": [("A", "for", False), ("B", "since", True), ("C", "at", False), ("D", "during", False)],
-    },
-    {
-        "tag": "B2", "q": "By next year, she ___ her studies.",
-        "options": [("A", "will finish", False), ("B", "finishes", False), ("C", "will have finished", True), ("D", "finished", False)],
-    },
-    {
-        "tag": "B2", "q": "Choose the word closest in meaning to “reluctant”.",
-        "options": [("A", "eager", False), ("B", "certain", False), ("C", "unwilling", True), ("D", "angry", False)],
-    },
-    {
-        "tag": "C1", "q": "Hardly ___ the meeting started when the fire alarm rang.",
-        "options": [("A", "had", True), ("B", "has", False), ("C", "did", False), ("D", "was", False)],
-    },
-    {
-        "tag": "C1", "q": "Choose the correct sentence.",
-        "options": [
-            ("A", "Despite of the rain, we went out.", False),
-            ("B", "Despite the rain, we went out.", True),
-            ("C", "Although the rain, we went out.", False),
-            ("D", "In spite the rain, we went out.", False),
-        ],
-    },
-]
-
 LEVELS_BG = [
-    {"min": 0, "max": 1, "name": "Начинаещи", "cefr": "Ориентировъчно ниво A1 · Beginner",
+    {"name": "Начинаещи", "cefr": "Ориентировъчно ниво A1 · Beginner",
      "description": "Ученикът прави първи стъпки в английския език. Препоръчваме групи с фокус върху основна лексика, произношение и прости изречения."},
-    {"min": 2, "max": 3, "name": "Елементарно ниво", "cefr": "Ориентировъчно ниво A1–A2 · Elementary",
+    {"name": "Елементарно ниво", "cefr": "Ориентировъчно ниво A1–A2 · Elementary",
      "description": "Ученикът разбира и използва познати думи и изрази в прости ситуации. Подходящи са групи, изграждащи по-широк речников запас и основна граматика."},
-    {"min": 4, "max": 5, "name": "Предсредно ниво", "cefr": "Ориентировъчно ниво A2–B1 · Pre-Intermediate",
+    {"name": "Предсредно ниво", "cefr": "Ориентировъчно ниво A2–B1 · Pre-Intermediate",
      "description": "Ученикът се справя с познати теми и прости разговори. Препоръчваме групи с фокус върху разширяване на граматиката и увереност в говоренето."},
-    {"min": 6, "max": 7, "name": "Средно ниво", "cefr": "Ориентировъчно ниво B1–B2 · Intermediate",
+    {"name": "Средно ниво", "cefr": "Ориентировъчно ниво B1–B2 · Intermediate",
      "description": "Ученикът разбира и изразява мнение по познати и по-абстрактни теми. Подходящи са групи с по-задълбочена граматика и практика в говоренето и писането."},
-    {"min": 8, "max": 9, "name": "Средно напреднало ниво", "cefr": "Ориентировъчно ниво B2 · Upper-Intermediate",
+    {"name": "Средно напреднало ниво", "cefr": "Ориентировъчно ниво B2 · Upper-Intermediate",
      "description": "Ученикът общува свободно на широк кръг теми с добра граматическа точност. Препоръчваме групи с фокус върху академична лексика и по-сложни текстове."},
-    {"min": 10, "max": 10, "name": "Напреднало ниво", "cefr": "Ориентировъчно ниво C1 · Advanced",
+    {"name": "Напреднало ниво", "cefr": "Ориентировъчно ниво C1 · Advanced",
      "description": "Ученикът владее английски на високо ниво, включително по-сложни граматически структури и нюанси в изразяването. Подходящи са напреднали групи с академичен и практически фокус."},
 ]
 LEVELS_EN = [
-    {"min": 0, "max": 1, "name": "Beginner", "cefr": "Approximate level A1 · Beginner",
+    {"name": "Beginner", "cefr": "Approximate level A1 · Beginner",
      "description": "The student is taking their first steps in English. We recommend groups focused on core vocabulary, pronunciation and simple sentences."},
-    {"min": 2, "max": 3, "name": "Elementary", "cefr": "Approximate level A1–A2 · Elementary",
+    {"name": "Elementary", "cefr": "Approximate level A1–A2 · Elementary",
      "description": "The student understands and uses familiar words and phrases in simple situations. Groups that build a wider vocabulary and basic grammar are a good fit."},
-    {"min": 4, "max": 5, "name": "Pre-Intermediate", "cefr": "Approximate level A2–B1 · Pre-Intermediate",
+    {"name": "Pre-Intermediate", "cefr": "Approximate level A2–B1 · Pre-Intermediate",
      "description": "The student can handle familiar topics and simple conversations. We recommend groups that expand grammar and build speaking confidence."},
-    {"min": 6, "max": 7, "name": "Intermediate", "cefr": "Approximate level B1–B2 · Intermediate",
+    {"name": "Intermediate", "cefr": "Approximate level B1–B2 · Intermediate",
      "description": "The student understands and expresses opinions on familiar and some abstract topics. Groups with deeper grammar and more speaking and writing practice fit well."},
-    {"min": 8, "max": 9, "name": "Upper-Intermediate", "cefr": "Approximate level B2 · Upper-Intermediate",
+    {"name": "Upper-Intermediate", "cefr": "Approximate level B2 · Upper-Intermediate",
      "description": "The student communicates fluently on a wide range of topics with good grammatical accuracy. We recommend groups focused on academic vocabulary and more complex texts."},
-    {"min": 10, "max": 10, "name": "Advanced", "cefr": "Approximate level C1 · Advanced",
+    {"name": "Advanced", "cefr": "Approximate level C1 · Advanced",
      "description": "The student has a strong command of English, including complex grammar and nuanced expression. Advanced groups with an academic and practical focus are suitable."},
 ]
 
@@ -156,9 +108,9 @@ FAQ_BG = [
     ("За кои класове е подходящо обучението в Училище Чемпиън?",
      "Училище Чемпиън предлага обучение по английски за ученици от 2. до 12. клас, разпределени в групи според клас и ниво на владеене на езика."),
     ("Как се определя нивото на ученика?",
-     "Нивото се определя чрез безплатен онлайн тест за ниво, който можете да направите на страницата „Тест за ниво“, преди да изберете подходяща група."),
+     "Нивото се определя чрез кратък присъствен тест в самото училище — датите и часовете са посочени на страницата „Тест за ниво“, преди да изберете подходяща група."),
     ("Как протича тестът за ниво?",
-     "Тестът съдържа кратки въпроси с избираем отговор и отнема само няколко минути. В края получавате ориентировъчен резултат за нивото на владеене на английски."),
+     "Тестът се провежда на място в училището с личното участие на ученика и отнема около 30 минути. Резултатът ни помага да препоръчаме подходяща група."),
     ("Как да избера подходяща група?",
      "След теста за ниво препоръчваме група според клас и резултат. При записване можем да обсъдим и коригираме избора при нужда."),
     ("Къде се провеждат занятията?",
@@ -174,9 +126,9 @@ FAQ_EN = [
     ("Which grades is Champion School suitable for?",
      "Champion School offers English courses for students in grades 2 through 12, grouped by grade and by English level."),
     ("How is a student's level determined?",
-     "The level is determined with a free online level test, available on the “Level Test” page, before choosing a suitable group."),
+     "The level is determined with a short in-person test at the school — dates and times are listed on the “Level Test” page — before choosing a suitable group."),
     ("How does the level test work?",
-     "The test has short multiple-choice questions and takes only a few minutes. At the end you get an approximate result for the student's English level."),
+     "The test takes place at the school with the student attending in person and takes about 30 minutes. The result helps us recommend a suitable group."),
     ("How do I choose the right group?",
      "After the level test we recommend a group based on grade and result. We can discuss and adjust the choice further during enrollment."),
     ("Where are the classes held?",

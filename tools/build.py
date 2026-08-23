@@ -12,7 +12,7 @@ import re
 
 from site_data import (
     DOMAIN, SITE, NAV_BG, NAV_EN, FOOTER_LEGAL_BG, FOOTER_LEGAL_EN,
-    TEST_QUESTIONS, LEVELS_BG, LEVELS_EN, FAQ_BG, FAQ_EN,
+    LEVELS_BG, LEVELS_EN, FAQ_BG, FAQ_EN,
 )
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,21 +38,18 @@ ICON_MENU = """<svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="cu
 def render_header(lang, active_key, bg_url, en_url):
     nav = NAV_BG if lang == "bg" else NAV_EN
     home_url = "/" if lang == "bg" else "/en/"
-    test_url = url_for(lang, "/test/", "/en/test/")
-    enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
     brand_name = t(SITE["name_bg"], SITE["name_en"], lang)
     brand_tag = t("Английски за ученици", "English for students", lang)
     logo_alt = t("Лого на училище Чемпиън", "Champion school logo", lang)
     nav_label = t("Основна навигация", "Main navigation", lang)
     lang_label = t("Смяна на езика", "Language switcher", lang)
     menu_label = t("Отвори менюто", "Open menu", lang)
-    test_label = t("Тест за ниво", "Level Test", lang)
-    enroll_label = t("Запиши се", "Enroll Now", lang)
 
     links = "\n".join(
-        '<a href="{url}"{cur}>{label}</a>'.format(
+        '<a href="{url}"{cur}{cta}>{label}</a>'.format(
             url=url,
             cur=' aria-current="page"' if key == active_key else "",
+            cta=' class="is-cta"' if key == "enrollment" else "",
             label=label,
         )
         for key, label, url in nav
@@ -69,10 +66,6 @@ def render_header(lang, active_key, bg_url, en_url):
         {links}
       </nav>
       <div class="nav-right">
-        <div class="nav-cta">
-          <a class="btn btn-secondary" href="{test_url}">{test_label}</a>
-          <a class="btn btn-primary" href="{enroll_url}">{enroll_label}</a>
-        </div>
         <div class="lang-switch" aria-label="{lang_label}">
           <a href="{bg_url}" aria-current="{'true' if lang == 'bg' else 'false'}" hreflang="bg" lang="bg">BG</a>
           <a href="{en_url}" aria-current="{'true' if lang == 'en' else 'false'}" hreflang="en" lang="en">EN</a>
@@ -86,14 +79,6 @@ def render_header(lang, active_key, bg_url, en_url):
   <div class="mobile-nav" id="mobileNav">
     <div class="container">
       {links}
-      <div class="mobile-cta">
-        <a class="btn btn-secondary btn-block" href="{test_url}">{test_label}</a>
-        <a class="btn btn-primary btn-block" href="{enroll_url}">{enroll_label}</a>
-      </div>
-      <div class="mobile-contact">
-        <a href="{SITE['phone_href']}">{SITE['phone_display']}</a>
-        <span>{t(SITE['address_bg'], SITE['address_en'], lang)}</span>
-      </div>
     </div>
   </div>"""
     return header
@@ -417,7 +402,7 @@ def build_assets():
     css = open(os.path.join(src, "styles.css"), encoding="utf-8").read()
     write_file("/assets/css/styles.css", minify_css(css))
 
-    for name in ("main.js", "level-test.js"):
+    for name in ("main.js",):
         js = open(os.path.join(src, name), encoding="utf-8").read()
         write_file(f"/assets/js/{name}", minify_js(js))
 
@@ -450,7 +435,7 @@ def home_main(lang):
         "Champion School teaches English to students in grades 2 to 12 in Plovdiv. We help children and teenagers speak with confidence, understand quickly, and use English beyond the classroom.",
         lang,
     )
-    cta_test = t("Направи тест за ниво", "Take the level test", lang)
+    cta_test = t("Тест за ниво", "Level test", lang)
     cta_enroll = t("Запиши се", "Enroll now", lang)
 
     hero = f"""<section class="hero">
@@ -582,14 +567,15 @@ def home_main(lang):
       <div class="container panel-split">
         <div class="panel panel-navy">
           <h2>{t("Не сте сигурни кое ниво е подходящо?", "Not sure which level fits?", lang)}</h2>
-          <p>{t("Направете кратък тест за ниво по английски — отнема само няколко минути и дава ориентировъчна представа за нивото на ученика, преди да изберете група.",
-                "Take a short English level test — it takes just a few minutes and gives an approximate picture of the student's level before choosing a group.", lang)}</p>
+          <p>{t("Тестът за ниво се провежда присъствено в училището, с участието на ученика — за да установим точното му ниво на владеене на английски и да препоръчаме подходяща група преди записване.",
+                "The level test takes place in person at the school, with the student attending — so we can assess their English level and recommend a suitable group before enrollment.", lang)}</p>
           <div class="actions"><a class="btn btn-primary" href="{test_url}">{cta_test}</a></div>
         </div>
         <div class="panel panel-gold">
-          <h3>{t("Ориентировъчни нива", "Approximate levels", lang)}</h3>
+          <h3>{t("Предстоящи дати за тест", "Upcoming test dates", lang)}</h3>
           <div class="stack">
-            {"".join(f'<div><strong>{lv["name"]}</strong><br><span style="font-size:13.5px">{lv["cefr"].split(chr(183))[0].strip()}</span></div>' for lv in (LEVELS_BG if lang=="bg" else LEVELS_EN))}
+            <div><strong>{t("24 и 25 септември, 1 и 2 октомври", "24-25 September, 1-2 October", lang)}</strong><br><span style="font-size:13.5px">{t("от 17:00ч и от 18:30ч", "from 5:00pm and from 6:30pm", lang)}</span></div>
+            <div><strong>{t("Времетраене", "Duration", lang)}</strong><br><span style="font-size:13.5px">{t("около 30 мин.", "about 30 min.", lang)}</span></div>
           </div>
         </div>
       </div>
@@ -691,92 +677,91 @@ def home_main(lang):
     return hero + about + why + grades_section + approach + assess + schedule_teaser + enroll_cta + location + instagram + faq_section + final_cta
 
 
-def test_questions_html(lang):
-    label_word = t("Въпрос", "Question", lang)
-    parts = []
-    for i, item in enumerate(TEST_QUESTIONS):
-        opts = "".join(
-            f'''<label class="test-option">
-              <input type="radio" name="q{i}" value="{letter}" data-correct="{"true" if correct else "false"}">
-              <span class="opt-face"><span class="letter">{letter}</span> {text}</span>
-            </label>'''
-            for letter, text, correct in item["options"]
-        )
-        active = " is-active" if i == 0 else ""
-        parts.append(f'''<div class="test-question{active}" data-index="{i}">
-          <div class="q-eyebrow">{item["tag"]}</div>
-          <h2>{i + 1}. {item["q"]}</h2>
-          <div class="test-options" role="radiogroup" aria-label="{label_word} {i + 1}">
-            {opts}
-          </div>
-        </div>''')
-    return "".join(parts)
-
-
 def test_main(lang):
     enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
     contacts_url = url_for(lang, "/contacts/", "/en/contacts/")
     levels = LEVELS_BG if lang == "bg" else LEVELS_EN
-    levels_json = json.dumps(levels, ensure_ascii=False)
 
     intro = f"""<section class="section-tight">
       <div class="container-narrow">
         <p class="eyebrow">{t("Първа стъпка", "First step", lang)}</p>
         <h1 class="section-title">{t("Тест за ниво по английски език", "English Level Test", lang)}</h1>
         <p class="section-lead">{t(
-          "Тестът съдържа 10 кратки въпроса с избираем отговор и отнема около 3–5 минути. Резултатът е ориентировъчен и ни помага да предложим подходяща група преди записване — не е официален изпит или сертификат.",
-          "The test has 10 short multiple-choice questions and takes about 3-5 minutes. The result is approximate and helps us suggest a suitable group before enrollment — it is not an official exam or certificate.",
+          "Тестът за ниво се провежда присъствено в Училище Чемпиън. Каним родителите да дойдат заедно с децата си, за да установим точното ниво на владеене на английски език и да препоръчаме подходяща по клас и ниво група преди записване.",
+          "The level test takes place in person at Champion School. We invite parents to come together with their children so we can assess the student's English level and recommend a suitable grade-and-level group before enrollment.",
           lang)}</p>
       </div>
     </section>"""
 
-    nowscript = f"""<div class="test-nowscript notice-box container-narrow">
-      <p><strong>{t("Нужен е JavaScript.", "JavaScript is required.", lang)}</strong>
-      {t("За да преминете интерактивния тест за ниво, моля включете JavaScript в браузъра си, или се обадете на", "To take the interactive level test, please enable JavaScript in your browser, or call us at", lang)}
-      <a href="{SITE['phone_href']}">{SITE['phone_display']}</a> {t("за да определим нивото заедно.", "and we will assess the level together.", lang)}</p>
+    why = f"""<section class="section-tight section-alt">
+      <div class="container-narrow">
+        <h2>{t("Защо е важен тестът за ниво?", "Why does the level test matter?", lang)}</h2>
+        <p class="section-lead">{t(
+          "За да напредва с подходящото за него темпо, всеки нов ученик трябва да бъде разпределен в група, съобразена с реалните му знания. Кратката присъствена среща ни позволява да преценим нивото на владеене на английски и да препоръчаме групата, в която ученикът ще се чувства уверен.",
+          "To progress at the right pace, every new student needs to join a group that matches their actual knowledge. The short in-person meeting lets us assess the student's English level and recommend the group where they will feel confident.",
+          lang)}</p>
+      </div>
+    </section>"""
+
+    schedule_card = f"""<div class="card" style="padding:26px 28px">
+      <h3 style="margin-top:0">{t("Дати и часове за тестване", "Testing dates and times", lang)}</h3>
+      <div class="contact-list">
+        <div class="contact-row"><span class="ic" aria-hidden="true">🗓</span><div><div class="lbl">{t("Дати", "Dates", lang)}</div><span class="val">{t("24 и 25 септември, 1 и 2 октомври", "24-25 September, 1-2 October", lang)}</span></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">⏱</span><div><div class="lbl">{t("Часове", "Times", lang)}</div><span class="val">{t("от 17:00ч и от 18:30ч", "from 5:00pm and from 6:30pm", lang)}</span></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">⏳</span><div><div class="lbl">{t("Времетраене", "Duration", lang)}</div><span class="val">{t("около 30 мин.", "about 30 min.", lang)}</span></div></div>
+      </div>
     </div>"""
 
-    test_block = f"""<section class="section-tight test-interactive-only">
-      <div class="container">
-        <form id="level-test-form" class="test-shell" novalidate
-              data-msg-select="{t('Моля, изберете отговор, за да продължите.', 'Please choose an answer to continue.', lang)}"
-              data-score-template="{t('Резултат: {score} от {total} верни отговора.', 'Score: {score} out of {total} correct answers.', lang)}">
-          <div class="test-progress">
-            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-            <div class="progress-label" id="progressLabel" data-template="{t('Въпрос {current} от {total}', 'Question {current} of {total}', lang)}">{t('Въпрос', 'Question', lang)} 1</div>
-          </div>
-          {test_questions_html(lang)}
-          <p class="field-error" id="testError" role="alert" style="display:none"></p>
-          <div class="test-nav">
-            <button type="button" id="prevBtn" class="btn btn-secondary" disabled>{t("Назад", "Back", lang)}</button>
-            <button type="button" id="nextBtn" class="btn btn-navy" data-label-next="{t('Напред', 'Next', lang)}" data-label-finish="{t('Виж резултата', 'See result', lang)}">{t("Напред", "Next", lang)}</button>
-          </div>
-        </form>
+    booking_card = f"""<div class="card" style="padding:26px 28px">
+      <h3 style="margin-top:0">{t("Запазете час за тест", "Book a test time", lang)}</h3>
+      <p>{t("За да запазите час, свържете се с нас предварително по телефон, Viber или Instagram.", "To book a time, please contact us in advance by phone, Viber or Instagram.", lang)}</p>
+      <div class="contact-list">
+        <div class="contact-row"><span class="ic" aria-hidden="true">📞</span><div><div class="lbl">{t("Тел. и Viber", "Phone & Viber", lang)}</div><a href="{SITE['phone_href']}">{SITE['phone_display']}</a></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">📷</span><div><div class="lbl">Instagram</div><a href="{SITE['instagram_url']}" rel="noopener" target="_blank">{SITE['instagram_handle']}</a></div></div>
+      </div>
+      <div class="actions" style="margin-top:18px">
+        <a class="btn btn-primary" href="{SITE['phone_href']}">{t("Обадете се", "Call us", lang)}</a>
+        <a class="btn btn-secondary" href="{contacts_url}">{t("Свържи се с нас", "Contact us", lang)}</a>
+      </div>
+    </div>"""
 
-        <div class="result-panel" id="resultPanel">
-          <div class="test-shell">
-            <p class="eyebrow">{t("Резултат", "Result", lang)}</p>
-            <div class="result-level">
-              <span class="lvl-name" id="resultLevelName">—</span>
-              <span class="lvl-cefr" id="resultLevelCefr">—</span>
-            </div>
-            <p id="resultDescription"></p>
-            <p id="resultScore" class="text-muted"></p>
-            <div class="result-disclaimer">{t(
-              "Този резултат е предварителна, вътрешна оценка на Училище Чемпиън и не представлява официален CEFR сертификат или изпит.",
-              "This result is a preliminary, internal Champion School assessment and does not constitute an official CEFR certificate or exam.", lang)}</div>
-            <div class="actions">
-              <a class="btn btn-primary" href="{enroll_url}">{t("Запиши се", "Enroll now", lang)}</a>
-              <a class="btn btn-secondary" href="{contacts_url}">{t("Свържи се с нас", "Contact us", lang)}</a>
-              <button type="button" class="btn btn-ghost" id="retakeBtn">{t("Направи теста отново", "Retake the test", lang)}</button>
-            </div>
+    info_section = f"""<section class="section-tight">
+      <div class="container">
+        <div class="grid grid-2">
+          {schedule_card}
+          {booking_card}
+        </div>
+      </div>
+    </section>"""
+
+    levels_section = f"""<section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">{t("Ориентировъчно", "For reference", lang)}</p>
+          <h2 class="section-title">{t("Нива на владеене на английски", "English proficiency levels", lang)}</h2>
+        </div>
+        <div class="grid grid-3">
+          {"".join(f'<div class="card"><h3>{lv["name"]}</h3><p style="font-size:13.5px;color:var(--muted);margin-top:-4px">{lv["cefr"]}</p><p>{lv["description"]}</p></div>' for lv in levels)}
+        </div>
+      </div>
+    </section>"""
+
+    final_cta = f"""<section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>{t("Готови сте да установим нивото?", "Ready to assess the level?", lang)}</h2>
+            <p>{t("Свържете се с нас, за да запазим час, или преминете направо към записване.", "Contact us to book a time, or go straight to enrollment.", lang)}</p>
+          </div>
+          <div class="actions">
+            <a class="btn btn-primary btn-lg" href="{SITE['phone_href']}">{t("Обадете се", "Call us", lang)}</a>
+            <a class="btn btn-secondary btn-lg" href="{enroll_url}" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)">{t("Запиши се", "Enroll now", lang)}</a>
           </div>
         </div>
       </div>
-      <script type="application/json" id="levelData">{levels_json}</script>
     </section>"""
 
-    return intro + nowscript + test_block
+    return intro + why + info_section + levels_section + final_cta
 
 
 def build_test():
@@ -787,8 +772,8 @@ def build_test():
             lang,
         )
         desc = t(
-            "Направете безплатен онлайн тест за ниво по английски. Ориентировъчен резултат за учениците на Училище Чемпиън в Пловдив, преди записване в подходяща група.",
-            "Take a free online English level test. An approximate result for Champion School students in Plovdiv, before enrolling in the right group.",
+            "Присъствен тест за ниво по английски в Училище Чемпиън, Пловдив — дати, часове и контакти за записан час, преди записване в подходяща група.",
+            "In-person English level test at Champion School, Plovdiv — dates, times and contact details to book a slot, before enrolling in the right group.",
             lang,
         )
         breadcrumb = [
@@ -798,7 +783,6 @@ def build_test():
         html = wrap_page(
             lang, "test", path, alt, title, desc, test_main(lang), [],
             breadcrumb_items=breadcrumb,
-            extra_js='<script src="/assets/js/level-test.js" defer></script>',
         )
         write_file(path + "index.html", html)
 
@@ -882,7 +866,7 @@ def schedule_main(lang):
 
         <div class="actions" style="margin-top:30px">
           <a class="btn btn-primary btn-lg" href="{enroll_url}">{t("Записване", "Enrollment", lang)}</a>
-          <a class="btn btn-secondary btn-lg" href="{test_url}">{t("Направи тест за ниво", "Take the level test", lang)}</a>
+          <a class="btn btn-secondary btn-lg" href="{test_url}">{t("Тест за ниво", "Level test", lang)}</a>
         </div>
       </div>
     </section>"""
@@ -914,7 +898,7 @@ def enrollment_main(lang):
 
     steps = [
         (t("Направете тест за ниво", "Take the level test", lang),
-         t("Ако все още не сте сигурни за нивото на ученика, направете краткия ни тест онлайн.", "If you are not yet sure of the student's level, take our short online test.", lang)),
+         t("Ако все още не сте сигурни за нивото на ученика, елате на присъствения ни тест за ниво в училището.", "If you are not yet sure of the student's level, come to our in-person level test at the school.", lang)),
         (t("Изберете подходяща група", "Choose a suitable group", lang),
          t("Прегледайте групите по клас и ниво в „График и цени“ или се консултирайте с нас.", "Browse groups by grade and level on “Schedule & Prices” or ask us directly.", lang)),
         (t("Изпратете запитване", "Send an inquiry", lang),
@@ -1220,8 +1204,8 @@ def build_home():
             lang,
         )
         desc = t(
-            "Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете безплатен тест за ниво и запишете детето си в подходяща група.",
-            "Champion School teaches English in Plovdiv to students in grades 2-12. Take a free level test and enroll your child in the right group.",
+            "Училище Чемпиън обучава по английски език ученици от 2. до 12. клас в Пловдив. Направете присъствен тест за ниво и запишете детето си в подходяща група.",
+            "Champion School teaches English in Plovdiv to students in grades 2-12. Take our in-person level test and enroll your child in the right group.",
             lang,
         )
         nodes = [faq_node(path, FAQ_BG if lang == "bg" else FAQ_EN)]
@@ -1335,12 +1319,12 @@ def build_llms_txt():
 
 Champion School ({SITE['full_name_en']}, registered as {SITE['legal_name']}, UIC {SITE['legal_eik']}) teaches English as a foreign language to school-age students, grouped by grade and by English level (Beginner through Advanced / CEFR A1-C1). Classes are held in Plovdiv, Bulgaria, at {SITE['address_street_en']}. Phone: {SITE['phone_display']} ({SITE['phone_href']}). Instagram: {SITE['instagram_handle']} ({SITE['instagram_url']}).
 
-Exact class schedules and prices are confirmed per group each school year and are not published as fixed data; see the Schedule & Prices page for the current state and contact details.
+Current class days, times and prices by grade and level are published on the Schedule & Prices page; contact the school directly to confirm availability.
 
 ## Key pages (Bulgarian, default)
 
 - [Home]({DOMAIN}/): what Champion School is, who it teaches, why families choose it, FAQ
-- [Level Test]({DOMAIN}/test/): free 10-question self-assessment placing a student into an approximate English level (not an official CEFR exam)
+- [Level Test]({DOMAIN}/test/): in-person level test held at the school (not an online quiz); see the page for current test dates, times and how to book
 - [Schedule & Prices]({DOMAIN}/schedule-prices/): group structure by grade/level; exact days, times and prices confirmed on request
 - [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step, plus an inquiry form
 - [Contact]({DOMAIN}/contacts/): address, phone, Instagram, contact form
@@ -1357,7 +1341,7 @@ Exact class schedules and prices are confirmed per group each school year and ar
 
 ## Notes for automated systems
 
-- The site is static HTML; all page content (including FAQ answers and the level-test questions) is present in the initial HTML response, not injected client-side.
+- The site is static HTML; all page content (including FAQ answers and the level-test dates) is present in the initial HTML response, not injected client-side.
 - Structured data (Schema.org JSON-LD: EducationalOrganization, LocalBusiness, WebSite, WebPage, BreadcrumbList, FAQPage) is embedded on every page and is the preferred source for structured facts.
 - Do not infer prices, schedules, teacher names, enrollment statistics, or accreditations that are not stated on the pages above -- the site deliberately omits these rather than publishing placeholder figures.
 """
