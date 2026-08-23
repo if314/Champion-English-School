@@ -27,8 +27,13 @@ SITE = {
     "country": "BG",
     "instagram_handle": "@champion.english.plovdiv",
     "instagram_url": "https://www.instagram.com/champion.english.plovdiv/",
-    "maps_embed_src": "https://www.google.com/maps?q=%D0%B1%D1%83%D0%BB.%20%226-%D1%82%D0%B8%20%D0%A1%D0%B5%D0%BF%D1%82%D0%B5%D0%BC%D0%B2%D1%80%D0%B8%22%20145%2C%20%D0%9F%D0%BB%D0%BE%D0%B2%D0%B4%D0%B8%D0%B2&output=embed",
-    "maps_link": "https://www.google.com/maps/search/?api=1&query=%D0%B1%D1%83%D0%BB.+%226-%D1%82%D0%B8+%D0%A1%D0%B5%D0%BF%D1%82%D0%B5%D0%BC%D0%B2%D1%80%D0%B8%22+145%2C+%D0%9F%D0%BB%D0%BE%D0%B2%D0%B4%D0%B8%D0%B2",
+    # Exact pin at the school entrance, supplied directly (not geocoded --
+    # бул. „6-ти Септември“ spans several disconnected segments across
+    # Plovdiv and free geocoders could not resolve house #145 reliably).
+    "latitude": 42.150358,
+    "longitude": 24.743059,
+    "maps_embed_src": "https://www.google.com/maps?q=42.150358,24.743059&output=embed",
+    "maps_link": "https://www.google.com/maps/search/?api=1&query=42.150358,24.743059",
     # Registered company details (legal entity operating the school) --
     # used in the footer legal note and the privacy policy's "data
     # controller" section. Distinct from the teaching address above,
@@ -69,39 +74,6 @@ FOOTER_LEGAL_EN = [
 ]
 
 # ---------------------------------------------------------------------------
-# Reference levels shown on the level-test page (not tied to a scored quiz --
-# the test itself is held in person at the school).
-# ---------------------------------------------------------------------------
-LEVELS_BG = [
-    {"name": "Начинаещи", "cefr": "Ориентировъчно ниво A1 · Beginner",
-     "description": "Ученикът прави първи стъпки в английския език. Препоръчваме групи с фокус върху основна лексика, произношение и прости изречения."},
-    {"name": "Елементарно ниво", "cefr": "Ориентировъчно ниво A1–A2 · Elementary",
-     "description": "Ученикът разбира и използва познати думи и изрази в прости ситуации. Подходящи са групи, изграждащи по-широк речников запас и основна граматика."},
-    {"name": "Предсредно ниво", "cefr": "Ориентировъчно ниво A2–B1 · Pre-Intermediate",
-     "description": "Ученикът се справя с познати теми и прости разговори. Препоръчваме групи с фокус върху разширяване на граматиката и увереност в говоренето."},
-    {"name": "Средно ниво", "cefr": "Ориентировъчно ниво B1–B2 · Intermediate",
-     "description": "Ученикът разбира и изразява мнение по познати и по-абстрактни теми. Подходящи са групи с по-задълбочена граматика и практика в говоренето и писането."},
-    {"name": "Средно напреднало ниво", "cefr": "Ориентировъчно ниво B2 · Upper-Intermediate",
-     "description": "Ученикът общува свободно на широк кръг теми с добра граматическа точност. Препоръчваме групи с фокус върху академична лексика и по-сложни текстове."},
-    {"name": "Напреднало ниво", "cefr": "Ориентировъчно ниво C1 · Advanced",
-     "description": "Ученикът владее английски на високо ниво, включително по-сложни граматически структури и нюанси в изразяването. Подходящи са напреднали групи с академичен и практически фокус."},
-]
-LEVELS_EN = [
-    {"name": "Beginner", "cefr": "Approximate level A1 · Beginner",
-     "description": "The student is taking their first steps in English. We recommend groups focused on core vocabulary, pronunciation and simple sentences."},
-    {"name": "Elementary", "cefr": "Approximate level A1–A2 · Elementary",
-     "description": "The student understands and uses familiar words and phrases in simple situations. Groups that build a wider vocabulary and basic grammar are a good fit."},
-    {"name": "Pre-Intermediate", "cefr": "Approximate level A2–B1 · Pre-Intermediate",
-     "description": "The student can handle familiar topics and simple conversations. We recommend groups that expand grammar and build speaking confidence."},
-    {"name": "Intermediate", "cefr": "Approximate level B1–B2 · Intermediate",
-     "description": "The student understands and expresses opinions on familiar and some abstract topics. Groups with deeper grammar and more speaking and writing practice fit well."},
-    {"name": "Upper-Intermediate", "cefr": "Approximate level B2 · Upper-Intermediate",
-     "description": "The student communicates fluently on a wide range of topics with good grammatical accuracy. We recommend groups focused on academic vocabulary and more complex texts."},
-    {"name": "Advanced", "cefr": "Approximate level C1 · Advanced",
-     "description": "The student has a strong command of English, including complex grammar and nuanced expression. Advanced groups with an academic and practical focus are suitable."},
-]
-
-# ---------------------------------------------------------------------------
 # FAQ (shared meaning, localized)
 # ---------------------------------------------------------------------------
 FAQ_BG = [
@@ -118,9 +90,9 @@ FAQ_BG = [
     ("Как мога да запиша ученик?",
      "Записването става чрез формата на страница „Записване“ или по телефона на 0885 712 048. Ще се свържем с вас, за да потвърдим група и час."),
     ("Какъв е графикът на групите?",
-     "Дните и часовете на групите се уточняват според сформирания състав за текущата учебна година. Общата структура по клас и ниво е показана на страница „График и цени“."),
+     "Дните и часовете по клас и ниво са публикувани на страница „График и цени“. Повечето групи вече имат определен ден и час; отделни нива предстои да се уточнят."),
     ("Какви са цените за обучение?",
-     "Цените зависят от групата, нивото и продължителността на курса. Актуална информация ще намерите на страница „График и цени“ или като се свържете с нас."),
+     "Цената е 329 евро за учебен срок от 120 учебни часа, с 10% отстъпка за второ дете от семейството. Подробности ще намерите на страница „График и цени“."),
 ]
 FAQ_EN = [
     ("Which grades is Champion School suitable for?",
@@ -136,7 +108,7 @@ FAQ_EN = [
     ("How can I enroll a student?",
      "Enrollment is done through the form on the “Enrollment” page or by phone at 0885 712 048. We will contact you to confirm the group and schedule."),
     ("What is the groups' schedule?",
-     "Group days and times are confirmed once each group is formed for the current school year. The general structure by grade and level is shown on the “Schedule & Prices” page."),
+     "Days and times by grade and level are published on the “Schedule & Prices” page. Most groups already have a set day and time; a few levels are still to be confirmed."),
     ("What are the prices?",
-     "Prices depend on the group, level and course duration. Up-to-date information is available on the “Schedule & Prices” page or by contacting us."),
+     "The price is EUR 329 per school term of 120 teaching hours, with a 10% discount for a second child from the same family. See the “Schedule & Prices” page for details."),
 ]

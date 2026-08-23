@@ -6,13 +6,14 @@ build-time dependency is shipped; this script only exists to keep the
 repeated header/footer/schema markup consistent across ~14 pages.
 Run: python3 tools/build.py
 """
+import datetime
 import json
 import os
 import re
 
 from site_data import (
     DOMAIN, SITE, NAV_BG, NAV_EN, FOOTER_LEGAL_BG, FOOTER_LEGAL_EN,
-    LEVELS_BG, LEVELS_EN, FAQ_BG, FAQ_EN,
+    FAQ_BG, FAQ_EN,
 )
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -166,7 +167,13 @@ def org_node(lang):
             "addressLocality": t(SITE["locality_bg"], SITE["locality_en"], lang),
             "addressCountry": "BG",
         },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": SITE["latitude"],
+            "longitude": SITE["longitude"],
+        },
         "areaServed": {"@type": "City", "name": t("Пловдив", "Plovdiv", lang)},
+        "priceRange": "329 EUR",
         "sameAs": [SITE["instagram_url"]],
         "contactPoint": [
             {
@@ -680,7 +687,6 @@ def home_main(lang):
 def test_main(lang):
     enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
     contacts_url = url_for(lang, "/contacts/", "/en/contacts/")
-    levels = LEVELS_BG if lang == "bg" else LEVELS_EN
 
     intro = f"""<section class="section-tight">
       <div class="container-narrow">
@@ -734,18 +740,6 @@ def test_main(lang):
       </div>
     </section>"""
 
-    levels_section = f"""<section class="section section-alt">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">{t("Ориентировъчно", "For reference", lang)}</p>
-          <h2 class="section-title">{t("Нива на владеене на английски", "English proficiency levels", lang)}</h2>
-        </div>
-        <div class="grid grid-3">
-          {"".join(f'<div class="card"><h3>{lv["name"]}</h3><p style="font-size:13.5px;color:var(--muted);margin-top:-4px">{lv["cefr"]}</p><p>{lv["description"]}</p></div>' for lv in levels)}
-        </div>
-      </div>
-    </section>"""
-
     final_cta = f"""<section class="section">
       <div class="container">
         <div class="cta-band">
@@ -761,7 +755,7 @@ def test_main(lang):
       </div>
     </section>"""
 
-    return intro + why + info_section + levels_section + final_cta
+    return intro + why + info_section + final_cta
 
 
 def build_test():
@@ -787,43 +781,121 @@ def build_test():
         write_file(path + "index.html", html)
 
 
+# Single source of truth for the class schedule -- language-neutral so both
+# the HTML table and the Course/CourseInstance JSON-LD are derived from the
+# same facts. day_code=None marks a level with no confirmed day/time yet.
+SCHEDULE_DEFINITION = [
+    ("2.–4. клас", "Grades 2-4", [
+        ("Ниво 1", "Level 1", "tue_thu", "18:00", "19:30"),
+        ("Ниво 2", "Level 2", "wed_fri", "18:00", "19:30"),
+        ("Ниво 3", "Level 3", "wed_fri", "15:30", "17:00"),
+    ]),
+    ("5.–7. клас", "Grades 5-7", [
+        ("Ниво 1 (A1)", "Level 1 (A1)", "tue_thu", "14:00", "15:30"),
+        ("Ниво 1 (A1)", "Level 1 (A1)", "sat", "9:00", "12:00"),
+        ("Ниво 2 (A1+)", "Level 2 (A1+)", "wed_fri", "14:00", "15:30"),
+        ("Ниво 2 (A1+)", "Level 2 (A1+)", "sat", "12:30", "15:30"),
+    ]),
+    ("8.–12. клас", "Grades 8-12", [
+        ("Ниво 1 (Б1)", "Level 1 (B1)", "tue_thu", "14:00", "15:30"),
+        ("Ниво 2 (Б1+)", "Level 2 (B1+)", "wed_fri", "14:00", "15:30"),
+        ("Ниво 2 (Б1+)", "Level 2 (B1+)", "sat", "9:00", "12:00"),
+        ("Ниво 3 (Б2)", "Level 3 (B2)", None, None, None),
+    ]),
+]
+
+DAY_LABELS_BG = {"tue_thu": "вторник и четвъртък", "wed_fri": "сряда и петък", "sat": "събота"}
+DAY_LABELS_EN = {"tue_thu": "Tuesday & Thursday", "wed_fri": "Wednesday & Friday", "sat": "Saturday"}
+DAY_SCHEMA = {
+    "tue_thu": ["https://schema.org/Tuesday", "https://schema.org/Thursday"],
+    "wed_fri": ["https://schema.org/Wednesday", "https://schema.org/Friday"],
+    "sat": ["https://schema.org/Saturday"],
+}
+
+
+def _iso_time(hhmm):
+    h, m = hhmm.split(":")
+    return f"{int(h):02d}:{m}:00"
+
+
+def schedule_course_node(lang, path):
+    """Course + CourseInstance/Offer schema for the Schedule & Prices page,
+    built from the same SCHEDULE_DEFINITION as the HTML table. Levels with
+    no confirmed day/time (day_code=None) are omitted rather than guessed."""
+    place = {
+        "@type": "Place",
+        "name": t(SITE["name_bg"], SITE["name_en"], lang),
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": t(SITE["address_street_bg"], SITE["address_street_en"], lang),
+            "addressLocality": t(SITE["locality_bg"], SITE["locality_en"], lang),
+            "addressCountry": "BG",
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": SITE["latitude"],
+            "longitude": SITE["longitude"],
+        },
+    }
+    instances = []
+    for grade_bg, grade_en, rows in SCHEDULE_DEFINITION:
+        grade = t(grade_bg, grade_en, lang)
+        for level_bg, level_en, day_code, start, end in rows:
+            if day_code is None:
+                continue
+            instances.append({
+                "@type": "CourseInstance",
+                "name": f"{grade} · {t(level_bg, level_en, lang)}",
+                "courseMode": "Onsite",
+                "location": place,
+                "courseSchedule": {
+                    "@type": "Schedule",
+                    "byDay": DAY_SCHEMA[day_code],
+                    "startTime": _iso_time(start),
+                    "endTime": _iso_time(end),
+                    "repeatFrequency": "P1W",
+                    "scheduleTimezone": "Europe/Sofia",
+                },
+            })
+
+    return {
+        "@type": "Course",
+        "@id": DOMAIN + path + "#course",
+        "name": t("Курс по английски език — Училище Чемпиън", "English Course — Champion School", lang),
+        "description": t(
+            "Групи по клас и ниво, с продължителност 120 учебни часа на учебен срок. Занятията се провеждат присъствено в Пловдив.",
+            "Groups by grade and level, 120 teaching hours per school term. Classes are held in person in Plovdiv.",
+            lang,
+        ),
+        "provider": {"@id": DOMAIN + "/#organization"},
+        "url": DOMAIN + path,
+        "inLanguage": t("bg-BG", "en", lang),
+        "hasCourseInstance": instances,
+        "offers": {
+            "@type": "Offer",
+            "price": "329",
+            "priceCurrency": "EUR",
+            "url": DOMAIN + path,
+            "category": t("Групови занятия по английски език — учебен срок", "English group classes — school term", lang),
+        },
+    }
+
+
 def schedule_main(lang):
     enroll_url = url_for(lang, "/enrollment/", "/en/enrollment/")
     test_url = url_for(lang, "/test/", "/en/test/")
-
-    tue_thu = t("вторник и четвъртък", "Tuesday & Thursday", lang)
-    wed_fri = t("сряда и петък", "Wednesday & Friday", lang)
-    sat = t("събота", "Saturday", lang)
     tbc_note = t("Предстои да се уточни", "To be confirmed", lang)
 
-    # (grade label, [(level, days, time)]) -- days=None marks a not-yet-scheduled level.
-    schedule_groups = [
-        (t("2.–4. клас", "Grades 2-4", lang), [
-            (t("Ниво 1", "Level 1", lang), tue_thu, "18:00–19:30"),
-            (t("Ниво 2", "Level 2", lang), wed_fri, "18:00–19:30"),
-            (t("Ниво 3", "Level 3", lang), wed_fri, "15:30–17:00"),
-        ]),
-        (t("5.–7. клас", "Grades 5-7", lang), [
-            (t("Ниво 1 (A1)", "Level 1 (A1)", lang), tue_thu, "14:00–15:30"),
-            (t("Ниво 1 (A1)", "Level 1 (A1)", lang), sat, "9:00–12:00"),
-            (t("Ниво 2 (A1+)", "Level 2 (A1+)", lang), wed_fri, "14:00–15:30"),
-            (t("Ниво 2 (A1+)", "Level 2 (A1+)", lang), sat, "12:30–15:30"),
-        ]),
-        (t("8.–12. клас", "Grades 8-12", lang), [
-            (t("Ниво 1 (Б1)", "Level 1 (B1)", lang), tue_thu, "14:00–15:30"),
-            (t("Ниво 2 (Б1+)", "Level 2 (B1+)", lang), wed_fri, "14:00–15:30"),
-            (t("Ниво 2 (Б1+)", "Level 2 (B1+)", lang), sat, "9:00–12:00"),
-            (t("Ниво 3 (Б2)", "Level 3 (B2)", lang), None, tbc_note),
-        ]),
-    ]
-
-    def render_group(grade, rows):
-        body_rows = "".join(
-            f'<tr><td>{level}</td><td colspan="2" class="tbc">{time}</td></tr>'
-            if days is None else
-            f'<tr><td>{level}</td><td>{days}</td><td>{time}</td></tr>'
-            for level, days, time in rows
-        )
+    def render_group(grade_bg, grade_en, rows):
+        grade = t(grade_bg, grade_en, lang)
+        body_rows = ""
+        for level_bg, level_en, day_code, start, end in rows:
+            level = t(level_bg, level_en, lang)
+            if day_code is None:
+                body_rows += f'<tr><td>{level}</td><td colspan="2" class="tbc">{tbc_note}</td></tr>'
+            else:
+                days = t(DAY_LABELS_BG[day_code], DAY_LABELS_EN[day_code], lang)
+                body_rows += f'<tr><td>{level}</td><td>{days}</td><td>{start}–{end}</td></tr>'
         return f"""<div class="schedule-group">
           <h3>{grade}</h3>
           <div class="table-wrap">
@@ -840,7 +912,7 @@ def schedule_main(lang):
           </div>
         </div>"""
 
-    groups_html = "".join(render_group(grade, rows) for grade, rows in schedule_groups)
+    groups_html = "".join(render_group(grade_bg, grade_en, rows) for grade_bg, grade_en, rows in SCHEDULE_DEFINITION)
 
     summary = f"""<div class="card" style="padding:26px 28px">
       <div class="contact-list">
@@ -859,8 +931,10 @@ def schedule_main(lang):
           "Below is the schedule of groups by grade and level for the current school term, along with the course duration and price.",
           lang)}</p>
 
+        <h2 class="sr-only">{t("Групи по клас и ниво", "Groups by grade and level", lang)}</h2>
         <div class="stack" style="margin-top:24px">
           {groups_html}
+          <h2 class="sr-only">{t("Продължителност, цена и отстъпки", "Duration, price and discounts", lang)}</h2>
           {summary}
         </div>
 
@@ -888,7 +962,8 @@ def build_schedule():
             (t("Начало", "Home", lang), "/" if lang == "bg" else "/en/"),
             (t("График и цени", "Schedule & Prices", lang), path),
         ]
-        html = wrap_page(lang, "schedule", path, alt, title, desc, schedule_main(lang), [], breadcrumb_items=breadcrumb)
+        nodes = [schedule_course_node(lang, path)]
+        html = wrap_page(lang, "schedule", path, alt, title, desc, schedule_main(lang), nodes, breadcrumb_items=breadcrumb)
         write_file(path + "index.html", html)
 
 
@@ -995,10 +1070,14 @@ def enrollment_main(lang):
       </div>
     </section>
     <section class="section-tight section-alt">
-      <div class="container"><div class="steps">{steps_html}</div></div>
+      <div class="container">
+        <h2 class="sr-only">{t("Как протича записването", "How enrollment works", lang)}</h2>
+        <div class="steps">{steps_html}</div>
+      </div>
     </section>
     <section class="section">
       <div class="container-narrow">
+        <h2 class="sr-only">{t("Изпратете запитване", "Send an inquiry", lang)}</h2>
         <div class="card" style="padding:32px">{form}</div>
       </div>
     </section>"""
@@ -1077,6 +1156,7 @@ def contacts_main(lang):
     <section class="section">
       <div class="container grid grid-2">
         <div>
+          <h2 class="sr-only">{t("Данни за връзка", "Contact details", lang)}</h2>
           <div class="contact-list">
             <div class="contact-row"><span class="ic" aria-hidden="true">📍</span><div><div class="lbl">{t("Адрес", "Address", lang)}</div><span class="val">{t(SITE['address_bg'], SITE['address_en'], lang)}</span></div></div>
             <div class="contact-row"><span class="ic" aria-hidden="true">📞</span><div><div class="lbl">{t("Телефон", "Phone", lang)}</div><a href="{SITE['phone_href']}">{SITE['phone_display']}</a></div></div>
@@ -1090,7 +1170,10 @@ def contacts_main(lang):
             'Искате да запишете ученик? Разгледайте страница', 'Want to enroll a student? Visit the', lang)}
             <a href="{enroll_url}" class="btn-ghost">{t("„Записване“", "Enrollment page", lang)}</a>.</p>
         </div>
-        <div class="card" style="padding:30px">{form}</div>
+        <div class="card" style="padding:30px">
+          <h2 class="sr-only">{t("Форма за запитване", "Inquiry form", lang)}</h2>
+          {form}
+        </div>
       </div>
     </section>"""
 
@@ -1287,11 +1370,13 @@ Sitemap: {DOMAIN}/sitemap.xml
 
 
 def build_sitemap():
+    build_date = datetime.date.today().isoformat()
     urls = []
     for bg_path, en_path in PAGE_PAIRS:
         for path, alt in [(bg_path, en_path), (en_path, bg_path)]:
             urls.append(f"""  <url>
     <loc>{DOMAIN}{path}</loc>
+    <lastmod>{build_date}</lastmod>
     <xhtml:link rel="alternate" hreflang="bg-BG" href="{DOMAIN}{bg_path}"/>
     <xhtml:link rel="alternate" hreflang="en" href="{DOMAIN}{en_path}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="{DOMAIN}{bg_path}"/>
@@ -1325,7 +1410,7 @@ Current class days, times and prices by grade and level are published on the Sch
 
 - [Home]({DOMAIN}/): what Champion School is, who it teaches, why families choose it, FAQ
 - [Level Test]({DOMAIN}/test/): in-person level test held at the school (not an online quiz); see the page for current test dates, times and how to book
-- [Schedule & Prices]({DOMAIN}/schedule-prices/): group structure by grade/level; exact days, times and prices confirmed on request
+- [Schedule & Prices]({DOMAIN}/schedule-prices/): published days, times, duration and price by grade and level (a few levels still to be confirmed)
 - [Enrollment]({DOMAIN}/enrollment/): how to enroll a student, step by step, plus an inquiry form
 - [Contact]({DOMAIN}/contacts/): address, phone, Instagram, contact form
 - [Privacy Policy]({DOMAIN}/privacy-policy/)
