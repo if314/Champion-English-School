@@ -600,7 +600,7 @@ def home_main(lang):
             "The full day-by-day schedule for each level is available on the “Schedule & Prices” page, along with the course duration and price.", lang)}</p>
         </div>
         <div class="grid grid-3">
-          {"".join(f'<div class="grade-card"><div class="range">{g}</div><p>{t("Виж дните и часовете за нивата", "See the days and times for each level", lang)}</p><span class="badge badge-gold">{t("329 € / срок", "€329 / term", lang)}</span></div>' for g in [t("2.–4. клас","Grades 2-4",lang), t("5.–7. клас","Grades 5-7",lang), t("8.–12. клас","Grades 8-12",lang)])}
+          {"".join(f'<div class="grade-card"><div class="range">{g}</div><p>{t("Виж дните и часовете за нивата", "See the days and times for each level", lang)}</p><span class="badge badge-gold"><s style="opacity:.65;font-weight:600">{t("399 €", "€399", lang)}</s> {t("329 € / срок", "€329 / term", lang)}</span></div>' for g in [t("2.–4. клас","Grades 2-4",lang), t("5.–7. клас","Grades 5-7",lang), t("8.–12. клас","Grades 8-12",lang)])}
         </div>
         <div class="actions" style="margin-top:28px">
           <a class="btn btn-navy" href="{schedule_url}">{t("Виж графика и цените", "View schedule & prices", lang)}</a>
@@ -919,7 +919,7 @@ def schedule_main(lang):
     summary = f"""<div class="card" style="padding:26px 28px">
       <div class="contact-list">
         <div class="contact-row"><span class="ic" aria-hidden="true">⏱</span><div><div class="lbl">{t("Продължителност", "Duration", lang)}</div><span class="val">{t("120 учебни часа, от 3 октомври", "120 teaching hours, starting 3 October", lang)}</span></div></div>
-        <div class="contact-row"><span class="ic" aria-hidden="true">💳</span><div><div class="lbl">{t("Цена", "Price", lang)}</div><span class="val">{t("329 евро за учебен срок", "EUR 329 per school term", lang)}</span><div style="font-size:13px;color:var(--muted);font-weight:500;margin-top:4px">{t("Учебниците не са включени в цената на курса и се заплащат при записване.", "Textbooks are not included in the course price and are paid for separately at enrollment.", lang)}</div></div></div>
+        <div class="contact-row"><span class="ic" aria-hidden="true">💳</span><div><div class="lbl">{t("Цена", "Price", lang)}</div><span class="val"><s style="color:var(--muted);font-weight:600">{t("399 €", "€399", lang)}</s> {t("329 евро за учебен срок", "EUR 329 per school term", lang)}</span><div style="font-size:13px;color:var(--muted);font-weight:500;margin-top:4px">{t("Учебниците не са включени в цената на курса и се заплащат при записване.", "Textbooks are not included in the course price and are paid for separately at enrollment.", lang)}</div></div></div>
         <div class="contact-row"><span class="ic" aria-hidden="true">👪</span><div><div class="lbl">{t("Отстъпка", "Discount", lang)}</div><span class="val">{t("10% за второ дете от семейството", "10% for a second child from the same family", lang)}</span></div></div>
       </div>
     </div>"""
